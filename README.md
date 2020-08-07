@@ -19,6 +19,11 @@ Inside the examples folder are the two folders taken directly from the p5.play l
 - [p5.accessibility Repo](https://github.com/processing/p5.accessibility) - Main repo for p5.accessibility with some info on getting started. This still needs to be integrated!
 - [Messenger](https://www.messenger.com/t/4011751315566157) - Messenger! If you have any questions, feel free to shoot me a message in the group chat.
 
+
+## Contributers
+
+Alex, Peter, Hans
+
 ## License
 
-[CC0 1.0 (Public Domain)](LICENSE.md)
+We operate under [CC0 1.0 (Public Domain)](LICENSE.md)
