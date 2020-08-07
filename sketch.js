@@ -4,7 +4,6 @@
 
 // Variable for scene manager
 var mgr;
-
 function setup() {
 	// We can create the interactive so that it starts with the current window width and height
 	createCanvas(windowWidth, windowHeight);
@@ -44,7 +43,7 @@ function windowResized() {
 // =============================================================
 
 function Scene1() {
-  var audrey;
+  var audrey = [loadImage('images/audrey/happy_speaking.png'), loadImage('images/audrey/happy_explaining.png')];
   var imgHappySpeaking;
   var imgAlpha = 0;
   var imgX = 500;
@@ -65,7 +64,7 @@ function Scene1() {
 	// instead of loading them every time.
   this.enter = function() {
     //img = loadImage('https://openprocessing-usercontent.s3.amazonaws.com/files/user230475/visual939506/h73cdc2d9d96fd8cc2ca7c50e3c9f4507/happy_speaking.png');
-	img = loadImage('images/audrey/happy_speaking.png')
+	img = audrey[1]
 		scale = windowWidth / 1920;
   }
 
