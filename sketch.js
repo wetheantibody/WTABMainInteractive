@@ -64,7 +64,8 @@ function Scene1() {
 	// is run. We should probably find some way to load images into memory
 	// instead of loading them every time.
   this.enter = function() {
-    img = loadImage('https://openprocessing-usercontent.s3.amazonaws.com/files/user230475/visual939506/h73cdc2d9d96fd8cc2ca7c50e3c9f4507/happy_speaking.png');
+    //img = loadImage('https://openprocessing-usercontent.s3.amazonaws.com/files/user230475/visual939506/h73cdc2d9d96fd8cc2ca7c50e3c9f4507/happy_speaking.png');
+	img = loadImage('images/audrey/happy_speaking.png')
 		scale = windowWidth / 1920;
   }
 
@@ -116,16 +117,19 @@ function Scene1() {
 
 // Just some demo code for scene 2 - feel free to overwrite!!
 function Scene2() {
-  this.y = 0;
+  this.y = 350;
 
   this.draw = function()
   {
       background("teal");
 
-      line(0, this.y, width, this.y);
-      this.y++;
-
-      if ( this.y > height )
-          this.y = 0;
+      line(200, this.y, 1250, this.y);
+	  textSize(52);
+	  text("My name is ...",560,280,1250,280);
+	  fill(1920);
+      // this.y++;
+	  //
+      // if ( this.y > height )
+      //     this.y = 0;
   }
 }
