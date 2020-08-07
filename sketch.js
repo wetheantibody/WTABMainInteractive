@@ -4,6 +4,9 @@
 
 // Variable for scene manager
 var mgr;
+
+p5.disableFriendlyErrors = true;
+
 function setup() {
 	// We can create the interactive so that it starts with the current window width and height
 	createCanvas(windowWidth, windowHeight);
@@ -44,7 +47,6 @@ function windowResized() {
 
 function Scene1() {
   var audrey = [loadImage('images/audrey/happy_speaking.png'), loadImage('images/audrey/happy_explaining.png')];
-  var imgHappySpeaking;
   var imgAlpha = 0;
   var imgX = 500;
   var imgY = 200;
