@@ -46,7 +46,19 @@ function windowResized() {
 // =============================================================
 
 function Scene1() {
-  var audrey = [loadImage('images/audrey/audrey computer.PNG'), loadImage('images/audrey/audrey happy explaining.PNG'), loadImage('images/audrey/audrey happy speaking.PNG'), loadImage('images/audrey/audrey laugh.PNG'), loadImage('images/audrey/audrey phone.PNG'), loadImage('images/audrey/audrey shrug.PNG'), loadImage('images/audrey/audrey smiling.PNG'), loadImage('images/audrey/audrey surprise computer.PNG'), loadImage('images/audrey/audrey unconvinced.PNG'), loadImage('images/audrey/audrey upset explaining.PNG'), loadImage('images/audrey/audrey upset speaking.PNG')];
+  var audrey = {
+	  computer: loadImage('images/audrey/audrey computer.PNG'),
+	  explain: loadImage('images/audrey/audrey happy explaining.PNG'),
+	  speak: loadImage('images/audrey/audrey happy speaking.PNG'),
+	  laugh: loadImage('images/audrey/audrey laugh.PNG'),
+	  phone: loadImage('images/audrey/audrey phone.PNG'),
+	  shrug: loadImage('images/audrey/audrey shrug.PNG'),
+	  smile: loadImage('images/audrey/audrey smiling.PNG'),
+	  surprise: loadImage('images/audrey/audrey surprise computer.PNG'),
+	  unconvinced: loadImage('images/audrey/audrey unconvinced.PNG'),
+	  upset_explaining: loadImage('images/audrey/audrey upset explaining.PNG'),
+	  upset_speakign: loadImage('images/audrey/audrey upset speaking.PNG')
+  };
   var imgAlpha = 0;
   var imgX = 500;
   var imgY = 200;
@@ -66,7 +78,7 @@ function Scene1() {
 	// instead of loading them every time.
   this.enter = function() {
     //img = loadImage('https://openprocessing-usercontent.s3.amazonaws.com/files/user230475/visual939506/h73cdc2d9d96fd8cc2ca7c50e3c9f4507/happy_speaking.png');
-	img = audrey[0]
+	img = audrey.explain;
 		scale = windowWidth / 1920;
   }
 
