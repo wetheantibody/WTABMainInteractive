@@ -116,8 +116,13 @@ function Scene1() {
 	// Handles the mouse pressed event passed down by our scene manager
 	// in the core code.
   this.mousePressed = function() {
-    dialogueIndex++;
-		c = 0;
+		var totalLength = dialogue[dialogueIndex].length;
+		if (c > 0 && c < totalLength) {
+			c = dialogue[dialogueIndex].length;
+		} else {
+			dialogueIndex++;
+			c = 0;
+		}
     if (dialogueIndex == 2) {
       this.sceneManager.showNextScene();
     }
