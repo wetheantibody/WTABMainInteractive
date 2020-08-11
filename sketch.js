@@ -10,7 +10,8 @@ p5.disableFriendlyErrors = true;
 
 function setup() {
 	// We can create the interactive so that it starts with the current window width and height
-	createCanvas(windowWidth, windowHeight);
+	//createCanvas(windowWidth, (windowWidth / 16) * 9);
+	createCanvas(1920, 1080)
 	frameRate(60);
 
   mgr = new SceneManager();
@@ -56,21 +57,35 @@ function windowResized() {
 
 function Scene1() {
   var audrey = {
-	  computer: loadImage('images/audrey/audrey computer.PNG'),
-	  explain: loadImage('images/audrey/audrey happy explaining.PNG'),
-	  speak: loadImage('images/audrey/audrey happy speaking.PNG'),
-	  laugh: loadImage('images/audrey/audrey laugh.PNG'),
-	  phone: loadImage('images/audrey/audrey phone.PNG'),
-	  shrug: loadImage('images/audrey/audrey shrug.PNG'),
-	  smile: loadImage('images/audrey/audrey smiling.PNG'),
-	  surprise: loadImage('images/audrey/audrey surprise computer.PNG'),
-	  unconvinced: loadImage('images/audrey/audrey unconvinced.PNG'),
-	  upset_explaining: loadImage('images/audrey/audrey upset explaining.PNG'),
-	  upset_speakign: loadImage('images/audrey/audrey upset speaking.PNG')
+	  frownPhone: loadImage('assets/Audrey/SVG/audrey_frowning_phone.svg'),
+	  frown: loadImage('assets/Audrey/SVG/audrey_frowning.svg'),
+	  happyExplain: loadImage('assets/Audrey/SVG/audrey_happy_explaining.svg'),
+	  happySpeak: loadImage('assets/Audrey/SVG/audrey_happy_speaking.svg'),
+	  laugh: loadImage('assets/Audrey/SVG/audrey_laughing.svg'),
+	  searchComputer: loadImage('assets/Audrey/SVG/audrey_searching_computer.svg'),
+	  shrug: loadImage('assets/Audrey/SVG/audrey_shrugging.svg'),
+	  smilePhone: loadImage('assets/Audrey/SVG/audrey_smiling_phone.svg'),
+	  smile: loadImage('assets/Audrey/SVG/audrey_smiling.svg'),
+	  surprisedComputer: loadImage('assets/Audrey/SVG/audrey_surprised_computer.svg'),
+	  upsetExplaining: loadImage('assets/Audrey/SVG/audrey_upset_explaining.svg'),
+		upsetPhone: loadImage('assets/Audrey/SVG/audrey_upset_phone.svg'),
+		upsetSpeaking: loadImage('assets/Audrey/SVG/audrey_upset_speaking.svg')
   };
 	var kate = {
-
+		frownBird: loadImage('assets/Kate/SVG/kate frowning bird.svg'),
+		frown: loadImage('assets/Kate/SVG/kate frowning.svg'),
+		happyExplain: loadImage('assets/Kate/SVG/kate happy explaining.svg'),
+		happySpeakBird: loadImage('assets/Kate/SVG/kate happy speaking bird.svg'),
+		happySpeak: loadImage('assets/Kate/SVG/kate happy speaking.svg'),
+		skepticalSpeak: loadImage('assets/Kate/SVG/kate skeptical speaking bird.svg'),
+		smileBird: loadImage('assets/Kate/SVG/kate smiling bird.svg'),
+		smile: loadImage('assets/Kate/SVG/kate smiling.svg'),
+		upsetExplaining: loadImage('assets/Kate/SVG/kate upset explaining.svg'),
+		upsetSpeakBird: loadImage('assets/Kate/SVG/kate upset speaking bird.svg'),
+		upsetSpeaking: loadImage('assets/Kate/SVG/kate upset speaking.svg')
 	};
+
+	var bg = loadImage('assets/Backgrounds/PNG/bird shelter.png')
 
   var imgAlpha = 0;
   var imgX = 500;
@@ -81,41 +96,70 @@ function Scene1() {
   var textBoxAlpha = 0;
 
   var dialogueIndex = 0;
-  let dialogue = ["Hi there! It's nice to meet you. My name's Audrey.", "What's your name?"];
+  let dialogue = ["(Woah, I wasn't expecting this kind of reaction from my friends...What should I do?)",
+									"(Oh my gosh, why are people so mean?)",
+									"(Pigeons aren't government surveillance! And they aren't rats either!)",
+									"(My friends are spreading this misinformation like crazy...Pigeons are so misunderstood.)",
+									"(They're just birds that need homes!)",
+									"(I guess...I guess I can't get this pigeon then. Not when my friends are so upset about it.)",
+									"Alright! Looks like this little gal is ready for you to take her home!",
+									"Oh- sorry, but I don't think I can take her home after all. My roommates all freaked out \n when I told them that I wanted to adopt a pigeon.",
+									"What? Oh, no! That's a shame.",
+									"Yeah, they were explaining to me some crazy facts about how they think pigeons are \ngovernment surveillance or gross like rats\-",
+									"Woah woah woah, those are some pretty nasty rumors. Do they really believe that? \nDo you believe that?",
+									"Well, no, but I don't really know how to change their minds. They are pretty opinionated \npeople.",
+									"There is a lot of misinformation about pigeons online. I have been working with these \nawesome birds for a long time, and I can tell you for a fact that they are not what your \nfriends say they are.",
+									"I agree! I think pigeons are super cute!",
+									"Maybe you should try to talk to your friends about pigeons. Misinformation today is like \na pandemic and it spreads faster and wider than the truth.",
+									"I encourage you to research where they got that misinformation and help them \nunderstand the truth about pigeons.",
+									"Because I know this lil' gal is still going to need a home.",
+									"That sounds like a solid plan. I really do want to take this cute pigeon home. \nI'll talk to my friends and see if I can change their minds. Look out for him for me!",
+									"Will do! Good luck!"];
 
 	var scale;
 	var fadeInRate = 20;
 	var slideInRate = 20;
 
   this.enter = function() {
-		img = audrey.explain;
+		imgAudrey = audrey.frownPhone;
+		imgKate = kate.happySpeakBird;
 		scale = windowWidth / 1920;
   }
 
 	// Another reserved function, sets up our canvas
   this.setup = function() {
-    background('#2b5d8a');
+
+    background(bg);
   }
 
 	// This is the main drawing function - it will run constantly in a loop,
 	// which is why we can update variables and create animation
   this.draw = function() {
-    background('#2b5d8a');
+    background(bg);
 
-  	this.drawImage();
+  	this.drawAudrey();
+		if (dialogueIndex > 5) {
+			this.drawKate();
+		}
 		// Textbox code, draws once image has faded in.
   	if (imgAlpha > 250) {
 			this.drawText();
   	}
   }
 
-	this.drawImage = function() {
+	this.drawAudrey = function() {
 		tint(255, imgAlpha);
-  	image(img, imgX * scale, 100 * scale, 800 * scale, 1067 * scale);
+  	image(imgAudrey, imgX * scale, 100 * scale, 800 * scale, 1067 * scale);
   	imgAlpha += fadeInRate;
   	if (imgX > 100 * scale) {
   		imgX -= slideInRate;
   	}
+	}
+
+	this.drawKate = function() {
+		tint(255, imgAlpha);
+		image(imgKate, 1200 * scale, 100 * scale, 800 * scale, 1067 * scale);
+		imgAlpha += fadeInRate;
 	}
 
 	this.drawText = function() {
@@ -126,7 +170,7 @@ function Scene1() {
 		textSize(42 * scale);
 		fill(0);
 		text(dialogue[dialogueIndex].substring(0,c), 150 * scale, 910 * scale);
-		c++;
+		c += 5;
 	}
 
 	// Handles the mouse pressed event passed down by our scene manager
@@ -140,31 +184,33 @@ function Scene1() {
 			dialogueIndex++;
 			c = 0;
 		}
-    if (dialogueIndex == 2) {
-			this.friendshipIndex++;
+    if (dialogueIndex == 19) {
       this.sceneManager.showNextScene();
     }
   }
 
 	this.windowResized = function() {
 		scale = windowWidth / 1920;
+		//resizeCanvas(windowWidth, (windowWidth/16) * 9);
 	}
 }
 
 // ================== SCENE 2 ==================
 function Scene2() {
 	var audrey = {
-	  computer: loadImage('images/audrey/audrey computer.PNG'),
-	  explain: loadImage('images/audrey/audrey happy explaining.PNG'),
-	  speak: loadImage('images/audrey/audrey happy speaking.PNG'),
-	  laugh: loadImage('images/audrey/audrey laugh.PNG'),
-	  phone: loadImage('images/audrey/audrey phone.PNG'),
-	  shrug: loadImage('images/audrey/audrey shrug.PNG'),
-	  smile: loadImage('images/audrey/audrey smiling.PNG'),
-	  surprise: loadImage('images/audrey/audrey surprise computer.PNG'),
-	  unconvinced: loadImage('images/audrey/audrey unconvinced.PNG'),
-	  upset_explaining: loadImage('images/audrey/audrey upset explaining.PNG'),
-	  upset_speakign: loadImage('images/audrey/audrey upset speaking.PNG')
+	  frownPhone: loadImage('assets/Audrey/SVG/audrey_frowning_phone.svg'),
+	  frown: loadImage('assets/Audrey/SVG/audrey_frowning.svg'),
+	  happyExplain: loadImage('assets/Audrey/SVG/audrey_happy_explaining.svg'),
+	  happySpeak: loadImage('assets/Audrey/SVG/audrey_happy_speaking.svg'),
+	  laugh: loadImage('assets/Audrey/SVG/audrey_laughing.svg'),
+	  searchComputer: loadImage('assets/Audrey/SVG/audrey_searching_computer.svg'),
+	  shrug: loadImage('assets/Audrey/SVG/audrey_shrugging.svg'),
+	  smilePhone: loadImage('assets/Audrey/SVG/audrey_smiling_phone.svg'),
+	  smile: loadImage('assets/Audrey/SVG/audrey_smiling.svg'),
+	  surprisedComputer: loadImage('assets/Audrey/SVG/audrey_surprised_computer.svg'),
+	  upsetExplaining: loadImage('assets/Audrey/SVG/audrey_upset_explaining.svg'),
+		upsetPhone: loadImage('assets/Audrey/SVG/audrey_upset_phone.svg'),
+		upsetSpeaking: loadImage('assets/Audrey/SVG/audrey_upset_speaking.svg')
   };
 	var drew = {
 
@@ -251,17 +297,19 @@ function Scene2() {
 // ================== SCENE 3 ==================
 function Scene3() {
 	var audrey = {
-	  computer: loadImage('images/audrey/audrey computer.PNG'),
-	  explain: loadImage('images/audrey/audrey happy explaining.PNG'),
-	  speak: loadImage('images/audrey/audrey happy speaking.PNG'),
-	  laugh: loadImage('images/audrey/audrey laugh.PNG'),
-	  phone: loadImage('images/audrey/audrey phone.PNG'),
-	  shrug: loadImage('images/audrey/audrey shrug.PNG'),
-	  smile: loadImage('images/audrey/audrey smiling.PNG'),
-	  surprise: loadImage('images/audrey/audrey surprise computer.PNG'),
-	  unconvinced: loadImage('images/audrey/audrey unconvinced.PNG'),
-	  upset_explaining: loadImage('images/audrey/audrey upset explaining.PNG'),
-	  upset_speakign: loadImage('images/audrey/audrey upset speaking.PNG')
+	  frownPhone: loadImage('assets/Audrey/SVG/audrey_frowning_phone.svg'),
+	  frown: loadImage('assets/Audrey/SVG/audrey_frowning.svg'),
+	  happyExplain: loadImage('assets/Audrey/SVG/audrey_happy_explaining.svg'),
+	  happySpeak: loadImage('assets/Audrey/SVG/audrey_happy_speaking.svg'),
+	  laugh: loadImage('assets/Audrey/SVG/audrey_laughing.svg'),
+	  searchComputer: loadImage('assets/Audrey/SVG/audrey_searching_computer.svg'),
+	  shrug: loadImage('assets/Audrey/SVG/audrey_shrugging.svg'),
+	  smilePhone: loadImage('assets/Audrey/SVG/audrey_smiling_phone.svg'),
+	  smile: loadImage('assets/Audrey/SVG/audrey_smiling.svg'),
+	  surprisedComputer: loadImage('assets/Audrey/SVG/audrey_surprised_computer.svg'),
+	  upsetExplaining: loadImage('assets/Audrey/SVG/audrey_upset_explaining.svg'),
+		upsetPhone: loadImage('assets/Audrey/SVG/audrey_upset_phone.svg'),
+		upsetSpeaking: loadImage('assets/Audrey/SVG/audrey_upset_speaking.svg')
   };
 	var emily = {
 
@@ -347,17 +395,19 @@ function Scene3() {
 // ================== SCENE 4 ==================
 function Scene4() {
 	var audrey = {
-	  computer: loadImage('images/audrey/audrey computer.PNG'),
-	  explain: loadImage('images/audrey/audrey happy explaining.PNG'),
-	  speak: loadImage('images/audrey/audrey happy speaking.PNG'),
-	  laugh: loadImage('images/audrey/audrey laugh.PNG'),
-	  phone: loadImage('images/audrey/audrey phone.PNG'),
-	  shrug: loadImage('images/audrey/audrey shrug.PNG'),
-	  smile: loadImage('images/audrey/audrey smiling.PNG'),
-	  surprise: loadImage('images/audrey/audrey surprise computer.PNG'),
-	  unconvinced: loadImage('images/audrey/audrey unconvinced.PNG'),
-	  upset_explaining: loadImage('images/audrey/audrey upset explaining.PNG'),
-	  upset_speakign: loadImage('images/audrey/audrey upset speaking.PNG')
+	  frownPhone: loadImage('assets/Audrey/SVG/audrey_frowning_phone.svg'),
+	  frown: loadImage('assets/Audrey/SVG/audrey_frowning.svg'),
+	  happyExplain: loadImage('assets/Audrey/SVG/audrey_happy_explaining.svg'),
+	  happySpeak: loadImage('assets/Audrey/SVG/audrey_happy_speaking.svg'),
+	  laugh: loadImage('assets/Audrey/SVG/audrey_laughing.svg'),
+	  searchComputer: loadImage('assets/Audrey/SVG/audrey_searching_computer.svg'),
+	  shrug: loadImage('assets/Audrey/SVG/audrey_shrugging.svg'),
+	  smilePhone: loadImage('assets/Audrey/SVG/audrey_smiling_phone.svg'),
+	  smile: loadImage('assets/Audrey/SVG/audrey_smiling.svg'),
+	  surprisedComputer: loadImage('assets/Audrey/SVG/audrey_surprised_computer.svg'),
+	  upsetExplaining: loadImage('assets/Audrey/SVG/audrey_upset_explaining.svg'),
+		upsetPhone: loadImage('assets/Audrey/SVG/audrey_upset_phone.svg'),
+		upsetSpeaking: loadImage('assets/Audrey/SVG/audrey_upset_speaking.svg')
   };
 	var jack = {
 
@@ -443,17 +493,19 @@ function Scene4() {
 // ================== SCENE 5 ==================
 function Scene5() {
 	var audrey = {
-	  computer: loadImage('images/audrey/audrey computer.PNG'),
-	  explain: loadImage('images/audrey/audrey happy explaining.PNG'),
-	  speak: loadImage('images/audrey/audrey happy speaking.PNG'),
-	  laugh: loadImage('images/audrey/audrey laugh.PNG'),
-	  phone: loadImage('images/audrey/audrey phone.PNG'),
-	  shrug: loadImage('images/audrey/audrey shrug.PNG'),
-	  smile: loadImage('images/audrey/audrey smiling.PNG'),
-	  surprise: loadImage('images/audrey/audrey surprise computer.PNG'),
-	  unconvinced: loadImage('images/audrey/audrey unconvinced.PNG'),
-	  upset_explaining: loadImage('images/audrey/audrey upset explaining.PNG'),
-	  upset_speakign: loadImage('images/audrey/audrey upset speaking.PNG')
+	  frownPhone: loadImage('assets/Audrey/SVG/audrey_frowning_phone.svg'),
+	  frown: loadImage('assets/Audrey/SVG/audrey_frowning.svg'),
+	  happyExplain: loadImage('assets/Audrey/SVG/audrey_happy_explaining.svg'),
+	  happySpeak: loadImage('assets/Audrey/SVG/audrey_happy_speaking.svg'),
+	  laugh: loadImage('assets/Audrey/SVG/audrey_laughing.svg'),
+	  searchComputer: loadImage('assets/Audrey/SVG/audrey_searching_computer.svg'),
+	  shrug: loadImage('assets/Audrey/SVG/audrey_shrugging.svg'),
+	  smilePhone: loadImage('assets/Audrey/SVG/audrey_smiling_phone.svg'),
+	  smile: loadImage('assets/Audrey/SVG/audrey_smiling.svg'),
+	  surprisedComputer: loadImage('assets/Audrey/SVG/audrey_surprised_computer.svg'),
+	  upsetExplaining: loadImage('assets/Audrey/SVG/audrey_upset_explaining.svg'),
+		upsetPhone: loadImage('assets/Audrey/SVG/audrey_upset_phone.svg'),
+		upsetSpeaking: loadImage('assets/Audrey/SVG/audrey_upset_speaking.svg')
   };
 	var emily = {
 
