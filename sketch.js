@@ -72,13 +72,32 @@ function preload() {
 		flapping: loadImage('assets/Pigeon/SVG/pigeon flapping.svg'),
 		pigeon: loadImage('assets/Pigeon/SVG/pigeon.svg')
 	};
-	actors = [audrey, kate, drew, emily, jack, pigeon];
+	actors = {
+		audrey: audrey,
+		kate: kate,
+		drew: drew,
+		emily: emily,
+		jack: jack,
+		pigeon: pigeon
+	};
+
+	backgrounds = {
+		audreyRoom : loadImage('assets/Backgrounds/SVG/audrey_s room.svg'),
+		birdShelter :loadImage('assets/Backgrounds/SVG/bird shelter 2.svg'),
+		jackRoom : loadImage('assets/Backgrounds/SVG/jack_s room.svg'),
+		kitchen :loadImage('assets/Backgrounds/SVG/kitchen.svg'),
+		livingRoom : loadImage('assets/Backgrounds/SVG/living room.svg')
+	};
 
 	// Text
 	sceneOneDialogue = loadStrings('assets/scene1.txt');
 	sceneTwoDialogue = loadStrings('assets/scene2.txt');
 	sceneThreeDialogue = loadStrings('assets/scene3.txt');
-	script = [sceneOneDialogue, sceneTwoDialogue, sceneThreeDialogue];
+	script = {
+		sceneOne : sceneOneDialogue,
+		sceneTwo: sceneTwoDialogue,
+		sceneThree: sceneThreeDialogue
+	};
 }
 
 function setup() {
@@ -95,7 +114,7 @@ function setup() {
 	// mgr.addScene ( Scene4 );
 	// mgr.addScene ( Scene5 );
 
-  mgr.showNextScene([actors, script]);
+  mgr.showNextScene([actors, backgrounds, script]);
 
 }
 
@@ -133,7 +152,7 @@ function Scene1() {
   var audrey;
 	var kate;
 
-	var bg = loadImage('assets/Backgrounds/PNG/bird shelter.png');
+	var bg;
 
 	var redraw;
 
@@ -148,11 +167,12 @@ function Scene1() {
 
 	// Another reserved function, sets up our canvas
   this.setup = function() {
-		audrey = this.sceneArgs[0][0];
-		kate = this.sceneArgs[0][1];
+		audrey = this.sceneArgs[0].audrey;
+		kate = this.sceneArgs[0].kate;
 		imgAudrey = audrey.frownPhone;
 		imgKate = kate.happySpeakBird;
-	  dialogue=this.sceneArgs[1][0];
+		bg = this.sceneArgs[1].birdShelter;
+	  dialogue=this.sceneArgs[2].sceneOne;
     background(bg);
   }
 
@@ -225,7 +245,7 @@ function Scene2() {
 	var audrey;
 	var drew;
 
-	var bg = loadImage('assets/Backgrounds/PNG/audrey_s room.png');
+	var bg
 
 	var redraw;
 
@@ -240,11 +260,12 @@ function Scene2() {
 
 	// Another reserved function, sets up our canvas
   this.setup = function() {
-		audrey = this.sceneArgs[0][0];
-		drew = this.sceneArgs[0][2];
+		audrey = this.sceneArgs[0].audrey;
+		drew = this.sceneArgs[0].drew;
 		imgAudrey = audrey.frownPhone;
 		imgDrew = drew.skeptical;
-	  dialogue=this.sceneArgs[1][1];
+		bg = this.sceneArgs[1].audreyRoom;
+	  dialogue = this.sceneArgs[2].sceneTwo;
     background(bg);
   }
 
@@ -300,7 +321,7 @@ function Scene2() {
 		}
 		if (dialogueIndex == 3) {
 			redraw = true;
-			bg = loadImage('assets/Backgrounds/PNG/kitchen.png');
+			bg = this.sceneArgs[1].kitchen;
 		}
     if (dialogueIndex == 20) {
       this.sceneManager.showNextScene(this.sceneArgs);
@@ -317,7 +338,7 @@ function Scene3() {
 	var audrey;
 	var drew;
 
-	var bg = loadImage('assets/Backgrounds/PNG/living room.png');
+	var bg;
 
 	var redraw;
 
@@ -332,11 +353,12 @@ function Scene3() {
 
 	// Another reserved function, sets up our canvas
 	this.setup = function() {
-		audrey = this.sceneArgs[0][0];
-		emily = this.sceneArgs[0][3];
+		audrey = this.sceneArgs[0].audrey;
+		emily = this.sceneArgs[0].emily;
 		imgAudrey = audrey.frownPhone;
 		imgEmily = emily.skeptical;
-		dialogue=this.sceneArgs[1][2];
+		bg = this.sceneArgs[1].livingRoom;
+		dialogue=this.sceneArgs[2].sceneThree;
 		background(bg);
 	}
 
