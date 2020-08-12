@@ -9,69 +9,69 @@ var friendshipIndex = 0;
 p5.disableFriendlyErrors = true;
 
 function preload() {
-	audrey = {
-		frownPhone: loadImage('assets/Audrey/SVG/audrey_frowning_phone.svg'),
-		frown: loadImage('assets/Audrey/SVG/audrey_frowning.svg'),
-		happyExplain: loadImage('assets/Audrey/SVG/audrey_happy_explaining.svg'),
-		happySpeak: loadImage('assets/Audrey/SVG/audrey_happy_speaking.svg'),
-		laugh: loadImage('assets/Audrey/SVG/audrey_laughing.svg'),
-		searchComputer: loadImage('assets/Audrey/SVG/audrey_searching_computer.svg'),
-		shrug: loadImage('assets/Audrey/SVG/audrey_shrugging.svg'),
-		smilePhone: loadImage('assets/Audrey/SVG/audrey_smiling_phone.svg'),
-		smile: loadImage('assets/Audrey/SVG/audrey_smiling.svg'),
-		surprisedComputer: loadImage('assets/Audrey/SVG/audrey_surprised_computer.svg'),
-		upsetExplaining: loadImage('assets/Audrey/SVG/audrey_upset_explaining.svg'),
-		upsetPhone: loadImage('assets/Audrey/SVG/audrey_upset_phone.svg'),
-		upsetSpeaking: loadImage('assets/Audrey/SVG/audrey_upset_speaking.svg')
-	};
-	kate = {
-		frownBird: loadImage('assets/Kate/SVG/kate frowning bird.svg'),
-		frown: loadImage('assets/Kate/SVG/kate frowning.svg'),
-		happyExplain: loadImage('assets/Kate/SVG/kate happy explaining.svg'),
-		happySpeakBird: loadImage('assets/Kate/SVG/kate happy speaking bird.svg'),
-		happySpeak: loadImage('assets/Kate/SVG/kate happy speaking.svg'),
-		skepticalSpeak: loadImage('assets/Kate/SVG/kate skeptical speaking bird.svg'),
-		smileBird: loadImage('assets/Kate/SVG/kate smiling bird.svg'),
-		smile: loadImage('assets/Kate/SVG/kate smiling.svg'),
-		upsetExplaining: loadImage('assets/Kate/SVG/kate upset explaining.svg'),
-		upsetSpeakBird: loadImage('assets/Kate/SVG/kate upset speaking bird.svg'),
-		upsetSpeaking: loadImage('assets/Kate/SVG/kate upset speaking.svg')
-	};
-	drew = {
-		apologyExplain: loadImage('assets/Drew/SVG/drew apologetic explaining.svg'),
-		frown: loadImage('assets/Drew/SVG/drew frowning.svg'),
-		happyExplain: loadImage('assets/Drew/SVG/drew happy explaining.svg'),
-		skeptical: loadImage('assets/Drew/SVG/drew skeptical.svg'),
-		smile: loadImage('assets/Drew/SVG/drew smiling.svg'),
-		upsetSurprised: loadImage('assets/Drew/SVG/drew surprised.svg'),
-		upsetPhone: loadImage('assets/Drew/SVG/drew upset phone.svg'),
-		upsetSpeaking: loadImage('assets/Drew/SVG/drew upset speaking.svg')
-	};
-	emily = {
-		happyExplain: loadImage('assets/Emily/SVG/emily happy explaining.svg'),
-		neutralExplain: loadImage('assets/Emily/SVG/emily neutral explaining.svg'),
-		neutral: loadImage('assets/Emily/SVG/emily neutral.svg'),
-		skeptical: loadImage('assets/Emily/SVG/emily skeptical.svg'),
-		smile: loadImage('assets/Emily/SVG/emily smiling.svg'),
-		upsetPhone: loadImage('assets/Emily/SVG/emily upset phone.svg'),
-		upsetSpeaking: loadImage('assets/Emily/SVG/emily upset speaking.svg')
-	};
-	jack = {
-		apologyExplain: loadImage('assets/Jack/SVG/jack apologetic explaining.svg'),
-		apologySmile: loadImage('assets/Jack/SVG/jack apologetic smile.svg'),
-		apologySpeak: loadImage('assets/Jack/SVG/jack apologetic speaking.svg'),
-		browsePhone: loadImage('assets/Jack/SVG/jack browsing phone.svg'),
-		happySpeak: loadImage('assets/Jack/SVG/jack happy speaking.svg'),
-		neutralExplainPhone: loadImage('assets/Jack/SVG/jack neutral explaining phone.svg'),
-		neutralPhone: loadImage('assets/Jack/SVG/jack neutral phone.svg'),
-		neutralSpeak: loadImage('assets/Jack/SVG/jack neutral speaking.svg'),
-		smile: loadImage('assets/Jack/SVG/jack smiling.svg')
-	};
-	pigeon = {
-		cage: loadImage('assets/Pigeon/SVG/pigeon cage.svg'),
-		flapping: loadImage('assets/Pigeon/SVG/pigeon flapping.svg'),
-		pigeon: loadImage('assets/Pigeon/SVG/pigeon.svg')
-	};
+	audrey = [
+		 loadImage('assets/Audrey/SVG/audrey_frowning_phone.svg'),
+		 loadImage('assets/Audrey/SVG/audrey_frowning.svg'),
+		 loadImage('assets/Audrey/SVG/audrey_happy_explaining.svg'),
+		 loadImage('assets/Audrey/SVG/audrey_happy_speaking.svg'),
+		 loadImage('assets/Audrey/SVG/audrey_laughing.svg'),
+		 loadImage('assets/Audrey/SVG/audrey_searching_computer.svg'),
+		 loadImage('assets/Audrey/SVG/audrey_shrugging.svg'),
+		 loadImage('assets/Audrey/SVG/audrey_smiling_phone.svg'),
+		 loadImage('assets/Audrey/SVG/audrey_smiling.svg'),
+		 loadImage('assets/Audrey/SVG/audrey_surprised_computer.svg'),
+		 loadImage('assets/Audrey/SVG/audrey_upset_explaining.svg'),
+		 loadImage('assets/Audrey/SVG/audrey_upset_phone.svg'),
+		 loadImage('assets/Audrey/SVG/audrey_upset_speaking.svg')
+	];
+	kate = [
+		 loadImage('assets/Kate/SVG/kate frowning bird.svg'),
+		 loadImage('assets/Kate/SVG/kate frowning.svg'),
+		 loadImage('assets/Kate/SVG/kate happy explaining.svg'),
+		 loadImage('assets/Kate/SVG/kate happy speaking bird.svg'),
+		 loadImage('assets/Kate/SVG/kate happy speaking.svg'),
+		 loadImage('assets/Kate/SVG/kate skeptical speaking bird.svg'),
+		 loadImage('assets/Kate/SVG/kate smiling bird.svg'),
+		 loadImage('assets/Kate/SVG/kate smiling.svg'),
+		 loadImage('assets/Kate/SVG/kate upset explaining.svg'),
+		 loadImage('assets/Kate/SVG/kate upset speaking bird.svg'),
+		 loadImage('assets/Kate/SVG/kate upset speaking.svg')
+];
+	drew = [
+		 loadImage('assets/Drew/SVG/drew apologetic explaining.svg'),
+		 loadImage('assets/Drew/SVG/drew frowning.svg'),
+		 loadImage('assets/Drew/SVG/drew happy explaining.svg'),
+		 loadImage('assets/Drew/SVG/drew skeptical.svg'),
+		 loadImage('assets/Drew/SVG/drew smiling.svg'),
+		 loadImage('assets/Drew/SVG/drew surprised.svg'),
+		 loadImage('assets/Drew/SVG/drew upset phone.svg'),
+		 loadImage('assets/Drew/SVG/drew upset speaking.svg')
+];
+	emily = [
+		 loadImage('assets/Emily/SVG/emily happy explaining.svg'),
+		 loadImage('assets/Emily/SVG/emily neutral explaining.svg'),
+		 loadImage('assets/Emily/SVG/emily neutral.svg'),
+		 loadImage('assets/Emily/SVG/emily skeptical.svg'),
+		 loadImage('assets/Emily/SVG/emily smiling.svg'),
+		 loadImage('assets/Emily/SVG/emily upset phone.svg'),
+		 loadImage('assets/Emily/SVG/emily upset speaking.svg')
+ ];
+	jack = [
+		 loadImage('assets/Jack/SVG/jack apologetic explaining.svg'),
+		 loadImage('assets/Jack/SVG/jack apologetic smile.svg'),
+		 loadImage('assets/Jack/SVG/jack apologetic speaking.svg'),
+		 loadImage('assets/Jack/SVG/jack browsing phone.svg'),
+		 loadImage('assets/Jack/SVG/jack happy speaking.svg'),
+		 loadImage('assets/Jack/SVG/jack neutral explaining phone.svg'),
+		 loadImage('assets/Jack/SVG/jack neutral phone.svg'),
+		 loadImage('assets/Jack/SVG/jack neutral speaking.svg'),
+		 loadImage('assets/Jack/SVG/jack smiling.svg')
+];
+	pigeon = [
+		 loadImage('assets/Pigeon/SVG/pigeon cage.svg'),
+		 loadImage('assets/Pigeon/SVG/pigeon flapping.svg'),
+		 loadImage('assets/Pigeon/SVG/pigeon.svg')
+ ];
 	actors = {
 		audrey: audrey,
 		kate: kate,
@@ -103,7 +103,7 @@ function preload() {
 function setup() {
 	// We can create the interactive so that it starts with the current window width and height
 	//createCanvas(windowWidth, (windowWidth / 16) * 9);
-	createCanvas(1920, 1080)
+	createCanvas(1440, 900)
 	frameRate(60);
 
   mgr = new SceneManager();
@@ -114,7 +114,7 @@ function setup() {
 	// mgr.addScene ( Scene4 );
 	// mgr.addScene ( Scene5 );
 
-  mgr.showNextScene([actors, backgrounds, script]);
+  mgr.showNextScene([actors, backgrounds, script, 100]);
 
 }
 
@@ -154,8 +154,6 @@ function Scene1() {
 
 	var bg;
 
-	var redraw;
-
 	var c = 0; // Variable so we can print the dialogue out like a typewriter
 
   var textBoxAlpha = 0;
@@ -163,56 +161,122 @@ function Scene1() {
   var dialogueIndex = 0;
   var dialogue;
 
-	var scale;
+	var friendshipIndex;
+
+	var scale = 1;
+
+	// loadImage('assets/Kate/SVG/kate frowning bird.svg'), 0
+	// loadImage('assets/Kate/SVG/kate frowning.svg'), 1
+	// loadImage('assets/Kate/SVG/kate happy explaining.svg'), 2
+	// loadImage('assets/Kate/SVG/kate happy speaking bird.svg'), 3
+	// loadImage('assets/Kate/SVG/kate happy speaking.svg'), 4
+	// loadImage('assets/Kate/SVG/kate skeptical speaking bird.svg'), 5
+	// loadImage('assets/Kate/SVG/kate smiling bird.svg'), 6
+	// loadImage('assets/Kate/SVG/kate smiling.svg'), 7
+	// loadImage('assets/Kate/SVG/kate upset explaining.svg'), 8
+	// loadImage('assets/Kate/SVG/kate upset speaking bird.svg'), 9
+	// loadImage('assets/Kate/SVG/kate upset speaking.svg') 10
+
+	var audreyExpressions = [8, 7, 0, 0, 0, 6, 11, 11, 11, 1, 1, 10, 1, 12, 1, 12, 1, 6, 1, 1, 2, 8]
+	var kateExpressions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 9, 0, 9, 0, 9, 6, 3, 3, 6, 3]
+	// 0 - Narrator, 1 - Audrey, 2 - Audrey Thoughts, 3 - Kate, 4 - Drew, 5 - Emily, 6 - Jack
+	var whoSpeaking = [0, 2, 4, 5, 6, 2, 0, 2, 2, 2, 3, 1, 3, 1, 3, 1, 3, 1, 3, 3, 1, 3]
 
 	// Another reserved function, sets up our canvas
   this.setup = function() {
 		audrey = this.sceneArgs[0].audrey;
 		kate = this.sceneArgs[0].kate;
-		imgAudrey = audrey.frownPhone;
-		imgKate = kate.happySpeakBird;
+		imgAudrey = audrey[0];
+		imgKate = kate[0];
 		bg = this.sceneArgs[1].birdShelter;
 	  dialogue=this.sceneArgs[2].sceneOne;
+		friendshipIndex = this.sceneArgs[3];
     background(bg);
   }
 
 	// enter() happens after setup() but before draw()
 	this.enter = function() {
-		scale = windowWidth / 1920;
-		redraw = true;
+		//scale = windowWidth / 1440;
 	}
 
 	// This is the main drawing function - it will run constantly in a loop,
 	// which is why we can update variables and create animation
   this.draw = function() {
-		if (redraw) {
-			background(bg);
-			this.drawAudrey();
-			if (dialogueIndex > 5) {
-				this.drawKate();
-			}
+		background(bg);
+		this.drawAudrey();
+		if (dialogueIndex > 9) {
+			this.drawKate();
 		}
 		// Textbox code, draws once image has faded in.
 		this.drawText();
+		this.drawFriendship();
   }
 
 	this.drawAudrey = function() {
-  	image(imgAudrey, 100 * scale, 100 * scale, 800 * scale, 1067 * scale);
+  	image(imgAudrey, 60 * scale, 40 * scale, 646 * scale, 861 * scale);
 	}
 
 	this.drawKate = function() {
-		image(imgKate, 1200 * scale, 100 * scale, 800 * scale, 1067 * scale);
+		image(imgKate, 738 * scale, 24 * scale, 657 * scale, 876 * scale);
 	}
 
 	this.drawText = function() {
 		noStroke();
-		fill(255, 255, 255, textBoxAlpha);
-		rect(100 * scale, 840 * scale, 1700 * scale, 200 * scale, 20);
-		textBoxAlpha += 20;
-		textSize(42 * scale);
+		// Background
+		fill(255, 255, 255, 200);
+		rect(0, 758 * scale, 1440 * scale, 142 * scale);
+		// Currently speaking
+		// Conditional here for fill color
+		fill('#6D7488');
+		rect(61 * scale, 797 * scale, 180 * scale, 66 * scale, 30);
+		textSize(35 * scale);
+		textStyle(BOLD);
+		fill(255);
+		textAlign(CENTER, CENTER);
+		var speaker;
+		switch(whoSpeaking[dialogueIndex]) {
+			case 0:
+				speaker = "Narrator"
+				break;
+			case 3:
+				speaker = "Kate"
+				break;
+			case 4:
+				speaker = "Drew"
+				break;
+			case 5:
+				speaker = "Emily"
+				break;
+			case 6:
+				speaker = "Jack"
+				break;
+			default:
+				speaker = "Audrey"
+				break;
+		}
+		text(speaker, 61 * scale, 800 * scale, 180 * scale, 66 * scale);
+
+		// Dialogue
+		textSize(25 * scale);
+		textStyle(NORMAL);
+		textAlign(LEFT, CENTER);
 		fill(0);
-		text(dialogue[dialogueIndex].substring(0,c), 150 * scale, 910 * scale, 1600 * scale, 150 * scale);
+		text(dialogue[dialogueIndex].substring(0,c), 316 * scale, 758 * scale, 808 * scale, 142 * scale);
 		c += 5;
+	}
+
+	this.drawFriendship = function() {
+		textSize(20 * scale);
+		fill(0);
+		textAlign(CENTER, CENTER);
+		text("Friendship Index", 1195 * scale, 785 * scale, 180 * scale, 32 * scale);
+		strokeWeight(6);
+		fill(255, 255, 255, 0);
+		stroke('#AFAFAF');
+		rect(1174 * scale, 825 * scale, 221 * scale, 40 * scale, 50);
+		fill(2.5 * (100 - friendshipIndex) + 100, 2.5 * friendshipIndex, 100, 255);
+		noStroke();
+		rect(1182 * scale, 832 * scale, 204 * (friendshipIndex/100) * scale, 26 * scale, 50);
 	}
 
 	// Handles the mouse pressed event passed down by our scene manager
@@ -224,18 +288,17 @@ function Scene1() {
 			c = dialogue[dialogueIndex].length;
 		} else {
 			dialogueIndex++;
+			imgAudrey = audrey[audreyExpressions[dialogueIndex]];
+			imgKate = kate[kateExpressions[dialogueIndex]];
 			c = 0;
 		}
-		if (dialogueIndex == 5) {
-			redraw = true;
-		}
-    if (dialogueIndex >= 19) {
+    if (dialogueIndex >= totalLength) {
       this.sceneManager.showNextScene(this.sceneArgs);
     }
   }
 
 	this.windowResized = function() {
-		scale = windowWidth / 1920;
+		//scale = windowWidth / 1440;
 		//resizeCanvas(windowWidth, (windowWidth/16) * 9);
 	}
 }
@@ -245,9 +308,7 @@ function Scene2() {
 	var audrey;
 	var drew;
 
-	var bg
-
-	var redraw;
+	var bg;
 
 	var c = 0; // Variable so we can print the dialogue out like a typewriter
 
@@ -256,56 +317,84 @@ function Scene2() {
   var dialogueIndex = 0;
   var dialogue;
 
-	var scale;
+	var friendshipIndex;
+
+	var scale = 1;
 
 	// Another reserved function, sets up our canvas
   this.setup = function() {
 		audrey = this.sceneArgs[0].audrey;
 		drew = this.sceneArgs[0].drew;
-		imgAudrey = audrey.frownPhone;
-		imgDrew = drew.skeptical;
+		imgAudrey = audrey[0];
+		imgDrew = drew[0];
 		bg = this.sceneArgs[1].audreyRoom;
 	  dialogue = this.sceneArgs[2].sceneTwo;
+		friendshipIndex = this.sceneArgs[3];
     background(bg);
   }
 
 	// enter() happens after setup() but before draw()
 	this.enter = function() {
-		scale = windowWidth / 1920;
-		redraw = true;
+		//scale = windowWidth / 1440;
 	}
 
 	// This is the main drawing function - it will run constantly in a loop,
 	// which is why we can update variables and create animation
   this.draw = function() {
-		if (redraw) {
-			background(bg);
-			this.drawAudrey();
-			if (dialogueIndex > 2) {
-				this.drawDrew();
-			}
+		background(bg);
+		this.drawAudrey();
+		if (dialogueIndex > 5) {
+			this.drawDrew();
 		}
 		// Textbox code, draws once image has faded in.
 		this.drawText();
+		this.drawFriendship();
   }
 
 	this.drawAudrey = function() {
-  	image(imgAudrey, 100 * scale, 100 * scale, 800 * scale, 1067 * scale);
+  	image(imgAudrey, 60 * scale, 40 * scale, 646 * scale, 861 * scale);
 	}
 
 	this.drawDrew = function() {
-		image(imgDrew, 1200 * scale, 100 * scale, 800 * scale, 1067 * scale);
+		image(imgDrew, 738 * scale, 24 * scale, 657 * scale, 876 * scale);
 	}
 
 	this.drawText = function() {
 		noStroke();
-		fill(255, 255, 255, textBoxAlpha);
-		rect(100 * scale, 840 * scale, 1700 * scale, 200 * scale, 20);
-		textBoxAlpha += 20;
-		textSize(42 * scale);
+		// Background
+		fill(255, 255, 255, 200);
+		rect(0, 758 * scale, 1440 * scale, 142 * scale);
+		// Currently speaking
+		// Conditional here for fill color
+		fill('#6D7488');
+		rect(61 * scale, 797 * scale, 180 * scale, 66 * scale, 30);
+		textSize(35 * scale);
+		textStyle(BOLD);
+		fill(255);
+		textAlign(CENTER, CENTER);
+		text("Narrator", 61 * scale, 800 * scale, 180 * scale, 66 * scale);
+
+		// Dialogue
+		textSize(25 * scale);
+		textStyle(NORMAL);
+		textAlign(LEFT, CENTER);
 		fill(0);
-		text(dialogue[dialogueIndex].substring(0,c), 150 * scale, 910 * scale, 1600 * scale, 150 * scale);
+		text(dialogue[dialogueIndex].substring(0,c), 316 * scale, 758 * scale, 808 * scale, 142 * scale);
 		c += 5;
+	}
+
+	this.drawFriendship = function() {
+		textSize(20 * scale);
+		fill(0);
+		textAlign(CENTER, CENTER);
+		text("Friendship Index", 1195 * scale, 785 * scale, 180 * scale, 32 * scale);
+		strokeWeight(6);
+		fill(255, 255, 255, 0);
+		stroke('#AFAFAF');
+		rect(1174 * scale, 825 * scale, 221 * scale, 40 * scale, 50);
+		fill(2.5 * (100 - friendshipIndex) + 100, 2.5 * friendshipIndex, 100, 255);
+		noStroke();
+		rect(1182 * scale, 832 * scale, 204 * (friendshipIndex/100) * scale, 26 * scale, 50);
 	}
 
 	// Handles the mouse pressed event passed down by our scene manager
@@ -319,89 +408,113 @@ function Scene2() {
 			dialogueIndex++;
 			c = 0;
 		}
-		if (dialogueIndex == 3) {
-			redraw = true;
-			bg = this.sceneArgs[1].kitchen;
-		}
-    if (dialogueIndex == 20) {
+    if (dialogueIndex >= 20) {
       this.sceneManager.showNextScene(this.sceneArgs);
     }
   }
 
 	this.windowResized = function() {
-		scale = windowWidth / 1920;
+		//scale = windowWidth / 1440;
 		//resizeCanvas(windowWidth, (windowWidth/16) * 9);
 	}
 }
 // ================== SCENE 3 ==================
 function Scene3() {
 	var audrey;
-	var drew;
+	var emily;
 
 	var bg;
 
-	var redraw;
-
 	var c = 0; // Variable so we can print the dialogue out like a typewriter
 
-	var textBoxAlpha = 0;
+  var textBoxAlpha = 0;
 
-	var dialogueIndex = 0;
-	var dialogue;
+  var dialogueIndex = 0;
+  var dialogue;
 
-	var scale;
+	var friendshipIndex;
+
+	var scale = 1;
 
 	// Another reserved function, sets up our canvas
 	this.setup = function() {
 		audrey = this.sceneArgs[0].audrey;
 		emily = this.sceneArgs[0].emily;
-		imgAudrey = audrey.frownPhone;
-		imgEmily = emily.skeptical;
+		imgAudrey = audrey[0];
+		imgEmily = emily[0];
 		bg = this.sceneArgs[1].livingRoom;
 		dialogue=this.sceneArgs[2].sceneThree;
+		friendshipIndex = this.sceneArgs[3];
 		background(bg);
 	}
 
 	// enter() happens after setup() but before draw()
 	this.enter = function() {
-		scale = windowWidth / 1920;
-		redraw = true;
+		//scale = windowWidth / 1440;
 	}
 
 	// This is the main drawing function - it will run constantly in a loop,
 	// which is why we can update variables and create animation
-	this.draw = function() {
-		if (redraw) {
-			background(bg);
-			this.drawAudrey();
+  this.draw = function() {
+		background(bg);
+		this.drawAudrey();
+		if (dialogueIndex > 5) {
 			this.drawEmily();
 		}
 		// Textbox code, draws once image has faded in.
 		this.drawText();
-	}
+		this.drawFriendship();
+  }
 
 	this.drawAudrey = function() {
-		image(imgAudrey, 100 * scale, 100 * scale, 800 * scale, 1067 * scale);
+  	image(imgAudrey, 60 * scale, 40 * scale, 646 * scale, 861 * scale);
 	}
 
 	this.drawEmily = function() {
-		image(imgEmily, 1200 * scale, 100 * scale, 800 * scale, 1067 * scale);
+		image(imgEmily, 738 * scale, 24 * scale, 657 * scale, 876 * scale);
 	}
 
 	this.drawText = function() {
 		noStroke();
-		fill(255, 255, 255, textBoxAlpha);
-		rect(100 * scale, 840 * scale, 1700 * scale, 200 * scale, 20);
-		textBoxAlpha += 20;
-		textSize(42 * scale);
+		// Background
+		fill(255, 255, 255, 200);
+		rect(0, 758 * scale, 1440 * scale, 142 * scale);
+		// Currently speaking
+		// Conditional here for fill color
+		fill('#6D7488');
+		rect(61 * scale, 797 * scale, 180 * scale, 66 * scale, 30);
+		textSize(35 * scale);
+		textStyle(BOLD);
+		fill(255);
+		textAlign(CENTER, CENTER);
+		text("Narrator", 61 * scale, 800 * scale, 180 * scale, 66 * scale);
+
+		// Dialogue
+		textSize(25 * scale);
+		textStyle(NORMAL);
+		textAlign(LEFT, CENTER);
 		fill(0);
-		text(dialogue[dialogueIndex].substring(0,c), 150 * scale, 910 * scale, 1600 * scale, 150 * scale);
+		text(dialogue[dialogueIndex].substring(0,c), 316 * scale, 758 * scale, 808 * scale, 142 * scale);
 		c += 5;
+	}
+
+	this.drawFriendship = function() {
+		textSize(20 * scale);
+		fill(0);
+		textAlign(CENTER, CENTER);
+		text("Friendship Index", 1195 * scale, 785 * scale, 180 * scale, 32 * scale);
+		strokeWeight(6);
+		fill(255, 255, 255, 0);
+		stroke('#AFAFAF');
+		rect(1174 * scale, 825 * scale, 221 * scale, 40 * scale, 50);
+		fill(2.5 * (100 - friendshipIndex) + 100, 2.5 * friendshipIndex, 100, 255);
+		noStroke();
+		rect(1182 * scale, 832 * scale, 204 * (friendshipIndex/100) * scale, 26 * scale, 50);
 	}
 
 	// Handles the mouse pressed event passed down by our scene manager
 	// in the core code.
-	this.mousePressed = function() {
+  this.mousePressed = function() {
 		var totalLength = dialogue[dialogueIndex].length;
 		if (c >= 0 && c < totalLength) {
 			// Jump ahead if clicked while text is printing
@@ -410,16 +523,13 @@ function Scene3() {
 			dialogueIndex++;
 			c = 0;
 		}
-		if (dialogueIndex == 5) {
-			redraw = true;
-		}
-		if (dialogueIndex == 57) {
-			this.sceneManager.showNextScene(this.sceneArgs);
-		}
-	}
+    if (dialogueIndex >= totalLength) {
+      this.sceneManager.showNextScene(this.sceneArgs);
+    }
+  }
 
 	this.windowResized = function() {
-		scale = windowWidth / 1920;
+		//scale = windowWidth / 1440;
 		//resizeCanvas(windowWidth, (windowWidth/16) * 9);
 	}
 }
