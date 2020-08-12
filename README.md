@@ -18,6 +18,8 @@ Inside the examples folder are the two folders taken directly from the p5.play l
 - [p5.sceneManager Repo](https://github.com/mveteanu/p5.SceneManager) - Main repo for the p5.sceneManager library. Not too much here other than a quick getting started section, more can be found in the files under /example!
 - [p5.accessibility Repo](https://github.com/processing/p5.accessibility) - Main repo for p5.accessibility with some info on getting started. This still needs to be integrated!
 - [Messenger](https://www.messenger.com/t/4011751315566157) - Messenger! If you have any questions, feel free to shoot me a message in the group chat.
+- [Optimization](https://github.com/processing/p5.js/wiki/Optimizing-p5.js-Code-for-Performance#frontload-image-processing)
+- [p5js overview](https://github.com/processing/p5.js/wiki/p5.js-overview#loading-screen) Can help with async stuff and preloading
 
 
 ## Contributers
