@@ -2,6 +2,7 @@ html {
     display: table;
     margin-top: 3.5%;
     margin-left: 5%;
+    margin-right: 5%;
     height: 85%;
 }
 
@@ -49,4 +50,53 @@ li {
 ul li p {
     padding-top: 3%;
     padding-bottom: 0;
+}
+
+.arrow-east {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 2%;
+}
+
+.arrow-west {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 2%;
+}
+
+.arrow-west p, .arrow-east p {
+    font-size: 14pt;
+    margin: 0.2% 1.4%;
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#head-left {
+    display: flex;
+    font-size: 20pt;
+}
+
+#head-left p {
+    margin-top: 13%;
+}
+
+#head-right {
+    margin-top: 1%;
+    margin-right: 3%;
+}
+
+#col-1 h2 {
+    margin-left: 5%;
+}
+
+#col-1 p {
+    margin: 5%;
+}
+
+.hidden {
+    display: none;
 }
