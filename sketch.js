@@ -268,6 +268,7 @@ function Scene1() {
 	// This is the main drawing function - it will run constantly in a loop,
 	// which is why we can update variables and create animation
   this.draw = function() {
+		translate(0, 0);
 		background(bg);
 		if (dialogueIndex < 2 || dialogueIndex > 4) {
 			this.drawAudrey();
@@ -292,7 +293,7 @@ function Scene1() {
 	}
 
 	this.drawPhone = function() {
-		image(imgPhone, phoneX * scale, 105 * vScale, 500 * scale, 920 * vScale);
+		image(imgPhone, phoneX * scale, 105 * vScale, 490 * scale, 920 * vScale);
 		if (dialogueIndex > 1) {
 			if (phoneX > 165) {
 				phoneX -= 30;
@@ -416,9 +417,9 @@ function Scene1() {
   }
 
 	this.windowResized = function() {
-		scale = windowWidth / 1440;
-		vScale = ((windowWidth / 16) * 9) / 900;
 		resizeCanvas(windowWidth, (windowWidth/16) * 9);
+		scale = width / 1440;
+		vScale = ((width / 16) * 9) / 900;
 	}
 }
 
