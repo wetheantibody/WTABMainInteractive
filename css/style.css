@@ -11,7 +11,7 @@ body {
     vertical-align: middle;
     font-family: monospace;
     border: 5px solid black;
-    width: 65%;
+    width: 50%;
 }
 
 footer {
@@ -38,6 +38,7 @@ h1 {
 
 ul {
     list-style: none;
+    margin-bottom: 5%;
 }
 
 
@@ -49,6 +50,7 @@ li {
 
 ul li p {
     padding-top: 3%;
+    margin-left: 3%;
     padding-bottom: 0;
 }
 
