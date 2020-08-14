@@ -181,6 +181,10 @@ function mousePressed() {
   mgr.handleEvent("mousePressed");
 }
 
+function keyPressed() {
+	mgr.handleEvent("keyPressed");
+}
+
 // This is a function provided by p5 that triggers whenever the window
 // is resized.
 function windowResized() {
@@ -285,6 +289,7 @@ function Scene1() {
   }
 
 	this.drawAudrey = function() {
+		// tint for opacity
   	image(imgAudrey, 60 * scale, 40 * vScale, 646 * scale, 861 * vScale);
 	}
 
@@ -415,6 +420,16 @@ function Scene1() {
       this.sceneManager.showNextScene(this.sceneArgs);
     }
   }
+
+	this.keyPressed = function() {
+	  if (keyCode === LEFT_ARROW) {
+	    dialogueIndex--;
+	  } else if (keyCode === RIGHT_ARROW) {
+	    dialogueIndex++;
+	  }
+		imgAudrey = audrey[audreyExpressions[dialogueIndex]];
+		imgKate = kate[kateExpressions[dialogueIndex]];
+	}
 
 	this.windowResized = function() {
 		resizeCanvas(windowWidth, (windowWidth/16) * 9);
