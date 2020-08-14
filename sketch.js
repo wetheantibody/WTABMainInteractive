@@ -151,8 +151,8 @@ function preload() {
 
 function setup() {
 	// We can create the interactive so that it starts with the current window width and height
-	//createCanvas(windowWidth, (windowWidth / 16) * 9);
-	createCanvas(1440, 900)
+	createCanvas(windowWidth, (windowWidth / 16) * 9);
+	//createCanvas(1440, 900)
 	frameRate(60);
 
   mgr = new SceneManager();
@@ -220,7 +220,8 @@ function Scene1() {
 
 	var friendshipIndex;
 
-	var scale = 1;
+	var scale;
+	var vScale;
 
 	// loadImage('assets/Kate/SVG/kate frowning bird.svg'), 0
 	// loadImage('assets/Kate/SVG/kate frowning.svg'), 1
@@ -254,6 +255,8 @@ function Scene1() {
 		graphik = this.sceneArgs[4];
 	  dialogue=this.sceneArgs[2].sceneOne;
 		friendshipIndex = this.sceneArgs[3];
+		scale = windowWidth / 1440;
+		vScale = ((windowWidth / 16) * 9) / 900;
     background(bg);
   }
 
@@ -281,34 +284,34 @@ function Scene1() {
   }
 
 	this.drawAudrey = function() {
-  	image(imgAudrey, 60 * scale, 40 * scale, 646 * scale, 861 * scale);
+  	image(imgAudrey, 60 * scale, 40 * vScale, 646 * scale, 861 * vScale);
 	}
 
 	this.drawKate = function() {
-		image(imgKate, 738 * scale, 24 * scale, 657 * scale, 876 * scale);
+		image(imgKate, 738 * scale, 24 *vScale, 657 * scale, 876 * vScale);
 	}
 
 	this.drawPhone = function() {
-		image(imgPhone, phoneX * scale, 105 * scale, 500 * scale, 920 * scale);
+		image(imgPhone, phoneX * scale, 105 * vScale, 500 * scale, 920 * vScale);
 		if (dialogueIndex > 1) {
 			if (phoneX > 165) {
 				phoneX -= 30;
 			}
 			if (phoneX <= 165) {
 				if (dialogueIndex >= 2) {
-					image(drewPost, 754 * scale, 33 * scale, 532 * scale, 225 * scale);
+					image(drewPost, 754 * scale, 33 * vScale, 532 * scale, 225 * vScale);
 					if (friendshipIndex > 70) {
 						friendshipIndex -= 2;
 					}
 				}
 				if (dialogueIndex >= 3) {
-					image(emilyPost, 754 * scale, 279 * scale, 532 * scale, 197 * scale);;
+					image(emilyPost, 754 * scale, 279 * vScale, 532 * scale, 197 * vScale);
 					if (friendshipIndex > 40) {
 						friendshipIndex -= 2;
 					}
 				}
 				if (dialogueIndex >= 4) {
-					image(jackPost, 754 * scale, 496 * scale, 532 * scale, 202 * scale);
+					image(jackPost, 754 * scale, 496 * vScale, 532 * scale, 202 * vScale);
 					if (friendshipIndex > 10) {
 						friendshipIndex -= 2;
 					}
@@ -321,7 +324,7 @@ function Scene1() {
 		noStroke();
 		// Background
 		fill(255, 255, 255, 200);
-		rect(0, 758 * scale, 1440 * scale, 142 * scale);
+		rect(0, 758 * vScale, 1440 * scale, 142 * vScale);
 		// Currently speaking
 		var speaker;
 		var currFont = graphik.regular;
@@ -360,13 +363,13 @@ function Scene1() {
 				speaker = "Audrey"
 				break;
 		}
-		rect(61 * scale, 797 * scale, 180 * scale, 66 * scale, 30);
+		rect(61 * scale, 797 * vScale, 180 * scale, 66 * vScale, 30);
 		textSize(35 * scale);
 		textStyle(BOLD);
 		textFont(graphik.bold);
 		fill(255);
 		textAlign(CENTER, CENTER);
-		text(speaker, 62 * scale, 795 * scale, 180 * scale, 66 * scale);
+		text(speaker, 62 * scale, 795 * vScale, 180 * scale, 66 * vScale);
 
 		// Dialogue
 		textSize(25 * scale);
@@ -374,7 +377,7 @@ function Scene1() {
 		textFont(currFont);
 		textAlign(LEFT, CENTER);
 		fill(0);
-		text(dialogue[dialogueIndex].substring(0,c), 316 * scale, 758 * scale, 808 * scale, 142 * scale);
+		text(dialogue[dialogueIndex].substring(0,c), 316 * scale, 758 * vScale, 808 * scale, 142 * vScale);
 		c += 5;
 	}
 
@@ -383,14 +386,14 @@ function Scene1() {
 		fill(0);
 		textAlign(CENTER, CENTER);
 		textFont(graphik.regular);
-		text("Friendship Index", 1195 * scale, 785 * scale, 180 * scale, 32 * scale);
+		text("Friendship Index", 1195 * scale, 785 * vScale, 180 * scale, 32 * vScale);
 		strokeWeight(6);
 		fill(255, 255, 255, 0);
 		stroke('#AFAFAF');
-		rect(1174 * scale, 825 * scale, 221 * scale, 40 * scale, 50);
+		rect(1174 * scale, 825 * vScale, 221 * scale, 40 * vScale, 50);
 		fill(2.5 * (100 - friendshipIndex) + 100, 2.5 * friendshipIndex, 100, 255);
 		noStroke();
-		rect(1182 * scale, 832 * scale, 204 * (friendshipIndex/100) * scale, 26 * scale, 50);
+		rect(1182 * scale, 832 * vScale, 204 * (friendshipIndex/100) * scale, 26 * vScale, 50);
 	}
 
 	// Handles the mouse pressed event passed down by our scene manager
@@ -413,8 +416,9 @@ function Scene1() {
   }
 
 	this.windowResized = function() {
-		//scale = windowWidth / 1440;
-		//resizeCanvas(windowWidth, (windowWidth/16) * 9);
+		scale = windowWidth / 1440;
+		vScale = ((windowWidth / 16) * 9) / 900;
+		resizeCanvas(windowWidth, (windowWidth/16) * 9);
 	}
 }
 
@@ -442,6 +446,7 @@ function Scene2() {
 	var friendshipIndex;
 
 	var scale = 1;
+	var vScale;
 
 	var audreyExpressions = [6, 6, 10, 6, 9, 4, 2, 4, 9, 3, 2, 13, 2, 2, 2, 2, 2, 2, 3, 9, 4, 9, 8, 8, 8, 8, 8, 9, 4, 9, 3, 5, 3, 9, 4, 9, 4, 5, 4, 4, 3, 9, 4, 9, 4, 9, 3, 9, 4, 9, 9, 3, 9, 8, 8, 8, 8, 8, 9, 3, 9, 4, 9, 3, 9, 4, 9, 4, 5, 4]
 	var drewExpressions = [17, 17, 17, 17, 17, 17, 20, 2, 20, 15, 20, 15, 19, 19, 19, 19, 19, 19, 15, 12, 15, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 17, 3, 17, 3, 17, 4, 17, 17, 7, 6, 7, 6, 7, 8, 7, 6, 5, 6, 8, 7, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 17, 3, 17, 3, 4, 17, 17]
@@ -461,6 +466,8 @@ function Scene2() {
 		graphik = this.sceneArgs[4];
 	  dialogue = this.sceneArgs[2].sceneTwo;
 		friendshipIndex = this.sceneArgs[3];
+		scale = windowWidth / 1440;
+		vScale = ((windowWidth / 16) * 9) / 900;
     background(bg);
   }
 
@@ -476,7 +483,7 @@ function Scene2() {
 		if (dialogueIndex != 13) {
 			this.drawAudrey();
 		} else {
-			image(phone[0], 165 * scale, 105 * scale, 500 * scale, 920 * scale);
+			image(phone[0], 165 * scale, 105 * vScale, 500 * scale, 920 * vScale);
 		}
 		if (dialogueIndex > 3) {
 			bg = this.sceneArgs[1].kitchen;
@@ -497,22 +504,22 @@ function Scene2() {
   }
 
 	this.drawAudrey = function() {
-  	image(imgAudrey, 60 * scale, 40 * scale, 646 * scale, 861 * scale);
+  	image(imgAudrey, 60 * scale, 40 * vScale, 646 * scale, 861 * vScale);
 	}
 
 	this.drawDrew = function() {
-		image(imgDrew, 738 * scale, 24 * scale, 657 * scale, 876 * scale);
+		image(imgDrew, 738 * scale, 24 * vScale, 657 * scale, 876 * vScale);
 	}
 
 	this.drawPhone = function() {
-		image(imgPhone, phoneX * scale, 105 * scale, 475 * scale, 920 * scale);
+		image(imgPhone, phoneX * scale, 105 * vScale, 475 * scale, 920 * vScale);
 	}
 
 	this.drawText = function() {
 		noStroke();
 		// Background
 		fill(255, 255, 255, 200);
-		rect(0, 758 * scale, 1440 * scale, 142 * scale);
+		rect(0, 758 * vScale, 1440 * scale, 142 * vScale);
 		// Currently speaking
 		var speaker;
 		var currFont = graphik.regular;
@@ -551,13 +558,13 @@ function Scene2() {
 				speaker = "Audrey"
 				break;
 		}
-		rect(61 * scale, 797 * scale, 180 * scale, 66 * scale, 30);
+		rect(61 * scale, 797 * vScale, 180 * scale, 66 * vScale, 30);
 		textSize(35 * scale);
 		textStyle(BOLD);
 		textFont(graphik.bold);
 		fill(255);
 		textAlign(CENTER, CENTER);
-		text(speaker, 62 * scale, 795 * scale, 180 * scale, 66 * scale);
+		text(speaker, 62 * scale, 795 * vScale, 180 * scale, 66 * vScale);
 
 		// Dialogue
 		textSize(25 * scale);
@@ -565,7 +572,7 @@ function Scene2() {
 		textFont(currFont);
 		textAlign(LEFT, CENTER);
 		fill(0);
-		text(dialogue[dialogueIndex].substring(0,c), 316 * scale, 758 * scale, 808 * scale, 142 * scale);
+		text(dialogue[dialogueIndex].substring(0,c), 316 * scale, 758 * vScale, 808 * scale, 142 * vScale);
 		c += 5;
 	}
 
@@ -573,25 +580,25 @@ function Scene2() {
 		noStroke();
 		// Background
 		fill(255, 255, 255, 200);
-		rect(0, 538 * scale, 1440 * scale, 363 * scale);
+		rect(0, 538 * vScale, 1440 * scale, 363 * vScale);
 
 		// Question
 		textSize(30 * scale);
 		fill(0);
 		textStyle(BOLD);
 		textAlign(CENTER, CENTER);
-		text(dialogue[dialogueIndex + 1], 327 * scale, 582 * scale, 758 * scale, 69 * scale);
+		text(dialogue[dialogueIndex + 1], 327 * scale, 582 * vScale, 758 * scale, 69 * vScale);
 
 		//Options
 		fill('#F7BA63');
-		rect(89 * scale, 688 * scale, 599 * scale, 162 * scale, 50);
+		rect(89 * scale, 688 * vScale, 599 * scale, 162 * vScale, 50);
 		fill('#9AB5E2');
-		rect(756 * scale, 688 * scale, 599 * scale, 162 * scale, 50);
+		rect(756 * scale, 688 * vScale, 599 * scale, 162 * vScale, 50);
 		fill(0)
 		textAlign(CENTER, CENTER);
 		textStyle(NORMAL);
-		text(dialogue[dialogueIndex + 2], 184, 734, 401, 70);
-		text(dialogue[dialogueIndex + 3], 819, 725, 472, 88);
+		text(dialogue[dialogueIndex + 2], 184 * scale, 734 * vScale, 401 * scale, 70 * vScale);
+		text(dialogue[dialogueIndex + 3], 819 * scale, 725 * vScale, 472 * scale, 88 * vScale);
 	}
 
 	this.drawCrashCourse = function() {
@@ -600,30 +607,30 @@ function Scene2() {
 
 	this.drawArticle = function() {
 		fill(255);
-		rect(203 * scale, 95 * scale, 1082 * scale, 606 * scale, 30);
+		rect(203 * scale, 95 * vScale, 1082 * scale, 606 * vScale, 30);
 		textSize(25 * scale);
 		textStyle(NORMAL);
 		textFont(graphik.italic);
 		textAlign(LEFT, TOP);
 		fill(0);
-		text(dialogue[dialogueIndex + 1], 275 * scale, 213 * scale, 910 * scale, 125 * scale);
-		text(dialogue[dialogueIndex + 2], 275 * scale, 400 * scale, 910 * scale, 325 * scale);
+		text(dialogue[dialogueIndex + 1], 275 * scale, 213 * vScale, 910 * scale, 125 * vScale);
+		text(dialogue[dialogueIndex + 2], 275 * scale, 400 *vScale, 910 * scale, 325 * vScale);
 
 		noStroke();
 		// Background
 		fill(255, 255, 255, 200);
-		rect(0, 758 * scale, 1440 * scale, 142 * scale);
+		rect(0, 758 * vScale, 1440 * scale, 142 * vScale);
 		// Currently speaking
 		var speaker;
 		speaker = "Source";
 		fill('#F4A940');
-		rect(61 * scale, 797 * scale, 180 * scale, 66 * scale, 30);
+		rect(61 * scale, 797 * vScale, 180 * scale, 66 * vScale, 30);
 		textSize(35 * scale);
 		textStyle(BOLD);
 		textFont(graphik.bold);
 		fill(255);
 		textAlign(CENTER, CENTER);
-		text(speaker, 62 * scale, 795 * scale, 180 * scale, 66 * scale);
+		text(speaker, 62 * scale, 795 * vScale, 180 * scale, 66 * vScale);
 
 		// Dialogue
 		textSize(25 * scale);
@@ -631,7 +638,7 @@ function Scene2() {
 		textFont(graphik.italic);
 		textAlign(LEFT, CENTER);
 		fill(0);
-		text(dialogue[dialogueIndex + 3], 316 * scale, 758 * scale, 808 * scale, 142 * scale);
+		text(dialogue[dialogueIndex + 3], 316 * scale, 758 * vScale, 808 * scale, 142 * vScale);
 		c += 5;
 		this.drawFriendship();
 	}
@@ -640,14 +647,14 @@ function Scene2() {
 		textSize(20 * scale);
 		fill(0);
 		textAlign(CENTER, CENTER);
-		text("Friendship Index", 1195 * scale, 785 * scale, 180 * scale, 32 * scale);
+		text("Friendship Index", 1195 * scale, 785 * vScale, 180 * scale, 32 * vScale);
 		strokeWeight(6);
 		fill(255, 255, 255, 0);
 		stroke('#AFAFAF');
-		rect(1174 * scale, 825 * scale, 221 * scale, 40 * scale, 50);
+		rect(1174 * scale, 825 * vScale, 221 * scale, 40 * vScale, 50);
 		fill(2.5 * (100 - friendshipIndex) + 100, 2.5 * friendshipIndex, 100, 255);
 		noStroke();
-		rect(1182 * scale, 832 * scale, 204 * (friendshipIndex/100) * scale, 26 * scale, 50);
+		rect(1182 * scale, 832 * vScale, 204 * (friendshipIndex/100) * scale, 26 * vScale, 50);
 	}
 
 	// Handles the mouse pressed event passed down by our scene manager
@@ -659,7 +666,7 @@ function Scene2() {
 			c = dialogue[dialogueIndex].length;
 		} else {
 			if (option) {
-				if (mouseY > 688 * scale && mouseY < 850 * scale) {
+				if (mouseY > 688 * vScale && mouseY < 850 * vScale) {
 					if (mouseX > 89 * scale && mouseX < 688 * scale) {
 						// Option 1
 						option = false;
@@ -696,8 +703,9 @@ function Scene2() {
   }
 
 	this.windowResized = function() {
-		//scale = windowWidth / 1440;
-		//resizeCanvas(windowWidth, (windowWidth/16) * 9);
+		scale = windowWidth / 1440;
+		vScale = ((windowWidth / 16) * 9) / 900;
+		resizeCanvas(windowWidth, (windowWidth/16) * 9);
 	}
 }
 // ================== SCENE 3 ==================
@@ -726,6 +734,7 @@ function Scene3() {
 	var emotion;
 
 	var scale = 1;
+	var vScale;
 
 	// Another reserved function, sets up our canvas
 	this.setup = function() {
@@ -740,6 +749,8 @@ function Scene3() {
 		graphik = this.sceneArgs[4];
 	  dialogue = this.sceneArgs[2].sceneThree;
 		friendshipIndex = this.sceneArgs[3];
+		scale = windowWidth / 1440;
+		vScale = ((windowWidth / 16) * 9) / 900;
     background(bg);
 	}
 
@@ -771,18 +782,18 @@ function Scene3() {
   }
 
 	this.drawAudrey = function() {
-  	image(imgAudrey, 60 * scale, 40 * scale, 646 * scale, 861 * scale);
+  	image(imgAudrey, 60 * scale, 40 * vScale, 646 * scale, 861 * vScale);
 	}
 
 	this.drawEmily = function() {
-		image(imgEmily, 738 * scale, 24 * scale, 657 * scale, 876 * scale);
+		image(imgEmily, 738 * scale, 24 * vScale, 657 * scale, 876 * vScale);
 	}
 
 	this.drawText = function() {
 		noStroke();
 		// Background
 		fill(255, 255, 255, 200);
-		rect(0, 758 * scale, 1440 * scale, 142 * scale);
+		rect(0, 758 * vScale, 1440 * scale, 142 * vScale);
 		// Currently speaking
 		var speaker;
 		var currFont = graphik.regular;
@@ -821,13 +832,13 @@ function Scene3() {
 				speaker = "Audrey"
 				break;
 		}
-		rect(61 * scale, 797 * scale, 180 * scale, 66 * scale, 30);
+		rect(61 * scale, 797 * vScale, 180 * scale, 66 * vScale, 30);
 		textSize(35 * scale);
 		textStyle(BOLD);
 		textFont(graphik.bold);
 		fill(255);
 		textAlign(CENTER, CENTER);
-		text(speaker, 62 * scale, 795 * scale, 180 * scale, 66 * scale);
+		text(speaker, 62 * scale, 795 * vScale, 180 * scale, 66 * vScale);
 
 		// Dialogue
 		textSize(25 * scale);
@@ -835,7 +846,7 @@ function Scene3() {
 		textFont(currFont);
 		textAlign(LEFT, CENTER);
 		fill(0);
-		text(dialogue[dialogueIndex].substring(0,c), 316 * scale, 758 * scale, 808 * scale, 142 * scale);
+		text(dialogue[dialogueIndex].substring(0,c), 316 * scale, 758 * vScale, 808 * scale, 142 * vScale);
 		c += 5;
 	}
 
@@ -843,75 +854,75 @@ function Scene3() {
 		noStroke();
 		// Background
 		fill(255, 255, 255, 200);
-		rect(0, 538 * scale, 1440 * scale, 363 * scale);
+		rect(0, 538 * vScale, 1440 * scale, 363 * vScale);
 
 		// Question
 		textSize(30 * scale);
 		fill(0);
 		textStyle(BOLD);
 		textAlign(CENTER, CENTER);
-		text(dialogue[dialogueIndex + 1], 327 * scale, 582 * scale, 758 * scale, 69 * scale);
+		text(dialogue[dialogueIndex + 1], 327 * scale, 582 * vScale, 758 * scale, 69 * vScale);
 
 		//Options
 		fill('#F7BA63');
-		rect(89 * scale, 688 * scale, 599 * scale, 162 * scale, 50);
+		rect(89 * scale, 688 * vScale, 599 * scale, 162 * vScale, 50);
 		fill('#9AB5E2');
-		rect(756 * scale, 688 * scale, 599 * scale, 162 * scale, 50);
+		rect(756 * scale, 688 * vScale, 599 * scale, 162 * vScale, 50);
 		fill(0)
 		textAlign(CENTER, CENTER);
 		textStyle(NORMAL);
-		text(dialogue[dialogueIndex + 2], 184, 734, 401, 70);
-		text(dialogue[dialogueIndex + 3], 819, 725, 472, 88);
+		text(dialogue[dialogueIndex + 2], 184 * scale, 734 * vScale, 401 * scale, 70 * vScale);
+		text(dialogue[dialogueIndex + 3], 819 * scale, 725 * vScale, 472 * scale, 88 * vScale);
 	}
 
 	this.drawEmotion = function() {
 		noStroke();
 		// Background
 		fill(255, 255, 255, 200);
-		rect(0, 538 * scale, 1440 * scale, 363 * scale);
+		rect(0, 538 * vScale, 1440 * scale, 363 * vScale);
 
 		// Question
 		textSize(30 * scale);
 		fill(0);
 		textStyle(BOLD);
 		textAlign(CENTER, CENTER);
-		text(dialogue[dialogueIndex + 1], 235 * scale, 597 * scale, 969 * scale, 112 * scale);
+		text(dialogue[dialogueIndex + 1], 235 * scale, 597 * vScale, 969 * scale, 112 * vScale);
 
 		//Options
 		fill('#9AB5E2');
-		rect(574 * scale, 749 * scale, 254 * scale, 99 * scale, 50);
+		rect(574 * scale, 749 * vScale, 254 * scale, 99 * vScale, 50);
 		fill(0)
 		textAlign(CENTER, CENTER);
 		textStyle(NORMAL);
 		textFont(graphik.regular);
-		text("Continue?", 574 * scale, 749 * scale, 254 * scale, 99 * scale);
+		text("Continue?", 574 * scale, 749 * vScale, 254 * scale, 99 * vScale);
 	}
 
 	this.drawArticle = function() {
 		fill(255);
-		rect(203 * scale, 95 * scale, 1082 * scale, 606 * scale, 30);
+		rect(203 * scale, 95 * vScale, 1082 * scale, 606 * vScale, 30);
 		textSize(25 * scale);
 		textStyle(NORMAL);
 		textFont(graphik.italic);
 		textAlign(LEFT, TOP);
 		fill(0);
-		text(dialogue[dialogueIndex + 1], 275 * scale, 213 * scale, 910 * scale, 625 * scale);
+		text(dialogue[dialogueIndex + 1], 275 * scale, 213 * vScale, 910 * scale, 625 * vScale);
 
 		noStroke();
 		// Background
 		fill(255, 255, 255, 200);
-		rect(0, 758 * scale, 1440 * scale, 142 * scale);
+		rect(0, 758 * vScale, 1440 * scale, 142 * vScale);
 		// Currently speaking
 		var speaker;
 		speaker = "Source";
 		fill('#F4A940');
-		rect(61 * scale, 797 * scale, 180 * scale, 66 * scale, 30);
+		rect(61 * scale, 797 * vScale, 180 * scale, 66 * vScale, 30);
 		textSize(35 * scale);
 		textStyle(BOLD);
 		textFont(graphik.bold);
 		fill(255);
 		textAlign(CENTER, CENTER);
-		text(speaker, 62 * scale, 795 * scale, 180 * scale, 66 * scale);
+		text(speaker, 62 * scale, 795 * vScale, 180 * scale, 66 * vScale);
 
 		// Dialogue
 		textSize(25 * scale);
@@ -919,7 +930,7 @@ function Scene3() {
 		textFont(graphik.italic);
 		textAlign(LEFT, CENTER);
 		fill(0);
-		text(dialogue[dialogueIndex + 2], 316 * scale, 758 * scale, 808 * scale, 142 * scale);
+		text(dialogue[dialogueIndex + 2], 316 * scale, 758 * vScale, 808 * scale, 142 * vScale);
 		c += 5;
 		this.drawFriendship();
 	}
@@ -928,14 +939,14 @@ function Scene3() {
 		textSize(20 * scale);
 		fill(0);
 		textAlign(CENTER, CENTER);
-		text("Friendship Index", 1195 * scale, 785 * scale, 180 * scale, 32 * scale);
+		text("Friendship Index", 1195 * scale, 785 * vScale, 180 * scale, 32 * vScale);
 		strokeWeight(6);
 		fill(255, 255, 255, 0);
 		stroke('#AFAFAF');
-		rect(1174 * scale, 825 * scale, 221 * scale, 40 * scale, 50);
+		rect(1174 * scale, 825 * vScale, 221 * scale, 40 * vScale, 50);
 		fill(2.5 * (100 - friendshipIndex) + 100, 2.5 * friendshipIndex, 100, 255);
 		noStroke();
-		rect(1182 * scale, 832 * scale, 204 * (friendshipIndex/100) * scale, 26 * scale, 50);
+		rect(1182 * scale, 832 *vScale, 204 * (friendshipIndex/100) * scale, 26 * vScale, 50);
 	}
 
 	// Handles the mouse pressed event passed down by our scene manager
@@ -947,7 +958,7 @@ function Scene3() {
 			c = dialogue[dialogueIndex].length;
 		} else {
 			if (option) {
-				if (mouseY > 688 * scale && mouseY < 850 * scale) {
+				if (mouseY > 688 * vScale && mouseY < 850 * vScale) {
 					if (mouseX > 89 * scale && mouseX < 688 * scale) {
 						// Option 1
 						option = false;
@@ -963,7 +974,7 @@ function Scene3() {
 				article = false;
 				dialogueIndex += 4;
 			} else if (emotion) {
-				if (mouseX > 574 * scale && mouseX < 828 * scale && mouseY > 749 * scale && mouseY < 848 * scale) {
+				if (mouseX > 574 * scale && mouseX < 828 * scale && mouseY > 749 * vScale && mouseY < 848 * vScale) {
 					emotion = false;
 					dialogueIndex += 2;
 				}
@@ -991,8 +1002,9 @@ function Scene3() {
   }
 
 	this.windowResized = function() {
-		//scale = windowWidth / 1440;
-		//resizeCanvas(windowWidth, (windowWidth/16) * 9);
+		scale = windowWidth / 1440;
+		vScale = ((windowWidth / 16) * 9) / 900;
+		resizeCanvas(windowWidth, (windowWidth/16) * 9);
 	}
 }
 // ================== SCENE 4 ==================
@@ -1025,6 +1037,7 @@ function Scene4() {
 	var flashback;
 
 	var scale = 1;
+	var vScale;
 
 	// Another reserved function, sets up our canvas
 	this.setup = function() {
@@ -1043,6 +1056,8 @@ function Scene4() {
 		graphik = this.sceneArgs[4];
 	  dialogue = this.sceneArgs[2].sceneFour;
 		friendshipIndex = this.sceneArgs[3];
+		scale = windowWidth / 1440;
+		vScale = ((windowWidth / 16) * 9) / 900;
     background(bg);
 	}
 
@@ -1081,26 +1096,26 @@ function Scene4() {
   }
 
 	this.drawAudrey = function() {
-  	image(imgAudrey, 60 * scale, 40 * scale, 646 * scale, 861 * scale);
+  	image(imgAudrey, 60 * scale, 40 * vScale, 646 * scale, 861 * vScale);
 	}
 
 	this.drawJack = function() {
-  	image(imgJack, 828 * scale, 59 * scale, 632 * scale, 841 * scale);
+  	image(imgJack, 828 * scale, 59 * vScale, 632 * scale, 841 * vScale);
 	}
 
 	this.drawEmily = function() {
-		image(imgEmily, 302 * scale, 50 * scale, 657 * scale, 876 * scale);
+		image(imgEmily, 302 * scale, 50 * vScale, 657 * scale, 876 * vScale);
 	}
 
 	this.drawDrew = function() {
-		image(imgDrew, 1 * scale, 17 * scale, 657 * scale, 885 * scale);
+		image(imgDrew, 1 * scale, 17 * vScale, 657 * scale, 885 * vScale);
 	}
 
 	this.drawText = function() {
 		noStroke();
 		// Background
 		fill(255, 255, 255, 200);
-		rect(0, 758 * scale, 1440 * scale, 142 * scale);
+		rect(0, 758 * vScale, 1440 * scale, 142 * vScale);
 		// Currently speaking
 		var speaker;
 		var currFont = graphik.regular;
@@ -1139,13 +1154,13 @@ function Scene4() {
 				speaker = "Audrey"
 				break;
 		}
-		rect(61 * scale, 797 * scale, 180 * scale, 66 * scale, 30);
+		rect(61 * scale, 797 * vScale, 180 * scale, 66 * vScale, 30);
 		textSize(35 * scale);
 		textStyle(BOLD);
 		textFont(graphik.bold);
 		fill(255);
 		textAlign(CENTER, CENTER);
-		text(speaker, 62 * scale, 795 * scale, 180 * scale, 66 * scale);
+		text(speaker, 62 * scale, 795 * vScale, 180 * scale, 66 * vScale);
 
 		// Dialogue
 		textSize(25 * scale);
@@ -1153,7 +1168,7 @@ function Scene4() {
 		textFont(currFont);
 		textAlign(LEFT, CENTER);
 		fill(0);
-		text(dialogue[dialogueIndex].substring(0,c), 316 * scale, 758 * scale, 808 * scale, 142 * scale);
+		text(dialogue[dialogueIndex].substring(0,c), 316 * scale, 758 * vScale, 808 * scale, 142 * vScale);
 		c += 5;
 	}
 
@@ -1161,75 +1176,75 @@ function Scene4() {
 		noStroke();
 		// Background
 		fill(255, 255, 255, 200);
-		rect(0, 538 * scale, 1440 * scale, 363 * scale);
+		rect(0, 538 * vScale, 1440 * scale, 363 * vScale);
 
 		// Question
 		textSize(30 * scale);
 		fill(0);
 		textStyle(BOLD);
 		textAlign(CENTER, CENTER);
-		text(dialogue[dialogueIndex + 1], 327 * scale, 582 * scale, 758 * scale, 69 * scale);
+		text(dialogue[dialogueIndex + 1], 327 * scale, 582 * vScale, 758 * scale, 69 * vScale);
 
 		//Options
 		fill('#F7BA63');
-		rect(89 * scale, 688 * scale, 599 * scale, 162 * scale, 50);
+		rect(89 * scale, 688 * vScale, 599 * scale, 162 * vScale, 50);
 		fill('#9AB5E2');
-		rect(756 * scale, 688 * scale, 599 * scale, 162 * scale, 50);
+		rect(756 * scale, 688 * vScale, 599 * scale, 162 * vScale, 50);
 		fill(0)
 		textAlign(CENTER, CENTER);
 		textStyle(NORMAL);
-		text(dialogue[dialogueIndex + 2], 184, 734, 401, 70);
-		text(dialogue[dialogueIndex + 3], 819, 725, 472, 88);
+		text(dialogue[dialogueIndex + 2], 184 * scale, 734 * vScale, 401 * scale, 70 * vScale);
+		text(dialogue[dialogueIndex + 3], 819 * scale, 725 * vScale, 472 * scale, 88 * vScale);
 	}
 
 	this.drawFlashback = function() {
 		noStroke();
 		// Background
 		fill(255, 255, 255, 200);
-		rect(0, 538 * scale, 1440 * scale, 363 * scale);
+		rect(0, 538 * vScale, 1440 * scale, 363 * vScale);
 
 		// Question
 		textSize(30 * scale);
 		fill(0);
 		textStyle(BOLD);
 		textAlign(CENTER, CENTER);
-		text("Earlier that day...", 235 * scale, 597 * scale, 969 * scale, 112 * scale);
+		text("Earlier that day...", 235 * scale, 597 * vScale, 969 * scale, 112 * vScale);
 
 		//Options
 		fill('#9AB5E2');
-		rect(574 * scale, 749 * scale, 254 * scale, 99 * scale, 50);
+		rect(574 * scale, 749 * vScale, 254 * scale, 99 * vScale, 50);
 		fill(0)
 		textAlign(CENTER, CENTER);
 		textStyle(NORMAL);
 		textFont(graphik.regular);
-		text("Continue?", 574 * scale, 749 * scale, 254 * scale, 99 * scale);
+		text("Continue?", 574 * scale, 749 * vScale, 254 * scale, 99 * vScale);
 	}
 
 	this.drawArticle = function() {
 		fill(255);
-		rect(203 * scale, 95 * scale, 1082 * scale, 606 * scale, 30);
+		rect(203 * scale, 95 * vScale, 1082 * scale, 606 * vScale, 30);
 		textSize(25 * scale);
 		textStyle(NORMAL);
 		textFont(graphik.italic);
 		textAlign(LEFT, TOP);
 		fill(0);
-		text(dialogue[dialogueIndex + 1], 275 * scale, 213 * scale, 910 * scale, 625 * scale);
+		text(dialogue[dialogueIndex + 1], 275 * scale, 213 * vScale, 910 * scale, 625 * vScale);
 
 		noStroke();
 		// Background
 		fill(255, 255, 255, 200);
-		rect(0, 758 * scale, 1440 * scale, 142 * scale);
+		rect(0, 758 * vScale, 1440 * scale, 142 * vScale);
 		// Currently speaking
 		var speaker;
 		speaker = "Source";
 		fill('#F4A940');
-		rect(61 * scale, 797 * scale, 180 * scale, 66 * scale, 30);
+		rect(61 * scale, 797 * vScale, 180 * scale, 66 * vScale, 30);
 		textSize(35 * scale);
 		textStyle(BOLD);
 		textFont(graphik.bold);
 		fill(255);
 		textAlign(CENTER, CENTER);
-		text(speaker, 62 * scale, 795 * scale, 180 * scale, 66 * scale);
+		text(speaker, 62 * scale, 795 * vScale, 180 * scale, 66 * vScale);
 
 		// Dialogue
 		textSize(25 * scale);
@@ -1237,7 +1252,7 @@ function Scene4() {
 		textFont(graphik.italic);
 		textAlign(LEFT, CENTER);
 		fill(0);
-		text(dialogue[dialogueIndex + 2], 316 * scale, 758 * scale, 808 * scale, 142 * scale);
+		text(dialogue[dialogueIndex + 2], 316 * scale, 758 * vScale, 808 * scale, 142 * vScale);
 		c += 5;
 		this.drawFriendship();
 	}
@@ -1246,14 +1261,14 @@ function Scene4() {
 		textSize(20 * scale);
 		fill(0);
 		textAlign(CENTER, CENTER);
-		text("Friendship Index", 1195 * scale, 785 * scale, 180 * scale, 32 * scale);
+		text("Friendship Index", 1195 * scale, 785 * vScale, 180 * scale, 32 * vScale);
 		strokeWeight(6);
 		fill(255, 255, 255, 0);
 		stroke('#AFAFAF');
-		rect(1174 * scale, 825 * scale, 221 * scale, 40 * scale, 50);
+		rect(1174 * scale, 825 * vScale, 221 * scale, 40 * vScale, 50);
 		fill(2.5 * (100 - friendshipIndex) + 100, 2.5 * friendshipIndex, 100, 255);
 		noStroke();
-		rect(1182 * scale, 832 * scale, 204 * (friendshipIndex/100) * scale, 26 * scale, 50);
+		rect(1182 * scale, 832 * vScale, 204 * (friendshipIndex/100) * scale, 26 * vScale, 50);
 	}
 
 	// Handles the mouse pressed event passed down by our scene manager
@@ -1265,7 +1280,7 @@ function Scene4() {
 			c = dialogue[dialogueIndex].length;
 		} else {
 			if (option) {
-				if (mouseY > 688 * scale && mouseY < 850 * scale) {
+				if (mouseY > 688 * vScale && mouseY < 850 * vScale) {
 					if (mouseX > 89 * scale && mouseX < 688 * scale) {
 						// Option 1
 						option = false;
@@ -1281,7 +1296,7 @@ function Scene4() {
 				article = false;
 				dialogueIndex += 4;
 			} else if (flashback) {
-				if (mouseX > 574 * scale && mouseX < 828 * scale && mouseY > 749 * scale && mouseY < 848 * scale) {
+				if (mouseX > 574 * scale && mouseX < 828 * scale && mouseY > 749 * vScale && mouseY < 848 * vScale) {
 					flashback = false;
 					dialogueIndex += 1;
 				}
@@ -1312,8 +1327,9 @@ function Scene4() {
   }
 
 	this.windowResized = function() {
-		//scale = windowWidth / 1440;
-		//resizeCanvas(windowWidth, (windowWidth/16) * 9);
+		scale = windowWidth / 1440;
+		vScale = ((windowWidth / 16) * 9) / 900;
+		resizeCanvas(windowWidth, (windowWidth/16) * 9);
 	}
 }
 // ================== SCENE 5 ==================
@@ -1338,6 +1354,7 @@ function Scene5() {
 	var friendshipIndex;
 
 	var scale = 1;
+	var vScale;
 
 	// Another reserved function, sets up our canvas
   this.setup = function() {
@@ -1351,6 +1368,8 @@ function Scene5() {
 		graphik = this.sceneArgs[4];
 	  dialogue = this.sceneArgs[2].sceneFive;
 		friendshipIndex = this.sceneArgs[3];
+		scale = windowWidth / 1440;
+		vScale = ((windowWidth / 16) * 9) / 900;
     background(bg);
   }
 
@@ -1364,18 +1383,18 @@ function Scene5() {
   this.draw = function() {
 		background(bg);
 		if (dialogueIndex == 0) {
-			image(drew[15], 50 * scale, 17 * scale, 657 * scale, 885 * scale);
-			image(phone[2], 776 * scale, 105 * scale, 500 * scale, 920 * scale);
+			image(drew[15], 50 * scale, 17 * vScale, 657 * scale, 885 * vScale);
+			image(phone[2], 776 * scale, 105 * vScale, 500 * scale, 920 * vScale);
 		}
 		if (dialogueIndex == 1) {
-			image(emily[12], 796 * scale, 50 * scale, 657 * scale, 876 * scale);
-			image(phone[4], 165 * scale, 105 * scale, 500 * scale, 920 * scale);
+			image(emily[12], 796 * scale, 50 * vScale, 657 * scale, 876 * vScale);
+			image(phone[4], 165 * scale, 105 * vScale, 500 * scale, 920 * vScale);
 		}
 		if (dialogueIndex == 2) {
 			bg = this.sceneArgs[1].birdShelter;
-			image(audrey[4], -51 * scale, 43 * scale, 644 * scale, 857 * scale);
-			image(jack[11], 240 * scale, 43 * scale, 646 * scale, 860 * scale);
-			image(kate[6], 782 * scale, 24 * scale, 658 * scale, 876 * scale);
+			image(audrey[4], -51 * scale, 43 * vScale, 644 * scale, 857 * vScale);
+			image(jack[11], 240 * scale, 43 * vScale, 646 * scale, 860 * vScale);
+			image(kate[6], 782 * scale, 24 * vScale, 658 * scale, 876 * vScale);
 		}
 		if (dialogueIndex == 3) {
 			bg = this.sceneArgs[1].end;
@@ -1385,13 +1404,13 @@ function Scene5() {
 			this.drawFriendship();
 		} else {
 			 fill(255, 255, 255, 150);
-			 rect(0, 0, 1440 * scale, 900 * scale);
+			 rect(0, 0, 1440 * scale, 900 * vScale);
 			 fill(0);
 			 textStyle(BOLD);
 			 textFont(graphik.bold);
 			 textSize(60);
 			 textAlign(CENTER, CENTER);
-			 text('The End!', 499 * scale, 360 * scale, 442 * scale, 212 * scale)
+			 text('The End!', 499 * scale, 360 * vScale, 442 * scale, 212 * vScale)
 		}
 
   }
@@ -1400,16 +1419,16 @@ function Scene5() {
 		noStroke();
 		// Background
 		fill(255, 255, 255, 200);
-		rect(0, 758 * scale, 1440 * scale, 142 * scale);
+		rect(0, 758 * vScale, 1440 * scale, 142 * vScale);
 		// Currently speaking
 		fill('#6D7488');
-		rect(61 * scale, 797 * scale, 180 * scale, 66 * scale, 30);
+		rect(61 * scale, 797 * vScale, 180 * scale, 66 * vScale, 30);
 		textSize(35 * scale);
 		textStyle(BOLD);
 		textFont(graphik.bold);
 		fill(255);
 		textAlign(CENTER, CENTER);
-		text("Narrator", 62 * scale, 795 * scale, 180 * scale, 66 * scale);
+		text("Narrator", 62 * scale, 795 * vScale, 180 * scale, 66 * vScale);
 
 		// Dialogue
 		textSize(25 * scale);
@@ -1417,7 +1436,7 @@ function Scene5() {
 		textFont(graphik.regular);
 		textAlign(LEFT, CENTER);
 		fill(0);
-		text(dialogue[dialogueIndex].substring(0,c), 316 * scale, 758 * scale, 808 * scale, 142 * scale);
+		text(dialogue[dialogueIndex].substring(0,c), 316 * scale, 758 * vScale, 808 * scale, 142 * vScale);
 		c += 5;
 	}
 
@@ -1425,14 +1444,14 @@ function Scene5() {
 		textSize(20 * scale);
 		fill(0);
 		textAlign(CENTER, CENTER);
-		text("Friendship Index", 1195 * scale, 785 * scale, 180 * scale, 32 * scale);
+		text("Friendship Index", 1195 * scale, 785 * vScale, 180 * scale, 32 * vScale);
 		strokeWeight(6);
 		fill(255, 255, 255, 0);
 		stroke('#AFAFAF');
-		rect(1174 * scale, 825 * scale, 221 * scale, 40 * scale, 50);
+		rect(1174 * scale, 825 * vScale, 221 * scale, 40 * vScale, 50);
 		fill(2.5 * (100 - friendshipIndex) + 100, 2.5 * friendshipIndex, 100, 255);
 		noStroke();
-		rect(1182 * scale, 832 * scale, 204 * (friendshipIndex/100) * scale, 26 * scale, 50);
+		rect(1182 * scale, 832 * vScale, 204 * (friendshipIndex/100) * scale, 26 * vScale, 50);
 	}
 
 	// Handles the mouse pressed event passed down by our scene manager
@@ -1449,7 +1468,8 @@ function Scene5() {
   }
 
 	this.windowResized = function() {
-		//scale = windowWidth / 1440;
-		//resizeCanvas(windowWidth, (windowWidth/16) * 9);
+		scale = windowWidth / 1440;
+		vScale = ((windowWidth / 16) * 9) / 900;
+		resizeCanvas(windowWidth, (windowWidth/16) * 9);
 	}
 }
