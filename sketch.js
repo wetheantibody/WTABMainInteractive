@@ -180,8 +180,8 @@ function preload() {
 
 function setup() {
 	// We can create the interactive so that it starts with the current window width and height
-	//createCanvas(windowWidth, (windowWidth / 16) * 9);
-	createCanvas(1440, 900)
+	createCanvas(windowWidth, (windowWidth / 16) * 9);
+	//createCanvas(1440, 900)
 	frameRate(60);
 
   mgr = new SceneManager();
@@ -256,6 +256,8 @@ function Scene1() {
 	var scale;
 	var vScale;
 
+	var parts;
+
 	// loadImage('assets/Kate/SVG/kate frowning bird.svg'), 0
 	// loadImage('assets/Kate/SVG/kate frowning.svg'), 1
 	// loadImage('assets/Kate/SVG/kate happy explaining.svg'), 2
@@ -268,10 +270,11 @@ function Scene1() {
 	// loadImage('assets/Kate/SVG/kate upset speaking bird.svg'), 9
 	// loadImage('assets/Kate/SVG/kate upset speaking.svg') 10
 
-	var audreyExpressions = [8, 7, 0, 0, 0, 6, 11, 11, 11, 1, 1, 10, 1, 12, 1, 12, 1, 6, 1, 1, 1, 2, 8, 8]
-	var kateExpressions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 9, 0, 9, 0, 9, 6, 3, 3, 3, 6, 3, 3]
 	// 0 - Narrator, 1 - Audrey, 2 - Audrey Thoughts, 3 - Kate, 4 - Drew, 5 - Emily, 6 - Jack
-	var whoSpeaking = [0, 2, 4, 5, 6, 2, 0, 2, 2, 2, 3, 1, 3, 1, 3, 1, 3, 1, 3, 3, 3, 1, 3, 3]
+	var whoSpeaking =       [0, 2, 4, 5, 6, 2, 0,  2,  2,  2, 3, 1,  3, 1,  3, 1,  3, 1, 3, 3, 3, 1, 3, 3]
+	var audreyExpressions = [8, 7, 0, 0, 0, 6, 11, 11, 11, 1, 1, 10, 1, 12, 1, 12, 1, 6, 1, 1, 1, 2, 8, 8]
+	var kateExpressions =   [0, 0, 0, 0, 0, 0, 0,  0,  0,  0, 3, 0,  9, 0,  9, 0,  9, 6, 3, 3, 3, 6, 3, 3]
+
 
 	// Another reserved function, sets up our canvas
   this.setup = function() {
@@ -442,6 +445,7 @@ function Scene1() {
 			dialogueIndex++;
 			imgAudrey = audrey[audreyExpressions[dialogueIndex]];
 			imgKate = kate[kateExpressions[dialogueIndex]];
+
 			c = 0;
 		}
     if (dialogueIndex >= totalLength - 1) {
@@ -456,6 +460,7 @@ function Scene1() {
 	  } else if (keyCode === RIGHT_ARROW) {
 	    dialogueIndex++;
 	  }
+
 		imgAudrey = audrey[audreyExpressions[dialogueIndex]];
 		imgKate = kate[kateExpressions[dialogueIndex]];
 	}
@@ -521,10 +526,10 @@ function Scene2() {
 		graphik = this.sceneArgs[4];
 	  dialogue = this.sceneArgs[2].sceneTwo;
 		friendshipIndex = this.sceneArgs[3];
-		//scale = windowWidth / 1440;
-		scale = 1;
-		//vScale = ((windowWidth / 16) * 9) / 900;
-		vScale = 1;
+		scale = windowWidth / 1440;
+		//scale = 1;
+		vScale = ((windowWidth / 16) * 9) / 900;
+		//vScale = 1;
     background(bg);
   }
 
@@ -622,33 +627,33 @@ function Scene2() {
 			if (crashCourseIndex == 1) {
 				image(crashcourse[1], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
 				image(crashcourse[20], 840 * scale, 399 * vScale, 261 * scale, 237 * vScale);
-				text("John Doe", 887 * scale, 420 * scale, 100 * scale, 20 * scale);
-				text("Spy pigeons in Pakistan!", 860 * scale, 450 * scale, 200 * scale, 60 * scale);
+				text("John Doe", 887 * scale, 420 * vScale, 100 * scale, 20 * vScale);
+				text("Spy pigeons in Pakistan!", 860 * scale, 450 * vScale, 200 * scale, 60 * vScale);
 			} else if (crashCourseIndex == 5) {
 				image(crashcourse[3], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
 				image(crashcourse[16], 840 * scale, 399 * vScale, 261 * scale, 237 * vScale);
-				text("In Cities and Farms, Disease-Carrying Animals like Pigeons Thrive", 860 * scale, 415 * scale, 200 * scale, 60 * scale);
+				text("In Cities and Farms, Disease-Carrying Animals like Pigeons Thrive", 860 * scale, 415 * vScale, 200 * scale, 60 * vScale);
 			} else if (crashCourseIndex == 9) {
 				image(crashcourse[5], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
 				image(crashcourse[19], 840 * scale, 399 * vScale, 261 * scale, 237 * vScale);
-				text("Indian Media Blame Pakistan with Using a Pigeon as a Spy", 860 * scale, 415 * scale, 200 * scale, 60 * scale);
+				text("Indian Media Blame Pakistan with Using a Pigeon as a Spy", 860 * scale, 415 * vScale, 200 * scale, 60 * vScale);
 			} else if (crashCourseIndex == 13) {
 				image(crashcourse[6], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
 				image(crashcourse[15], 840 * scale, 399 * vScale, 261 * scale, 237 * vScale);
-				text("297 birds died in The Netherlands during an attempt to test 5G connectivity", 860 * scale, 410 * scale, 200 * scale, 60 * scale);
+				text("297 birds died in The Netherlands during an attempt to test 5G connectivity", 860 * scale, 410 * vScale, 200 * scale, 60 * vScale);
 			} else if (crashCourseIndex == 17) {
 				image(crashcourse[8], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
 				image(crashcourse[17], 840 * scale, 399 * vScale, 261 * scale, 237 * vScale);
-				text("Avian flu mortality rate the highest it has ever been this year!", 860 * scale, 415 * scale, 200 * scale, 60 * scale);
+				text("Avian flu mortality rate the highest it has ever been this year!", 860 * scale, 415 * vScale, 200 * scale, 60 * vScale);
 			} else if (crashCourseIndex == 21) {
 				image(crashcourse[11], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
 				image(crashcourse[18], 840 * scale, 399 * vScale, 271 * scale, 257 * vScale);
 				textSize(15 * scale);
-				text("Adele", 909 * scale, 410 * scale, 100 * scale, 20 * scale);
+				text("Adele", 909 * scale, 410 * vScale, 100 * scale, 20 * vScale);
 				textSize(11 * scale);
-				text("@therealadele", 909 * scale, 427 * scale, 100 * scale, 20 * scale);
+				text("@therealadele", 909 * scale, 427 * vScale, 100 * scale, 20 * vScale);
 				textSize(10 * scale);
-				text("Thinking about what I could write about for my next song...I kind of want to write a song about the one that flew away...", 909 * scale, 450 * scale, 190 * scale, 60 * scale);
+				text("Thinking about what I could write about for my next song...I kind of want to write a song about the one that flew away...", 909 * scale, 450 * vScale, 190 * scale, 60 * vScale);
 			}
 			fill(0);
 			textFont(graphik.bold);
@@ -1035,11 +1040,11 @@ function Scene2() {
     }
   }
 
-	// this.windowResized = function() {
-	// 	scale = windowWidth / 1440;
-	// 	vScale = ((windowWidth / 16) * 9) / 900;
-	// 	resizeCanvas(windowWidth, (windowWidth/16) * 9);
-	// }
+	this.windowResized = function() {
+		scale = windowWidth / 1440;
+		vScale = ((windowWidth / 16) * 9) / 900;
+		resizeCanvas(windowWidth, (windowWidth/16) * 9);
+	}
 }
 // ================== SCENE 3 ==================
 function Scene3() {
