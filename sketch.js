@@ -181,7 +181,11 @@ function preload() {
 
 function setup() {
 	// We can create the interactive so that it starts with the current window width and height
-	createCanvas(windowWidth, (windowWidth / 16) * 9);
+	if (windowHeight < (windowWidth/16) * 9) {
+		createCanvas((windowHeight/9) * 16, windowHeight);
+	} else {
+		createCanvas(windowWidth, (windowWidth/16) * 9);
+	}
 	//createCanvas(1440, 900)
 	frameRate(60);
 
@@ -264,17 +268,7 @@ function Scene1() {
 	var alpha3 = 0;
 	var alpha4 = 0;
 
-	// loadImage('assets/Kate/SVG/kate frowning bird.svg'), 0
-	// loadImage('assets/Kate/SVG/kate frowning.svg'), 1
-	// loadImage('assets/Kate/SVG/kate happy explaining.svg'), 2
-	// loadImage('assets/Kate/SVG/kate happy speaking bird.svg'), 3
-	// loadImage('assets/Kate/SVG/kate happy speaking.svg'), 4
-	// loadImage('assets/Kate/SVG/kate skeptical speaking bird.svg'), 5
-	// loadImage('assets/Kate/SVG/kate smiling bird.svg'), 6
-	// loadImage('assets/Kate/SVG/kate smiling.svg'), 7
-	// loadImage('assets/Kate/SVG/kate upset explaining.svg'), 8
-	// loadImage('assets/Kate/SVG/kate upset speaking bird.svg'), 9
-	// loadImage('assets/Kate/SVG/kate upset speaking.svg') 10
+	var quitMsg;
 
 	// 0 - Narrator, 1 - Audrey, 2 - Audrey Thoughts, 3 - Kate, 4 - Drew, 5 - Emily, 6 - Jack
 	var whoSpeaking =       [0, 2, 4, 5, 6, 2, 0,  2,  2,  2, 3, 1,  3, 1,  3, 1,  3, 1, 3, 3, 3, 1, 3, 3]
@@ -297,9 +291,15 @@ function Scene1() {
 		graphik = this.sceneArgs[4];
 	  dialogue=this.sceneArgs[2].sceneOne;
 		friendshipIndex = this.sceneArgs[3];
-		scale = windowWidth / 1440;
-		vScale = ((windowWidth / 16) * 9) / 900;
+		if (windowHeight < (windowWidth/16) * 9) {
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
     background(bg);
+		quitMsg = false;
   }
 
 	// enter() happens after setup() but before draw()
@@ -312,6 +312,7 @@ function Scene1() {
   this.draw = function() {
 		translate(0, 0);
 		background(bg);
+		print("Curr Index: " + dialogueIndex, 50 * scale, 20 * scale);
 		if (dialogueIndex < 2 || dialogueIndex > 4) {
 			this.drawAudrey();
 		}
@@ -327,7 +328,34 @@ function Scene1() {
 		// Textbox code, draws once image has faded in.
 		this.drawText();
 		this.drawFriendship();
-  }
+		if (quitMsg) {
+			if (mouseX > 357 * scale && mouseX < 703 * scale) {
+				cursor('pointer');
+			} else if (mouseX > 737 * scale && mouseX < 1083 * scale) {
+				cursor('pointer');
+			} else {
+				cursor('auto');
+			}
+			fill(0, 0, 0, 150);
+			rect(0, 0, width, height);
+			fill('#90B6E3');
+			rect(324 * scale, 206 * vScale, 792 * scale, 488 * vScale, 30 * scale);
+			fill('#AA4F55');
+			rect(737 * scale, 553 * vScale, 346 * scale, 113 * vScale, 30 * scale);
+			fill('#F8BA63');
+			rect(357 * scale, 553 * vScale, 346 * scale, 113 * vScale, 30 * scale);
+			fill(255);
+			textFont(graphik.bold);
+			textSize(60 * scale);
+			textAlign(CENTER, CENTER)
+			text("Confirmation", 496 * scale, 268 * vScale, 448 * scale, 72 * vScale);
+			text("Yes", 437 * scale, 574 * vScale, 186 * scale, 72 * vScale);
+			text("Cancel", 817 * scale, 574 * vScale, 186 * scale, 72 * vScale);
+			textFont(graphik.regular);
+			textSize(40 * scale);
+			text("Are you sure you want to exit the game? \nYour game progress will not be saved.", 367 * scale, 405 * vScale, 726 * scale, 144 * vScale);
+		}
+	}
 
 	this.drawAudrey = function() {
 		// tint for opacity
@@ -482,21 +510,33 @@ function Scene1() {
 	// Handles the mouse pressed event passed down by our scene manager
 	// in the core code.
   this.mousePressed = function() {
-		var totalLength = dialogue.length;
-		if (c >= 0 && c < totalLength) {
-			// Jump ahead if clicked while text is printing
-			c = dialogue[dialogueIndex].length;
-		} else {
-			dialogueIndex++;
-			imgAudrey = audrey[audreyExpressions[dialogueIndex]];
-			imgKate = kate[kateExpressions[dialogueIndex]];
+		if (quitMsg) {
+			if (mouseY > 553 * vScale && mouseY < 666 * vScale) {
+				if (mouseX > 357 * scale && mouseX < 703 * scale) {
+					window.location.href = "http://www.wetheantibody.com";
+				} else if (mouseX > 737 * scale && mouseX < 1083 * scale) {
+					quitMsg = false;
+					cursor('auto');
+				}
+			}
 
-			c = 0;
+		} else {
+			var totalLength = dialogue.length;
+			if (c >= 0 && c < totalLength) {
+				// Jump ahead if clicked while text is printing
+				c = dialogue[dialogueIndex].length;
+			} else {
+				dialogueIndex++;
+				imgAudrey = audrey[audreyExpressions[dialogueIndex]];
+				imgKate = kate[kateExpressions[dialogueIndex]];
+
+				c = 0;
+			}
+			if (dialogueIndex >= totalLength - 1) {
+				this.sceneArgs[3] = friendshipIndex;
+				this.sceneManager.showNextScene(this.sceneArgs);
+			}
 		}
-    if (dialogueIndex >= totalLength - 1) {
-			this.sceneArgs[3] = friendshipIndex;
-      this.sceneManager.showNextScene(this.sceneArgs);
-    }
   }
 
 	this.keyPressed = function() {
@@ -504,16 +544,23 @@ function Scene1() {
 	    dialogueIndex--;
 	  } else if (keyCode === RIGHT_ARROW) {
 	    dialogueIndex++;
-	  }
-
+	  } else if (keyCode === ESCAPE) {
+			quitMsg = true;
+		}
 		imgAudrey = audrey[audreyExpressions[dialogueIndex]];
 		imgKate = kate[kateExpressions[dialogueIndex]];
 	}
 
 	this.windowResized = function() {
-		resizeCanvas(windowWidth, (windowWidth/16) * 9);
-		scale = width / 1440;
-		vScale = ((width / 16) * 9) / 900;
+		if (windowHeight < (windowWidth/16) * 9) {
+			resizeCanvas((windowHeight/9) * 16, windowHeight);
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			resizeCanvas(windowWidth, (windowWidth/16) * 9);
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
 	}
 }
 
@@ -549,6 +596,8 @@ function Scene2() {
 	var scale = 1;
 	var vScale;
 
+	var quitMsg;
+
 	var audreyExpressions = [6, 6, 10, 6, 9, 4, 2, 4, 9, 3, 2, 13, 2, 2, 2, 2, 2, 2, 3, 3, 9, 4, 9, 8, 8, 8, 8, 8, 9, 4, 9, 3, 3, 5, 3, 9, 4, 9, 4, 5, 4, 4, 3, 9, 4, 9, 4, 9, 3, 9, 4, 9, 9, 3, 9, 8, 8, 8, 8, 8, 9, 3, 9, 4, 9, 9, 3, 3, 9, 4, 9, 4, 5, 4]
 	var drewExpressions = [17, 17, 17, 17, 17, 17, 20, 2, 20, 15, 20, 15, 19, 19, 19, 19, 19, 19, 15, 15, 12, 15, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 17, 17, 3, 17, 3, 17, 4, 17, 17, 7, 6, 7, 6, 7, 8, 7, 6, 5, 6, 8, 7, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 1, 17, 17, 3, 17, 3, 17, 4, 17]
 	// 0 - Narrator, 1 - Audrey, 2 - Audrey Thoughts, 3 - Kate, 4 - Drew, 5 - Emily, 6 - Jack
@@ -576,6 +625,7 @@ function Scene2() {
 		vScale = ((windowWidth / 16) * 9) / 900;
 		//vScale = 1;
     background(bg);
+		quitMsg = false;
   }
 
 	// enter() happens after setup() but before draw()
@@ -609,6 +659,33 @@ function Scene2() {
 		}
 		if (friendshipIndex < 40 && (dialogueIndex >= dialogue.length - 2 || dialogueIndex == 38 || dialogueIndex == 39)) {
 			friendshipIndex += 2;
+		}
+		if (quitMsg) {
+			if (mouseX > 357 * scale && mouseX < 703 * scale) {
+				cursor('pointer');
+			} else if (mouseX > 737 * scale && mouseX < 1083 * scale) {
+				cursor('pointer');
+			} else {
+				cursor('auto');
+			}
+			fill(0, 0, 0, 150);
+			rect(0, 0, width, height);
+			fill('#90B6E3');
+			rect(324 * scale, 206 * vScale, 792 * scale, 488 * vScale, 30 * scale);
+			fill('#AA4F55');
+			rect(737 * scale, 553 * vScale, 346 * scale, 113 * vScale, 30 * scale);
+			fill('#F8BA63');
+			rect(357 * scale, 553 * vScale, 346 * scale, 113 * vScale, 30 * scale);
+			fill(255);
+			textFont(graphik.bold);
+			textSize(60 * scale);
+			textAlign(CENTER, CENTER)
+			text("Confirmation", 496 * scale, 268 * vScale, 448 * scale, 72 * vScale);
+			text("Yes", 437 * scale, 574 * vScale, 186 * scale, 72 * vScale);
+			text("Cancel", 817 * scale, 574 * vScale, 186 * scale, 72 * vScale);
+			textFont(graphik.regular);
+			textSize(40 * scale);
+			text("Are you sure you want to exit the game? \nYour game progress will not be saved.", 367 * scale, 405 * vScale, 726 * scale, 144 * vScale);
 		}
   }
 
@@ -960,133 +1037,161 @@ function Scene2() {
 	// Handles the mouse pressed event passed down by our scene manager
 	// in the core code.
   this.mousePressed = function() {
-		print("(" + mouseX + ", " + mouseY + ")");
-		var totalLength = dialogue.length;
-		if (c >= 0 && c < totalLength && !option && !article && !isCrashCourse) {
-			// Jump ahead if clicked while text is printing
-			c = dialogue[dialogueIndex].length;
-		} else {
-			if (option) {
-				if (mouseY > 688 * vScale && mouseY < 850 * vScale) {
-					if (mouseX > 89 * scale && mouseX < 688 * scale) {
-						// Option 1
-						option = false;
-						dialogueIndex = 18;
-					}
-					if (mouseX > 756 * scale && mouseX < 1355 * scale) {
-						// Option 2
-						option = false;
-						dialogueIndex = 42;
-					}
+		if (quitMsg) {
+			if (mouseY > 553 * vScale && mouseY < 666 * vScale) {
+				if (mouseX > 357 * scale && mouseX < 703 * scale) {
+					window.location.href = "http://www.wetheantibody.com";
+				} else if (mouseX > 737 * scale && mouseX < 1083 * scale) {
+					quitMsg = false;
+					cursor('auto');
 				}
-			} else if (article) {
-				article = false;
-				dialogueIndex += 4;
-				print("After article " + dialogueIndex);
-			} else if (isCrashCourse) {
-				if (crashCourseText[crashCourseIndex] == 'OVERVIEW') {
-					if (mouseX > 324 * scale && mouseX < 700 * scale) {
-						if (mouseY > 375 * vScale && mouseY < 491 * vScale) {
-							crashCourseIndex = 1;
-						} else if (mouseY > 492 * vScale && mouseY < 608 * vScale) {
-							crashCourseIndex = 5;
-						} else if (mouseY > 609 * vScale && mouseY < 725 * vScale) {
-							crashCourseIndex = 9;
-						}
-					} else if (mouseX > 762 * scale && mouseX < 1090 * scale) {
-						if (mouseY > 375 * vScale && mouseY < 491 * vScale) {
-							crashCourseIndex = 13;
-						} else if (mouseY > 492 * vScale && mouseY < 608 * vScale) {
-							crashCourseIndex = 17;
-						} else if (mouseY > 609 * vScale && mouseY < 725 * vScale) {
-							crashCourseIndex = 21;
-						}
-					}
-					// Close Button
-					if (mouseX > 1119 * scale && mouseX < 1171 * scale && mouseY > 260 * vScale && mouseY < 312 * vScale) {
-						isCrashCourse = false;
-						bg = this.sceneArgs[1].audreyRoom;
-						dialogueIndex++;
-					}
-					if (mouseX > 1033 * scale && mouseX < 1168 * scale && mouseY > 730 * vScale && mouseY < 780 * vScale) {
-						crashCourseIndex = 25;
-					}
-				} else if (crashCourseIndex > 0 && crashCourseIndex < 25) {
-					// Close button
-					if (mouseX > 1119 * scale && mouseX < 1171 * scale && mouseY > 260 * vScale && mouseY < 312 * vScale) {
-						crashCourseIndex = 0;
-					}
-					if (mouseX > 1075 * scale && mouseX < 1215 * scale && mouseY > 730 * vScale && mouseY < 780 * vScale) {
-						crashCourseIndex += 4;
-					}
-				} else if (crashCourseText[crashCourseIndex] == 'OVERVIEW2') {
-					if (mouseX > 324 * scale && mouseX < 700 * scale) {
-						if (mouseY > 375 * vScale && mouseY < 491 * vScale) {
-							crashCourseIndex = 26;
-						} else if (mouseY > 492 * vScale && mouseY < 608 * vScale) {
-							crashCourseIndex = 28;
-						} else if (mouseY > 609 * vScale && mouseY < 725 * vScale) {
-							crashCourseIndex = 30;
-						}
-					} else if (mouseX > 762 * scale && mouseX < 1090 * scale) {
-						if (mouseY > 375 * vScale && mouseY < 491 * vScale) {
-							crashCourseIndex = 32;
-						} else if (mouseY > 492 * vScale && mouseY < 608 * vScale) {
-							crashCourseIndex = 34;
-						} else if (mouseY > 609 * vScale && mouseY < 725 * vScale) {
-							crashCourseIndex = 36;
-						}
-					}
-					// Close Button
-					if (mouseX > 1119 * scale && mouseX < 1171 * scale && mouseY > 260 * vScale && mouseY < 312 * vScale) {
-						isCrashCourse = false;
-						bg = this.sceneArgs[1].audreyRoom;
-						dialogueIndex++;
-					}
-					if (mouseX > 1033 * scale && mouseX < 1168 * scale && mouseY > 730 * vScale && mouseY < 780 * vScale) {
-						crashCourseIndex = 0;
-					}
-				} else if (crashCourseIndex > 25 && crashCourseIndex < 38) {
-					// Close button
-					if (mouseX > 1119 * scale && mouseX < 1171 * scale && mouseY > 260 * vScale && mouseY < 312 * vScale) {
-						crashCourseIndex = 25;
-					}
-					if (mouseX > 1075 * scale && mouseX < 1215 * scale && mouseY > 730 * vScale && mouseY < 780 * vScale) {
-
-						if (crashCourseIndex == 36) {
-							crashCourseIndex = 0;
-						} else {
-							crashCourseIndex += 2;
-						}
-					}
-				}
-			}	else {
-				dialogueIndex++;
-				if (dialogue[dialogueIndex] == 'OPTION') {
-					option = true;
-				}
-				if (dialogue[dialogueIndex] == 'ARTICLE') {
-					article = true;
-				}
-				if (dialogue[dialogueIndex] == 'CRASHCOURSE') {
-					isCrashCourse = true;
-					bg = this.sceneArgs[1].crashCourse;
-				}
-				c = 0;
 			}
-			imgAudrey = audrey[audreyExpressions[dialogueIndex] - 1];
-			imgDrew = drew[drewExpressions[dialogueIndex] - 1];
+		} else {
+			var totalLength = dialogue.length;
+			if (c >= 0 && c < totalLength && !option && !article && !isCrashCourse) {
+				// Jump ahead if clicked while text is printing
+				c = dialogue[dialogueIndex].length;
+			} else {
+				if (option) {
+					if (mouseY > 688 * vScale && mouseY < 850 * vScale) {
+						if (mouseX > 89 * scale && mouseX < 688 * scale) {
+							// Option 1
+							option = false;
+							dialogueIndex = 18;
+						}
+						if (mouseX > 756 * scale && mouseX < 1355 * scale) {
+							// Option 2
+							option = false;
+							dialogueIndex = 42;
+						}
+					}
+				} else if (article) {
+					article = false;
+					dialogueIndex += 4;
+					print("After article " + dialogueIndex);
+				} else if (isCrashCourse) {
+					if (crashCourseText[crashCourseIndex] == 'OVERVIEW') {
+						if (mouseX > 324 * scale && mouseX < 700 * scale) {
+							if (mouseY > 375 * vScale && mouseY < 491 * vScale) {
+								crashCourseIndex = 1;
+							} else if (mouseY > 492 * vScale && mouseY < 608 * vScale) {
+								crashCourseIndex = 5;
+							} else if (mouseY > 609 * vScale && mouseY < 725 * vScale) {
+								crashCourseIndex = 9;
+							}
+						} else if (mouseX > 762 * scale && mouseX < 1090 * scale) {
+							if (mouseY > 375 * vScale && mouseY < 491 * vScale) {
+								crashCourseIndex = 13;
+							} else if (mouseY > 492 * vScale && mouseY < 608 * vScale) {
+								crashCourseIndex = 17;
+							} else if (mouseY > 609 * vScale && mouseY < 725 * vScale) {
+								crashCourseIndex = 21;
+							}
+						}
+						// Close Button
+						if (mouseX > 1119 * scale && mouseX < 1171 * scale && mouseY > 260 * vScale && mouseY < 312 * vScale) {
+							isCrashCourse = false;
+							bg = this.sceneArgs[1].audreyRoom;
+							dialogueIndex++;
+						}
+						if (mouseX > 1033 * scale && mouseX < 1168 * scale && mouseY > 730 * vScale && mouseY < 780 * vScale) {
+							crashCourseIndex = 25;
+						}
+					} else if (crashCourseIndex > 0 && crashCourseIndex < 25) {
+						// Close button
+						if (mouseX > 1119 * scale && mouseX < 1171 * scale && mouseY > 260 * vScale && mouseY < 312 * vScale) {
+							crashCourseIndex = 0;
+						}
+						if (mouseX > 1075 * scale && mouseX < 1215 * scale && mouseY > 730 * vScale && mouseY < 780 * vScale) {
+							crashCourseIndex += 4;
+						}
+					} else if (crashCourseText[crashCourseIndex] == 'OVERVIEW2') {
+						if (mouseX > 324 * scale && mouseX < 700 * scale) {
+							if (mouseY > 375 * vScale && mouseY < 491 * vScale) {
+								crashCourseIndex = 26;
+							} else if (mouseY > 492 * vScale && mouseY < 608 * vScale) {
+								crashCourseIndex = 28;
+							} else if (mouseY > 609 * vScale && mouseY < 725 * vScale) {
+								crashCourseIndex = 30;
+							}
+						} else if (mouseX > 762 * scale && mouseX < 1090 * scale) {
+							if (mouseY > 375 * vScale && mouseY < 491 * vScale) {
+								crashCourseIndex = 32;
+							} else if (mouseY > 492 * vScale && mouseY < 608 * vScale) {
+								crashCourseIndex = 34;
+							} else if (mouseY > 609 * vScale && mouseY < 725 * vScale) {
+								crashCourseIndex = 36;
+							}
+						}
+						// Close Button
+						if (mouseX > 1119 * scale && mouseX < 1171 * scale && mouseY > 260 * vScale && mouseY < 312 * vScale) {
+							isCrashCourse = false;
+							bg = this.sceneArgs[1].audreyRoom;
+							dialogueIndex++;
+						}
+						if (mouseX > 1033 * scale && mouseX < 1168 * scale && mouseY > 730 * vScale && mouseY < 780 * vScale) {
+							crashCourseIndex = 0;
+						}
+					} else if (crashCourseIndex > 25 && crashCourseIndex < 38) {
+						// Close button
+						if (mouseX > 1119 * scale && mouseX < 1171 * scale && mouseY > 260 * vScale && mouseY < 312 * vScale) {
+							crashCourseIndex = 25;
+						}
+						if (mouseX > 1075 * scale && mouseX < 1215 * scale && mouseY > 730 * vScale && mouseY < 780 * vScale) {
+
+							if (crashCourseIndex == 36) {
+								crashCourseIndex = 0;
+							} else {
+								crashCourseIndex += 2;
+							}
+						}
+					}
+				}	else {
+					dialogueIndex++;
+					if (dialogue[dialogueIndex] == 'OPTION') {
+						option = true;
+					}
+					if (dialogue[dialogueIndex] == 'ARTICLE') {
+						article = true;
+					}
+					if (dialogue[dialogueIndex] == 'CRASHCOURSE') {
+						isCrashCourse = true;
+						bg = this.sceneArgs[1].crashCourse;
+					}
+					c = 0;
+				}
+				imgAudrey = audrey[audreyExpressions[dialogueIndex] - 1];
+				imgDrew = drew[drewExpressions[dialogueIndex] - 1];
+			}
+	    if (dialogueIndex >= totalLength - 1 || dialogue[dialogueIndex] == "OPTIONENDING") {
+				this.sceneArgs[3] = 40;
+	      this.sceneManager.showNextScene(this.sceneArgs);
+	    }
 		}
-    if (dialogueIndex >= totalLength - 1 || dialogue[dialogueIndex] == "OPTIONENDING") {
-			this.sceneArgs[3] = 40;
-      this.sceneManager.showNextScene(this.sceneArgs);
-    }
   }
 
+	this.keyPressed = function() {
+	  if (keyCode === LEFT_ARROW) {
+	    dialogueIndex--;
+	  } else if (keyCode === RIGHT_ARROW) {
+	    dialogueIndex++;
+	  } else if (keyCode === ESCAPE) {
+			quitMsg = true;
+		}
+		imgAudrey = audrey[audreyExpressions[dialogueIndex]];
+		imgKate = kate[kateExpressions[dialogueIndex]];
+	}
+
 	this.windowResized = function() {
-		scale = windowWidth / 1440;
-		vScale = ((windowWidth / 16) * 9) / 900;
-		resizeCanvas(windowWidth, (windowWidth/16) * 9);
+		if (windowHeight < (windowWidth/16) * 9) {
+			resizeCanvas((windowHeight/9) * 16, windowHeight);
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			resizeCanvas(windowWidth, (windowWidth/16) * 9);
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
 	}
 }
 // ================== SCENE 3 ==================
@@ -1117,6 +1222,8 @@ function Scene3() {
 	var scale = 1;
 	var vScale;
 
+	var quitMsg;
+
 	// Another reserved function, sets up our canvas
 	this.setup = function() {
 		option = false;
@@ -1133,6 +1240,7 @@ function Scene3() {
 		scale = windowWidth / 1440;
 		vScale = ((windowWidth / 16) * 9) / 900;
     background(bg);
+		quitMsg = false;
 	}
 
 	// enter() happens after setup() but before draw()
@@ -1158,6 +1266,33 @@ function Scene3() {
 		}
 		if (friendshipIndex < 70 && dialogueIndex >= dialogue.length - 2) {
 			friendshipIndex += 2;
+		}
+		if (quitMsg) {
+			if (mouseX > 357 * scale && mouseX < 703 * scale) {
+				cursor('pointer');
+			} else if (mouseX > 737 * scale && mouseX < 1083 * scale) {
+				cursor('pointer');
+			} else {
+				cursor('auto');
+			}
+			fill(0, 0, 0, 150);
+			rect(0, 0, width, height);
+			fill('#90B6E3');
+			rect(324 * scale, 206 * vScale, 792 * scale, 488 * vScale, 30 * scale);
+			fill('#AA4F55');
+			rect(737 * scale, 553 * vScale, 346 * scale, 113 * vScale, 30 * scale);
+			fill('#F8BA63');
+			rect(357 * scale, 553 * vScale, 346 * scale, 113 * vScale, 30 * scale);
+			fill(255);
+			textFont(graphik.bold);
+			textSize(60 * scale);
+			textAlign(CENTER, CENTER)
+			text("Confirmation", 496 * scale, 268 * vScale, 448 * scale, 72 * vScale);
+			text("Yes", 437 * scale, 574 * vScale, 186 * scale, 72 * vScale);
+			text("Cancel", 817 * scale, 574 * vScale, 186 * scale, 72 * vScale);
+			textFont(graphik.regular);
+			textSize(40 * scale);
+			text("Are you sure you want to exit the game? \nYour game progress will not be saved.", 367 * scale, 405 * vScale, 726 * scale, 144 * vScale);
 		}
   }
 
@@ -1335,58 +1470,87 @@ function Scene3() {
 	// Handles the mouse pressed event passed down by our scene manager
 	// in the core code.
   this.mousePressed = function() {
-		var totalLength = dialogue.length;
-		if (c >= 0 && c < totalLength && !option && !article && !emotion) {
-			// Jump ahead if clicked while text is printing
-			c = dialogue[dialogueIndex].length;
-		} else {
-			if (option) {
-				if (mouseY > 688 * vScale && mouseY < 850 * vScale) {
-					if (mouseX > 89 * scale && mouseX < 688 * scale) {
-						// Option 1
-						option = false;
-						dialogueIndex = 12;
-					}
-					if (mouseX > 756 * scale && mouseX < 1355 * scale) {
-						// Option 2
-						option = false;
-						dialogueIndex = 20;
-					}
+		if (quitMsg) {
+			if (mouseY > 553 * vScale && mouseY < 666 * vScale) {
+				if (mouseX > 357 * scale && mouseX < 703 * scale) {
+					window.location.href = "http://www.wetheantibody.com";
+				} else if (mouseX > 737 * scale && mouseX < 1083 * scale) {
+					quitMsg = false;
+					cursor('auto');
 				}
-			} else if (article) {
-				article = false;
-				dialogueIndex += 3;
-			} else if (emotion) {
-				if (mouseX > 574 * scale && mouseX < 828 * scale && mouseY > 749 * vScale && mouseY < 848 * vScale) {
-					emotion = false;
-					dialogueIndex += 2;
-				}
-			} else {
-				dialogueIndex++;
-				if (dialogue[dialogueIndex] == 'OPTION') {
-					option = true;
-				}
-				if (dialogue[dialogueIndex] == 'ARTICLE') {
-					article = true;
-				}
-				if (dialogue[dialogueIndex] == 'EMOTIONCHECK') {
-					emotion = true;
-				}
-				c = 0;
 			}
-			imgAudrey = audrey[audreyExpressions[dialogueIndex]];
-			imgEmily = emily[emilyExpressions[dialogueIndex]];
+		} else {
+			var totalLength = dialogue.length;
+			if (c >= 0 && c < totalLength && !option && !article && !emotion) {
+				// Jump ahead if clicked while text is printing
+				c = dialogue[dialogueIndex].length;
+			} else {
+				if (option) {
+					if (mouseY > 688 * vScale && mouseY < 850 * vScale) {
+						if (mouseX > 89 * scale && mouseX < 688 * scale) {
+							// Option 1
+							option = false;
+							dialogueIndex = 12;
+						}
+						if (mouseX > 756 * scale && mouseX < 1355 * scale) {
+							// Option 2
+							option = false;
+							dialogueIndex = 20;
+						}
+					}
+				} else if (article) {
+					article = false;
+					dialogueIndex += 3;
+				} else if (emotion) {
+					if (mouseX > 574 * scale && mouseX < 828 * scale && mouseY > 749 * vScale && mouseY < 848 * vScale) {
+						emotion = false;
+						dialogueIndex += 2;
+					}
+				} else {
+					dialogueIndex++;
+					if (dialogue[dialogueIndex] == 'OPTION') {
+						option = true;
+					}
+					if (dialogue[dialogueIndex] == 'ARTICLE') {
+						article = true;
+					}
+					if (dialogue[dialogueIndex] == 'EMOTIONCHECK') {
+						emotion = true;
+					}
+					c = 0;
+				}
+				imgAudrey = audrey[audreyExpressions[dialogueIndex]];
+				imgEmily = emily[emilyExpressions[dialogueIndex]];
+			}
+	    if (dialogueIndex >= totalLength - 1 || dialogue[dialogueIndex] == "OPTIONENDING") {
+				this.sceneArgs[3] = 70;
+	      this.sceneManager.showNextScene(this.sceneArgs);
+	    }
 		}
-    if (dialogueIndex >= totalLength - 1 || dialogue[dialogueIndex] == "OPTIONENDING") {
-			this.sceneArgs[3] = 70;
-      this.sceneManager.showNextScene(this.sceneArgs);
-    }
   }
 
+	this.keyPressed = function() {
+	  if (keyCode === LEFT_ARROW) {
+	    dialogueIndex--;
+	  } else if (keyCode === RIGHT_ARROW) {
+	    dialogueIndex++;
+	  } else if (keyCode === ESCAPE) {
+			quitMsg = true;
+		}
+		imgAudrey = audrey[audreyExpressions[dialogueIndex]];
+		imgKate = kate[kateExpressions[dialogueIndex]];
+	}
+
 	this.windowResized = function() {
-		scale = windowWidth / 1440;
-		vScale = ((windowWidth / 16) * 9) / 900;
-		resizeCanvas(windowWidth, (windowWidth/16) * 9);
+		if (windowHeight < (windowWidth/16) * 9) {
+			resizeCanvas((windowHeight/9) * 16, windowHeight);
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			resizeCanvas(windowWidth, (windowWidth/16) * 9);
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
 	}
 }
 // ================== SCENE 4 ==================
@@ -1436,6 +1600,8 @@ function Scene4() {
 	var scale = 1;
 	var vScale;
 
+	var quitMsg;
+
 	// Another reserved function, sets up our canvas
 	this.setup = function() {
 		option = false;
@@ -1456,6 +1622,7 @@ function Scene4() {
 		scale = windowWidth / 1440;
 		vScale = ((windowWidth / 16) * 9) / 900;
     background(bg);
+		quitMsg = false;
 	}
 
 	// enter() happens after setup() but before draw()
@@ -1468,9 +1635,6 @@ function Scene4() {
   this.draw = function() {
 		background(bg);
 		textSize(32);
-		text("Curr index: " + dialogueIndex, 20, 10);
-		text("Curr Audrey: " + audreyExpressions[dialogueIndex], 20, 30);
-		text("Curr Jack: " + jackExpressions[dialogueIndex], 20, 50);
 		if (dialogueIndex < 12 || dialogueIndex > 16) {
 					this.drawAudrey();
 					bg = this.sceneArgs[1].jackRoom;
@@ -1493,6 +1657,33 @@ function Scene4() {
 		}
 		if (friendshipIndex < 100 && dialogueIndex >= dialogue.length - 2) {
 			friendshipIndex += 2;
+		}
+		if (quitMsg) {
+			if (mouseX > 357 * scale && mouseX < 703 * scale) {
+				cursor('pointer');
+			} else if (mouseX > 737 * scale && mouseX < 1083 * scale) {
+				cursor('pointer');
+			} else {
+				cursor('auto');
+			}
+			fill(0, 0, 0, 150);
+			rect(0, 0, width, height);
+			fill('#90B6E3');
+			rect(324 * scale, 206 * vScale, 792 * scale, 488 * vScale, 30 * scale);
+			fill('#AA4F55');
+			rect(737 * scale, 553 * vScale, 346 * scale, 113 * vScale, 30 * scale);
+			fill('#F8BA63');
+			rect(357 * scale, 553 * vScale, 346 * scale, 113 * vScale, 30 * scale);
+			fill(255);
+			textFont(graphik.bold);
+			textSize(60 * scale);
+			textAlign(CENTER, CENTER)
+			text("Confirmation", 496 * scale, 268 * vScale, 448 * scale, 72 * vScale);
+			text("Yes", 437 * scale, 574 * vScale, 186 * scale, 72 * vScale);
+			text("Cancel", 817 * scale, 574 * vScale, 186 * scale, 72 * vScale);
+			textFont(graphik.regular);
+			textSize(40 * scale);
+			text("Are you sure you want to exit the game? \nYour game progress will not be saved.", 367 * scale, 405 * vScale, 726 * scale, 144 * vScale);
 		}
   }
 
@@ -1678,62 +1869,91 @@ function Scene4() {
 	// Handles the mouse pressed event passed down by our scene manager
 	// in the core code.
   this.mousePressed = function() {
-		var totalLength = dialogue.length;
-		if (c >= 0 && c < totalLength && !option && !article && !flashback) {
-			// Jump ahead if clicked while text is printing
-			c = dialogue[dialogueIndex].length;
-		} else {
-			if (option) {
-				if (mouseY > 688 * vScale && mouseY < 850 * vScale) {
-					if (mouseX > 89 * scale && mouseX < 688 * scale) {
-						// Option 1
-						option = false;
-						dialogueIndex = 12;
-					}
-					if (mouseX > 756 * scale && mouseX < 1355 * scale) {
-						// Option 2
-						option = false;
-						dialogueIndex = 20;
-					}
+		if (quitMsg) {
+			if (mouseY > 553 * vScale && mouseY < 666 * vScale) {
+				if (mouseX > 357 * scale && mouseX < 703 * scale) {
+					window.location.href = "http://www.wetheantibody.com";
+				} else if (mouseX > 737 * scale && mouseX < 1083 * scale) {
+					quitMsg = false;
+					cursor('auto');
 				}
-			} else if (article) {
-				article = false;
-				dialogueIndex += 4;
-			} else if (flashback) {
-				if (mouseX > 574 * scale && mouseX < 828 * scale && mouseY > 749 * vScale && mouseY < 848 * vScale) {
-					flashback = false;
-					dialogueIndex += 1;
-				}
-			} else {
-				dialogueIndex++;
-				imgAudrey = audrey[audreyExpressions[dialogueIndex]];
-				imgJack = jack[jackExpressions[dialogueIndex]];
-				imgEmily = emily[emilyExpressions[dialogueIndex]];
-				imgDrew = drew[drewExpressions[dialogueIndex]];
-				if (dialogue[dialogueIndex] == 'OPTION') {
-					option = true;
-				}
-				if (dialogue[dialogueIndex] == 'ARTICLE') {
-					article = true;
-				}
-				if (dialogue[dialogueIndex] == 'FLASHBACK') {
-					bg = this.sceneArgs[1].livingRoom;
-					flashback = true;
-				}
-				c = 0;
 			}
+		} else {
+			var totalLength = dialogue.length;
+			if (c >= 0 && c < totalLength && !option && !article && !flashback) {
+				// Jump ahead if clicked while text is printing
+				c = dialogue[dialogueIndex].length;
+			} else {
+				if (option) {
+					if (mouseY > 688 * vScale && mouseY < 850 * vScale) {
+						if (mouseX > 89 * scale && mouseX < 688 * scale) {
+							// Option 1
+							option = false;
+							dialogueIndex = 12;
+						}
+						if (mouseX > 756 * scale && mouseX < 1355 * scale) {
+							// Option 2
+							option = false;
+							dialogueIndex = 20;
+						}
+					}
+				} else if (article) {
+					article = false;
+					dialogueIndex += 4;
+				} else if (flashback) {
+					if (mouseX > 574 * scale && mouseX < 828 * scale && mouseY > 749 * vScale && mouseY < 848 * vScale) {
+						flashback = false;
+						dialogueIndex += 1;
+					}
+				} else {
+					dialogueIndex++;
+					imgAudrey = audrey[audreyExpressions[dialogueIndex]];
+					imgJack = jack[jackExpressions[dialogueIndex]];
+					imgEmily = emily[emilyExpressions[dialogueIndex]];
+					imgDrew = drew[drewExpressions[dialogueIndex]];
+					if (dialogue[dialogueIndex] == 'OPTION') {
+						option = true;
+					}
+					if (dialogue[dialogueIndex] == 'ARTICLE') {
+						article = true;
+					}
+					if (dialogue[dialogueIndex] == 'FLASHBACK') {
+						bg = this.sceneArgs[1].livingRoom;
+						flashback = true;
+					}
+					c = 0;
+				}
 
+			}
+	    if (dialogueIndex >= totalLength - 1 || dialogue[dialogueIndex] == "OPTIONENDING") {
+				this.sceneArgs[3] = 100;
+	      this.sceneManager.showNextScene(this.sceneArgs);
+	    }
 		}
-    if (dialogueIndex >= totalLength - 1 || dialogue[dialogueIndex] == "OPTIONENDING") {
-			this.sceneArgs[3] = 100;
-      this.sceneManager.showNextScene(this.sceneArgs);
-    }
   }
 
+	this.keyPressed = function() {
+	  if (keyCode === LEFT_ARROW) {
+	    dialogueIndex--;
+	  } else if (keyCode === RIGHT_ARROW) {
+	    dialogueIndex++;
+	  } else if (keyCode === ESCAPE) {
+			quitMsg = true;
+		}
+		imgAudrey = audrey[audreyExpressions[dialogueIndex]];
+		imgKate = kate[kateExpressions[dialogueIndex]];
+	}
+
 	this.windowResized = function() {
-		scale = windowWidth / 1440;
-		vScale = ((windowWidth / 16) * 9) / 900;
-		resizeCanvas(windowWidth, (windowWidth/16) * 9);
+		if (windowHeight < (windowWidth/16) * 9) {
+			resizeCanvas((windowHeight/9) * 16, windowHeight);
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			resizeCanvas(windowWidth, (windowWidth/16) * 9);
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
 	}
 }
 // ================== SCENE 5 ==================
@@ -1760,6 +1980,8 @@ function Scene5() {
 	var scale = 1;
 	var vScale;
 
+	var quitMsg;
+
 	// Another reserved function, sets up our canvas
   this.setup = function() {
 		audrey = this.sceneArgs[0].audrey;
@@ -1775,6 +1997,7 @@ function Scene5() {
 		scale = windowWidth / 1440;
 		vScale = ((windowWidth / 16) * 9) / 900;
     background(bg);
+		quitMsg = false;
   }
 
 	// enter() happens after setup() but before draw()
@@ -1796,14 +2019,14 @@ function Scene5() {
 		}
 		if (dialogueIndex == 2) {
 			bg = this.sceneArgs[1].birdShelter;
-			image(audrey[8], -51 * scale, 43 * vScale, 644 * scale, 857 * vScale);
 			image(jack[11], 240 * scale, 43 * vScale, 646 * scale, 860 * vScale);
+			image(audrey[8], -51 * scale, 43 * vScale, 644 * scale, 857 * vScale);
 			image(kate[6], 782 * scale, 24 * vScale, 658 * scale, 876 * vScale);
 		}
 		if (dialogueIndex == 3) {
 			bg = this.sceneArgs[1].birdShelter;
-			image(audrey[4], -51 * scale, 43 * vScale, 644 * scale, 857 * vScale);
 			image(jack[11], 240 * scale, 43 * vScale, 646 * scale, 860 * vScale);
+			image(audrey[8], -51 * scale, 43 * vScale, 644 * scale, 857 * vScale);
 			image(kate[6], 782 * scale, 24 * vScale, 658 * scale, 876 * vScale);
 		}
 		if (dialogueIndex == 4) {
@@ -1822,7 +2045,33 @@ function Scene5() {
 			 textAlign(CENTER, CENTER);
 			 text('The End!', 499 * scale, 360 * vScale, 442 * scale, 212 * vScale)
 		}
-
+		if (quitMsg) {
+			if (mouseX > 357 * scale && mouseX < 703 * scale) {
+				cursor('pointer');
+			} else if (mouseX > 737 * scale && mouseX < 1083 * scale) {
+				cursor('pointer');
+			} else {
+				cursor('auto');
+			}
+			fill(0, 0, 0, 150);
+			rect(0, 0, width, height);
+			fill('#90B6E3');
+			rect(324 * scale, 206 * vScale, 792 * scale, 488 * vScale, 30 * scale);
+			fill('#AA4F55');
+			rect(737 * scale, 553 * vScale, 346 * scale, 113 * vScale, 30 * scale);
+			fill('#F8BA63');
+			rect(357 * scale, 553 * vScale, 346 * scale, 113 * vScale, 30 * scale);
+			fill(255);
+			textFont(graphik.bold);
+			textSize(60 * scale);
+			textAlign(CENTER, CENTER)
+			text("Confirmation", 496 * scale, 268 * vScale, 448 * scale, 72 * vScale);
+			text("Yes", 437 * scale, 574 * vScale, 186 * scale, 72 * vScale);
+			text("Cancel", 817 * scale, 574 * vScale, 186 * scale, 72 * vScale);
+			textFont(graphik.regular);
+			textSize(40 * scale);
+			text("Are you sure you want to exit the game? \nYour game progress will not be saved.", 367 * scale, 405 * vScale, 726 * scale, 144 * vScale);
+		}
   }
 
 	this.drawText = function() {
@@ -1867,19 +2116,48 @@ function Scene5() {
 	// Handles the mouse pressed event passed down by our scene manager
 	// in the core code.
   this.mousePressed = function() {
-		var totalLength = dialogue.length;
-		if (c >= 0 && c < totalLength) {
-			// Jump ahead if clicked while text is printing
-			c = dialogue[dialogueIndex].length;
+		if (quitMsg) {
+			if (mouseY > 553 * vScale && mouseY < 666 * vScale) {
+				if (mouseX > 357 * scale && mouseX < 703 * scale) {
+					window.location.href = "http://www.wetheantibody.com";
+				} else if (mouseX > 737 * scale && mouseX < 1083 * scale) {
+					quitMsg = false;
+					cursor('auto');
+				}
+			}
 		} else {
-			dialogueIndex++;
-			c = 0;
+			var totalLength = dialogue.length;
+			if (c >= 0 && c < totalLength) {
+				// Jump ahead if clicked while text is printing
+				c = dialogue[dialogueIndex].length;
+			} else {
+				dialogueIndex++;
+				c = 0;
+			}
 		}
   }
 
+	this.keyPressed = function() {
+	  if (keyCode === LEFT_ARROW) {
+	    dialogueIndex--;
+	  } else if (keyCode === RIGHT_ARROW) {
+	    dialogueIndex++;
+	  } else if (keyCode === ESCAPE) {
+			quitMsg = true;
+		}
+		imgAudrey = audrey[audreyExpressions[dialogueIndex]];
+		imgKate = kate[kateExpressions[dialogueIndex]];
+	}
+
 	this.windowResized = function() {
-		scale = windowWidth / 1440;
-		vScale = ((windowWidth / 16) * 9) / 900;
-		resizeCanvas(windowWidth, (windowWidth/16) * 9);
+		if (windowHeight < (windowWidth/16) * 9) {
+			resizeCanvas((windowHeight/9) * 16, windowHeight);
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			resizeCanvas(windowWidth, (windowWidth/16) * 9);
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
 	}
 }
