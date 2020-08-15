@@ -16,7 +16,8 @@ OPTION
 How do you want to talk to Drew about his misunderstanding about pigeons?
 Explain that the post he saw was satire (misinformation example option)
 Explain that he can verify if a post is true by using critical observation (media literacy example option)
-Well, I think you may have misunderstood the intent of the post. Sometimes information is shared because it is meant to be taken as satire. But it's hard to discern nuance online and oftentimes satire turns into fake news that spreads faster and wider than the truth.
+Well, I think you may have misunderstood the intent of the post. Sometimes information is shared because it is meant to be taken as satire.
+But it's hard to discern nuance online and oftentimes satire turns into fake news that spreads faster and wider than the truth.
 So you're saying that this was just a joke? It doesn't seem like it.
 I understand your confusion. Why don't we look into some other sources about this topic?
 Hmm alright. I'm not super convinced but sure.
@@ -36,7 +37,7 @@ It's never too late to fix your mistakes.
 Speaking of fixing mistakes — I totally have changed my mind. Audrey, if you want to get a pigeon, I say go for it. I don't have any problems with it anymore.
 Really? That's awesome, Drew, thank you so much! I appreciate you hearing me out.
 It's no problem, Audrey. Thanks for helping me understand. Go ahead and get that bird!
-I'm so excited to! I just need to get Emily and Jack on board with the idea. In fact, I think I'm going to talk to Emily right now. 
+I'm so excited to! I just need to get Emily and Jack on board with the idea. In fact, I think I'm going to talk to Emily right now.
 OPTIONENDING
 Well, I think you should take another look at the post. Does it have a link to any sort of article that you could read this about?
 Uhh, I guess not.
