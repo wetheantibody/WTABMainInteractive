@@ -3,7 +3,7 @@ Hmm? Oh, uhh, sure.
 I wanted to talk to you about the pigeon that I wanted to get...
 Oh, that? Yeahhh, I don't think that would be a good idea...
 Jack, I think I can persuade you! I just had a really good talk with Drew and Emily and now they're on board with the idea!
-Oh, did you? Alright then. 
+Oh, did you? Alright then.
 ...
 ... So... Is it cool if I get the pigeon?
 Yeah, do whatever you want.
@@ -33,3 +33,4 @@ Haha, that's true. Yeah, I understand. You're right, I'll do better and really l
 I'm glad to hear it! Thanks, Jack.
 So, are you gonna get that bird?
 Yes! I'm so excited!
+OPTIONENDING

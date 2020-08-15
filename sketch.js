@@ -270,6 +270,8 @@ function Scene1() {
 
 	var quitMsg;
 
+	var totalLength;
+
 	// 0 - Narrator, 1 - Audrey, 2 - Audrey Thoughts, 3 - Kate, 4 - Drew, 5 - Emily, 6 - Jack
 	var whoSpeaking =       [0, 2, 4, 5, 6, 2, 0,  2,  2,  2, 3, 1,  3, 1,  3, 1,  3, 1, 3, 3, 3, 1, 3, 3]
 	var audreyExpressions = [8, 7, 0, 0, 0, 6, 11, 11, 11, 1, 1, 10, 1, 12, 1, 12, 1, 6, 1, 1, 1, 2, 8, 8]
@@ -290,6 +292,7 @@ function Scene1() {
 		bg = this.sceneArgs[1].birdShelter;
 		graphik = this.sceneArgs[4];
 	  dialogue=this.sceneArgs[2].sceneOne;
+		dialogueIndex = 0;
 		friendshipIndex = this.sceneArgs[3];
 		if (windowHeight < (windowWidth/16) * 9) {
 			scale = ((height / 9) * 16) / 1440;
@@ -305,14 +308,44 @@ function Scene1() {
 	// enter() happens after setup() but before draw()
 	this.enter = function() {
 		//scale = windowWidth / 1440;
+		audrey = this.sceneArgs[0].audrey;
+		kate = this.sceneArgs[0].kate;
+		phone = this.sceneArgs[0].phone;
+		imgAudrey = audrey[8];
+		imgKate = kate[0];
+		imgPhone = phone[6];
+		drewPost = phone[1];
+		emilyPost = phone[3];
+		jackPost = phone[5];
+		bg = this.sceneArgs[1].birdShelter;
+		graphik = this.sceneArgs[4];
+		dialogue=this.sceneArgs[2].sceneOne;
+		dialogueIndex = 0;
+		friendshipIndex = this.sceneArgs[3];
+		if (windowHeight < (windowWidth/16) * 9) {
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
+		background(bg);
+		quitMsg = false;
 	}
 
 	// This is the main drawing function - it will run constantly in a loop,
 	// which is why we can update variables and create animation
   this.draw = function() {
+		imgAudrey = audrey[audreyExpressions[dialogueIndex]];
+		imgKate = kate[kateExpressions[dialogueIndex]];
+		totalLength = dialogue.length;
+		if (dialogueIndex >= totalLength - 1) {
+			this.sceneArgs[3] = 10;
+			this.sceneManager.showNextScene(this.sceneArgs);
+		}
 		translate(0, 0);
 		background(bg);
-		print("Curr Index: " + dialogueIndex, 50 * scale, 20 * scale);
+		text("Curr Index: " + dialogueIndex, 50 * scale, 20 * scale);
 		if (dialogueIndex < 2 || dialogueIndex > 4) {
 			this.drawAudrey();
 		}
@@ -521,34 +554,30 @@ function Scene1() {
 			}
 
 		} else {
-			var totalLength = dialogue.length;
-			if (c >= 0 && c < totalLength) {
+			var sentenceLength = dialogue[dialogueIndex].length;
+			if (c >= 0 && c < sentenceLength) {
 				// Jump ahead if clicked while text is printing
 				c = dialogue[dialogueIndex].length;
 			} else {
 				dialogueIndex++;
-				imgAudrey = audrey[audreyExpressions[dialogueIndex]];
-				imgKate = kate[kateExpressions[dialogueIndex]];
-
 				c = 0;
-			}
-			if (dialogueIndex >= totalLength - 1) {
-				this.sceneArgs[3] = friendshipIndex;
-				this.sceneManager.showNextScene(this.sceneArgs);
 			}
 		}
   }
 
 	this.keyPressed = function() {
 	  if (keyCode === LEFT_ARROW) {
-	    dialogueIndex--;
+			if (dialogueIndex != 0) {
+				dialogueIndex--;
+			}
+			if (dialogueIndex == 1) {
+				phoneX = 776;
+			}
 	  } else if (keyCode === RIGHT_ARROW) {
 	    dialogueIndex++;
 	  } else if (keyCode === ESCAPE) {
 			quitMsg = true;
 		}
-		imgAudrey = audrey[audreyExpressions[dialogueIndex]];
-		imgKate = kate[kateExpressions[dialogueIndex]];
 	}
 
 	this.windowResized = function() {
@@ -598,10 +627,12 @@ function Scene2() {
 
 	var quitMsg;
 
-	var audreyExpressions = [6, 6, 10, 6, 9, 4, 2, 4, 9, 3, 2, 13, 2, 2, 2, 2, 2, 2, 3, 3, 9, 4, 9, 8, 8, 8, 8, 8, 9, 4, 9, 3, 3, 5, 3, 9, 4, 9, 4, 5, 4, 4, 3, 9, 4, 9, 4, 9, 3, 9, 4, 9, 9, 3, 9, 8, 8, 8, 8, 8, 9, 3, 9, 4, 9, 9, 3, 3, 9, 4, 9, 4, 5, 4]
-	var drewExpressions = [17, 17, 17, 17, 17, 17, 20, 2, 20, 15, 20, 15, 19, 19, 19, 19, 19, 19, 15, 15, 12, 15, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 17, 17, 3, 17, 3, 17, 4, 17, 17, 7, 6, 7, 6, 7, 8, 7, 6, 5, 6, 8, 7, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 1, 17, 17, 3, 17, 3, 17, 4, 17]
+	var totalLength;
+
+	var audreyExpressions = [6, 6, 10, 6, 9, 4, 2, 4, 9, 3, 2, 13, 2, 2, 2, 2, 2, 2, 3, 3, 9, 4, 9, 8, 8, 8, 8, 8, 9, 4, 9, 3, 3, 5, 3, 9, 4, 9, 4, 5, 4, 4, 3, 9, 4, 9, 4, 9, 3, 9, 4, 9, 9, 3, 9, 8, 8, 8, 8, 8, 9, 3, 9, 4, 9, 9, 3, 3, 9, 4, 9, 4, 5, 4, 4]
+	var drewExpressions = [17, 17, 17, 17, 17, 17, 20, 2, 20, 15, 20, 15, 19, 19, 19, 19, 19, 19, 15, 15, 12, 15, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 17, 17, 3, 17, 3, 17, 4, 17, 17, 7, 6, 7, 6, 7, 8, 7, 6, 5, 6, 8, 7, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 1, 17, 17, 3, 17, 3, 17, 4, 17, 17]
 	// 0 - Narrator, 1 - Audrey, 2 - Audrey Thoughts, 3 - Kate, 4 - Drew, 5 - Emily, 6 - Jack
-	var whoSpeaking = [2, 2, 2, 2, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 1, 1, 4, 1, 4, 1, 1, 1, 1, 1, 4, 1, 4, 1, 4, 1, 1, 4, 1, 4, 1, 4, 1, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 1, 4, 1, 1, 1, 1, 1, 4, 1, 4, 1, 4, 4, 1, 1, 4, 1, 4, 1, 4, 1]
+	var whoSpeaking = [2, 2, 2, 2, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 1, 1, 4, 1, 4, 1, 1, 1, 1, 1, 4, 1, 4, 1, 4, 1, 1, 4, 1, 4, 1, 4, 1, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 1, 4, 1, 1, 1, 1, 1, 4, 1, 4, 1, 4, 4, 1, 1, 4, 1, 4, 1, 4, 1, 1]
 
 	// Another reserved function, sets up our canvas
   this.setup = function() {
@@ -619,11 +650,15 @@ function Scene2() {
 		bg = this.sceneArgs[1].audreyRoom;
 		graphik = this.sceneArgs[4];
 	  dialogue = this.sceneArgs[2].sceneTwo;
+		dialogueIndex = 0;
 		friendshipIndex = this.sceneArgs[3];
-		scale = windowWidth / 1440;
-		//scale = 1;
-		vScale = ((windowWidth / 16) * 9) / 900;
-		//vScale = 1;
+		if (windowHeight < (windowWidth/16) * 9) {
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
     background(bg);
 		quitMsg = false;
   }
@@ -631,12 +666,45 @@ function Scene2() {
 	// enter() happens after setup() but before draw()
 	this.enter = function() {
 		//scale = windowWidth / 1440;
+		option = false;
+		article = false;
+		isCrashCourse = false;
+		audrey = this.sceneArgs[0].audrey;
+		drew = this.sceneArgs[0].drew;
+		phone = this.sceneArgs[0].phone;
+		crashcourse = this.sceneArgs[0].crashcourse;
+		crashCourseText = this.sceneArgs[2].crashCourse;
+		crashCourseIndex = 0;
+		imgAudrey = audrey[5];
+		imgDrew = drew[17];
+		bg = this.sceneArgs[1].audreyRoom;
+		graphik = this.sceneArgs[4];
+		dialogue = this.sceneArgs[2].sceneTwo;
+		dialogueIndex = 0;
+		friendshipIndex = this.sceneArgs[3];
+		if (windowHeight < (windowWidth/16) * 9) {
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
+		background(bg);
+		quitMsg = false;
 	}
 
 	// This is the main drawing function - it will run constantly in a loop,
 	// which is why we can update variables and create animation
   this.draw = function() {
+		imgAudrey = audrey[audreyExpressions[dialogueIndex] - 1];
+		imgDrew = drew[drewExpressions[dialogueIndex] - 1];
+		totalLength = dialogue.length;
+		if (dialogueIndex >= totalLength - 1 || dialogue[dialogueIndex] == "OPTIONENDING") {
+			this.sceneArgs[3] = 40;
+			this.sceneManager.showNextScene(this.sceneArgs);
+		}
 		background(bg);
+		text("Curr index: " + dialogueIndex, 50 * scale, 20 * scale);
 		if (dialogueIndex == 13) {
 			image(phone[0], 165 * scale, 105 * vScale, 500 * scale, 920 * vScale);
 		} else if (dialogueIndex != 1){
@@ -1047,8 +1115,8 @@ function Scene2() {
 				}
 			}
 		} else {
-			var totalLength = dialogue.length;
-			if (c >= 0 && c < totalLength && !option && !article && !isCrashCourse) {
+			var sentenceLength = dialogue[dialogueIndex].length;
+			if (c >= 0 && c < sentenceLength && !option && !article && !isCrashCourse) {
 				// Jump ahead if clicked while text is printing
 				c = dialogue[dialogueIndex].length;
 			} else {
@@ -1160,26 +1228,53 @@ function Scene2() {
 					}
 					c = 0;
 				}
-				imgAudrey = audrey[audreyExpressions[dialogueIndex] - 1];
-				imgDrew = drew[drewExpressions[dialogueIndex] - 1];
 			}
-	    if (dialogueIndex >= totalLength - 1 || dialogue[dialogueIndex] == "OPTIONENDING") {
-				this.sceneArgs[3] = 40;
-	      this.sceneManager.showNextScene(this.sceneArgs);
-	    }
 		}
   }
 
 	this.keyPressed = function() {
 	  if (keyCode === LEFT_ARROW) {
-	    dialogueIndex--;
+			if (dialogueIndex == 0) {
+				this.sceneArgs[3] = 100;
+				this.sceneManager.showScene(Scene1, this.sceneArgs);
+			} else if (dialogueIndex == 18) {
+				dialogueIndex = 14;
+			} else if (dialogueIndex == 42) {
+				dialogueIndex = 14;
+			} else if (dialogueIndex == 28 || dialogueIndex == 60) {
+				dialogueIndex -= 4;
+			} else {
+				dialogueIndex--;
+			}
 	  } else if (keyCode === RIGHT_ARROW) {
-	    dialogueIndex++;
+			if (dialogue[dialogueIndex] == 'ARTICLE') {
+				dialogueIndex+= 4
+			} else if (dialogueIndex != 14) {
+				dialogueIndex++;
+			}
 	  } else if (keyCode === ESCAPE) {
 			quitMsg = true;
 		}
-		imgAudrey = audrey[audreyExpressions[dialogueIndex]];
-		imgKate = kate[kateExpressions[dialogueIndex]];
+		if (dialogue[dialogueIndex] == 'OPTION') {
+			option = true;
+		} else {
+			option = false;
+		}
+		if (dialogue[dialogueIndex] == 'ARTICLE') {
+			article = true;
+		} else {
+			article = false;
+		}
+		if (dialogue[dialogueIndex] == 'CRASHCOURSE') {
+			isCrashCourse = true;
+			bg = this.sceneArgs[1].crashCourse;
+		} else {
+			isCrashCourse = false;
+			if (dialogueIndex < 4) {
+				bg = this.sceneArgs[1].audreyRoom;
+			}
+		}
+		c = 0;
 	}
 
 	this.windowResized = function() {
@@ -1236,9 +1331,15 @@ function Scene3() {
 		bg = this.sceneArgs[1].livingRoom;
 		graphik = this.sceneArgs[4];
 	  dialogue = this.sceneArgs[2].sceneThree;
+		dialogueIndex = 0;
 		friendshipIndex = this.sceneArgs[3];
-		scale = windowWidth / 1440;
-		vScale = ((windowWidth / 16) * 9) / 900;
+		if (windowHeight < (windowWidth/16) * 9) {
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
     background(bg);
 		quitMsg = false;
 	}
@@ -1246,11 +1347,39 @@ function Scene3() {
 	// enter() happens after setup() but before draw()
 	this.enter = function() {
 		//scale = windowWidth / 1440;
+		option = false;
+		article = false;
+		emotion = false;
+		audrey = this.sceneArgs[0].audrey;
+		emily = this.sceneArgs[0].emily;
+		imgAudrey = audrey[3];
+		imgEmily = emily[13];
+		bg = this.sceneArgs[1].livingRoom;
+		graphik = this.sceneArgs[4];
+		dialogue = this.sceneArgs[2].sceneThree;
+		dialogueIndex = 0;
+		friendshipIndex = this.sceneArgs[3];
+		if (windowHeight < (windowWidth/16) * 9) {
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
+		background(bg);
+		quitMsg = false;
 	}
 
 	// This is the main drawing function - it will run constantly in a loop,
 	// which is why we can update variables and create animation
   this.draw = function() {
+		var totalLength = dialogue.length;
+		if (dialogueIndex >= totalLength - 1 || dialogue[dialogueIndex] == "OPTIONENDING") {
+			this.sceneArgs[3] = 70;
+			this.sceneManager.showNextScene(this.sceneArgs);
+		}
+		imgAudrey = audrey[audreyExpressions[dialogueIndex]];
+		imgEmily = emily[emilyExpressions[dialogueIndex]];
 		background(bg);
 		this.drawAudrey();
 		this.drawEmily();
@@ -1480,8 +1609,8 @@ function Scene3() {
 				}
 			}
 		} else {
-			var totalLength = dialogue.length;
-			if (c >= 0 && c < totalLength && !option && !article && !emotion) {
+			var sentenceLength = dialogue[dialogueIndex].length;
+			if (c >= 0 && c < sentenceLength && !option && !article && !emotion) {
 				// Jump ahead if clicked while text is printing
 				c = dialogue[dialogueIndex].length;
 			} else {
@@ -1519,26 +1648,51 @@ function Scene3() {
 					}
 					c = 0;
 				}
-				imgAudrey = audrey[audreyExpressions[dialogueIndex]];
-				imgEmily = emily[emilyExpressions[dialogueIndex]];
 			}
-	    if (dialogueIndex >= totalLength - 1 || dialogue[dialogueIndex] == "OPTIONENDING") {
-				this.sceneArgs[3] = 70;
-	      this.sceneManager.showNextScene(this.sceneArgs);
-	    }
 		}
   }
 
 	this.keyPressed = function() {
 	  if (keyCode === LEFT_ARROW) {
-	    dialogueIndex--;
+			if (dialogueIndex == 0) {
+				this.sceneArgs[3] = 10;
+				this.sceneManager.showScene(Scene2, this.sceneArgs);
+			} else if (dialogueIndex == 12 || dialogueIndex == 20) {
+				dialogueIndex = 8;
+			} else if (dialogueIndex == 29) {
+				dialogueIndex -= 3;
+			} else if (dialogueIndex == 21) {
+				dialogueIndex -= 2;
+			} else {
+				dialogueIndex--;
+			}
 	  } else if (keyCode === RIGHT_ARROW) {
-	    dialogueIndex++;
+			if (dialogue[dialogueIndex] == 'ARTICLE') {
+				dialogueIndex += 3;
+			} else if (dialogue[dialogueIndex] == 'EMOTIONCHECK') {
+				dialogueIndex += 2;
+			} else if (dialogue[dialogueIndex] != 'OPTION') {
+				dialogueIndex++;
+			}
 	  } else if (keyCode === ESCAPE) {
 			quitMsg = true;
 		}
-		imgAudrey = audrey[audreyExpressions[dialogueIndex]];
-		imgKate = kate[kateExpressions[dialogueIndex]];
+		if (dialogue[dialogueIndex] == 'OPTION') {
+			option = true;
+		} else {
+			option = false;
+		}
+		if (dialogue[dialogueIndex] == 'ARTICLE') {
+			article = true;
+		} else {
+			article = false;
+		}
+		if (dialogue[dialogueIndex] == 'EMOTIONCHECK') {
+			emotion = true;
+		} else {
+			emotion = false;
+		}
+		c = 0;
 	}
 
 	this.windowResized = function() {
@@ -1618,9 +1772,15 @@ function Scene4() {
 		bg = this.sceneArgs[1].jackRoom;
 		graphik = this.sceneArgs[4];
 	  dialogue = this.sceneArgs[2].sceneFour;
+		dialogueIndex = 0;
 		friendshipIndex = this.sceneArgs[3];
-		scale = windowWidth / 1440;
-		vScale = ((windowWidth / 16) * 9) / 900;
+		if (windowHeight < (windowWidth/16) * 9) {
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
     background(bg);
 		quitMsg = false;
 	}
@@ -1628,11 +1788,45 @@ function Scene4() {
 	// enter() happens after setup() but before draw()
 	this.enter = function() {
 		//scale = windowWidth / 1440;
+		option = false;
+		article = false;
+		flashback = false;
+		audrey = this.sceneArgs[0].audrey;
+		jack = this.sceneArgs[0].jack;
+		emily = this.sceneArgs[0].emily;
+		drew = this.sceneArgs[0].drew;
+		imgAudrey = audrey[3];
+		imgJack = jack[3];
+		imgEmily = emily[0];
+		imgDrew = drew[0];
+		bg = this.sceneArgs[1].jackRoom;
+		graphik = this.sceneArgs[4];
+		dialogue = this.sceneArgs[2].sceneFour;
+		dialogueIndex = 0;
+		friendshipIndex = this.sceneArgs[3];
+		if (windowHeight < (windowWidth/16) * 9) {
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
+		background(bg);
+		quitMsg = false;
 	}
 
 	// This is the main drawing function - it will run constantly in a loop,
 	// which is why we can update variables and create animation
   this.draw = function() {
+		imgAudrey = audrey[audreyExpressions[dialogueIndex]];
+		imgJack = jack[jackExpressions[dialogueIndex]];
+		imgEmily = emily[emilyExpressions[dialogueIndex]];
+		imgDrew = drew[drewExpressions[dialogueIndex]];
+		var totalLength = dialogue.length;
+		if (dialogueIndex >= totalLength - 1 || dialogue[dialogueIndex] == "OPTIONENDING") {
+			this.sceneArgs[3] = 100;
+			this.sceneManager.showNextScene(this.sceneArgs);
+		}
 		background(bg);
 		textSize(32);
 		if (dialogueIndex < 12 || dialogueIndex > 16) {
@@ -1879,8 +2073,8 @@ function Scene4() {
 				}
 			}
 		} else {
-			var totalLength = dialogue.length;
-			if (c >= 0 && c < totalLength && !option && !article && !flashback) {
+			var sentenceLength = dialogue[dialogueIndex].length;
+			if (c >= 0 && c < sentenceLength && !option && !article && !flashback) {
 				// Jump ahead if clicked while text is printing
 				c = dialogue[dialogueIndex].length;
 			} else {
@@ -1907,10 +2101,6 @@ function Scene4() {
 					}
 				} else {
 					dialogueIndex++;
-					imgAudrey = audrey[audreyExpressions[dialogueIndex]];
-					imgJack = jack[jackExpressions[dialogueIndex]];
-					imgEmily = emily[emilyExpressions[dialogueIndex]];
-					imgDrew = drew[drewExpressions[dialogueIndex]];
 					if (dialogue[dialogueIndex] == 'OPTION') {
 						option = true;
 					}
@@ -1925,23 +2115,32 @@ function Scene4() {
 				}
 
 			}
-	    if (dialogueIndex >= totalLength - 1 || dialogue[dialogueIndex] == "OPTIONENDING") {
-				this.sceneArgs[3] = 100;
-	      this.sceneManager.showNextScene(this.sceneArgs);
-	    }
+
 		}
   }
 
 	this.keyPressed = function() {
 	  if (keyCode === LEFT_ARROW) {
-	    dialogueIndex--;
+			if (dialogueIndex == 0) {
+				this.sceneArgs[3] = 30;
+				this.sceneManager.showScene(Scene3, this.sceneArgs);
+			} else if (dialogue[dialogueIndex] == 'FLASHBACK') {
+				bg = this.sceneArgs[1].jackRoom;
+			} else {
+				dialogueIndex--;
+			}
 	  } else if (keyCode === RIGHT_ARROW) {
 	    dialogueIndex++;
 	  } else if (keyCode === ESCAPE) {
 			quitMsg = true;
 		}
-		imgAudrey = audrey[audreyExpressions[dialogueIndex]];
-		imgKate = kate[kateExpressions[dialogueIndex]];
+		if (dialogue[dialogueIndex] == 'FLASHBACK') {
+			bg = this.sceneArgs[1].livingRoom;
+			flashback = true;
+		} else {
+			flashback = false;
+		}
+		c = 0;
 	}
 
 	this.windowResized = function() {
@@ -1994,8 +2193,13 @@ function Scene5() {
 		graphik = this.sceneArgs[4];
 	  dialogue = this.sceneArgs[2].sceneFive;
 		friendshipIndex = this.sceneArgs[3];
-		scale = windowWidth / 1440;
-		vScale = ((windowWidth / 16) * 9) / 900;
+		if (windowHeight < (windowWidth/16) * 9) {
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
     background(bg);
 		quitMsg = false;
   }
@@ -2003,6 +2207,25 @@ function Scene5() {
 	// enter() happens after setup() but before draw()
 	this.enter = function() {
 		//scale = windowWidth / 1440;
+		audrey = this.sceneArgs[0].audrey;
+		jack = this.sceneArgs[0].jack;
+		drew = this.sceneArgs[0].drew;
+		emily = this.sceneArgs[0].emily;
+		kate = this.sceneArgs[0].kate;
+		phone = this.sceneArgs[0].phone;
+		bg = this.sceneArgs[1].livingRoom;
+		graphik = this.sceneArgs[4];
+		dialogue = this.sceneArgs[2].sceneFive;
+		friendshipIndex = this.sceneArgs[3];
+		if (windowHeight < (windowWidth/16) * 9) {
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
+		background(bg);
+		quitMsg = false;
 	}
 
 	// This is the main drawing function - it will run constantly in a loop,
@@ -2011,11 +2234,11 @@ function Scene5() {
 		background(bg);
 		if (dialogueIndex == 0) {
 			image(drew[15], 50 * scale, 17 * vScale, 657 * scale, 885 * vScale);
-			image(phone[2], 776 * scale, 105 * vScale, 500 * scale, 920 * vScale);
+			image(phone[2], 776 * scale, 105 * vScale, 440 * scale, 920 * vScale);
 		}
 		if (dialogueIndex == 1) {
 			image(emily[12], 796 * scale, 50 * vScale, 657 * scale, 876 * vScale);
-			image(phone[4], 165 * scale, 105 * vScale, 500 * scale, 920 * vScale);
+			image(phone[4], 165 * scale, 105 * vScale, 440 * scale, 920 * vScale);
 		}
 		if (dialogueIndex == 2) {
 			bg = this.sceneArgs[1].birdShelter;
@@ -2026,7 +2249,7 @@ function Scene5() {
 		if (dialogueIndex == 3) {
 			bg = this.sceneArgs[1].birdShelter;
 			image(jack[11], 240 * scale, 43 * vScale, 646 * scale, 860 * vScale);
-			image(audrey[8], -51 * scale, 43 * vScale, 644 * scale, 857 * vScale);
+			image(audrey[4], -51 * scale, 43 * vScale, 644 * scale, 857 * vScale);
 			image(kate[6], 782 * scale, 24 * vScale, 658 * scale, 876 * vScale);
 		}
 		if (dialogueIndex == 4) {
@@ -2126,12 +2349,14 @@ function Scene5() {
 				}
 			}
 		} else {
-			var totalLength = dialogue.length;
-			if (c >= 0 && c < totalLength) {
+			var sentenceLength = dialogue[dialogueIndex].length;
+			if (c >= 0 && c < sentenceLength) {
 				// Jump ahead if clicked while text is printing
 				c = dialogue[dialogueIndex].length;
 			} else {
-				dialogueIndex++;
+				if (dialogueIndex < dialogue.length) {
+					dialogueIndex++;
+				}
 				c = 0;
 			}
 		}
@@ -2139,14 +2364,18 @@ function Scene5() {
 
 	this.keyPressed = function() {
 	  if (keyCode === LEFT_ARROW) {
+			if (dialogueIndex == 0) {
+				this.sceneArgs[3] = 70;
+				this.sceneManager.showScene(Scene4, this.sceneArgs);
+			}
 	    dialogueIndex--;
 	  } else if (keyCode === RIGHT_ARROW) {
-	    dialogueIndex++;
+			if (dialogueIndex < dialogue.length) {
+				dialogueIndex++;
+			}
 	  } else if (keyCode === ESCAPE) {
 			quitMsg = true;
 		}
-		imgAudrey = audrey[audreyExpressions[dialogueIndex]];
-		imgKate = kate[kateExpressions[dialogueIndex]];
 	}
 
 	this.windowResized = function() {
