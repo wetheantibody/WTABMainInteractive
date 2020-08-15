@@ -22,7 +22,8 @@ function preload() {
 		 loadImage('assets/Audrey/SVG/audrey_surprised_computer.svg'),
 		 loadImage('assets/Audrey/SVG/audrey_upset_explaining.svg'),
 		 loadImage('assets/Audrey/SVG/audrey_upset_phone.svg'),
-		 loadImage('assets/Audrey/SVG/audrey_upset_speaking.svg')
+		 loadImage('assets/Audrey/SVG/audrey_upset_speaking.svg'),
+		 loadImage('assets/Pigeon/SVG/pigeon.svg')
 	];
 	kate = [
 		 loadImage('assets/Kate/SVG/kate frowning bird.svg'),
@@ -57,7 +58,8 @@ function preload() {
 		 loadImage('assets/Drew/SVG/drew smiling.svg'),
 		 loadImage('assets/Drew/SVG/drew surprised.svg'),
 		 loadImage('assets/Drew/SVG/drew upset phone.svg'),
-		 loadImage('assets/Drew/SVG/drew upset speaking.svg')
+		 loadImage('assets/Drew/SVG/drew upset speaking.svg'),
+		 loadImage('assets/Pigeon/SVG/pigeon.svg')
 ];
 	emily = [
 		 loadImage('assets/Emily/SVG/emily angry explaining.svg'),
@@ -242,7 +244,7 @@ function Scene1() {
 	var audreyExpressions = [8, 7, 0, 0, 0, 6, 11, 11, 11, 1, 1, 10, 1, 12, 1, 12, 1, 6, 1, 1, 1, 2, 8, 8]
 	var kateExpressions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 9, 0, 9, 0, 9, 6, 3, 3, 3, 6, 3, 3]
 	// 0 - Narrator, 1 - Audrey, 2 - Audrey Thoughts, 3 - Kate, 4 - Drew, 5 - Emily, 6 - Jack
-	var whoSpeaking = [0, 2, 4, 5, 6, 2, 0, 2, 2, 2, 3, 1, 3, 1, 3, 1, 3, 1, 3, 3, 1, 3, 3]
+	var whoSpeaking = [0, 2, 4, 5, 6, 2, 0, 2, 2, 2, 3, 1, 3, 1, 3, 1, 3, 1, 3, 3, 3, 1, 3, 3]
 
 	// Another reserved function, sets up our canvas
   this.setup = function() {
@@ -464,10 +466,10 @@ function Scene2() {
 	var scale = 1;
 	var vScale;
 
-	var audreyExpressions = [6, 6, 10, 6, 9, 4, 2, 4, 9, 3, 2, 13, 2, 2, 2, 2, 2, 3, 3, 3, 9, 4, 9, 8, 8, 8, 8, 8, 9, 4, 9, 3, 5, 3, 9, 4, 9, 4, 5, 4, 4, 3, 9, 4, 9, 4, 9, 3, 9, 4, 9, 9, 3, 9, 8, 8, 8, 8, 8, 9, 3, 9, 4, 9, 3, 9, 4, 9, 4, 5, 4]
-	var drewExpressions = [17, 17, 17, 17, 17, 17, 20, 2, 20, 15, 20, 15, 19, 19, 19, 19, 19, 15, 15, 12, 15, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 17, 3, 17, 3, 17, 4, 17, 17, 7, 6, 7, 6, 7, 8, 7, 6, 5, 6, 8, 7, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 17, 3, 17, 3, 4, 17, 17]
+	var audreyExpressions = [6, 6, 10, 6, 9, 4, 2, 4, 9, 3, 2, 13, 2, 2, 2, 2, 2, 2, 3, 3, 9, 4, 9, 8, 8, 8, 8, 8, 9, 4, 9, 3, 5, 3, 9, 4, 9, 4, 5, 4, 4, 3, 9, 4, 9, 4, 9, 3, 9, 4, 9, 9, 3, 9, 8, 8, 8, 8, 8, 9, 3, 9, 4, 9, 9, 3, 9, 4, 9, 4, 5, 4]
+	var drewExpressions = [17, 17, 17, 17, 17, 17, 20, 2, 20, 15, 20, 15, 19, 19, 19, 19, 19, 19, 15, 15, 12, 15, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 17, 3, 17, 3, 17, 4, 17, 17, 7, 6, 7, 6, 7, 8, 7, 6, 5, 6, 8, 7, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 1, 17, 3, 17, 3, 4, 17, 17]
 	// 0 - Narrator, 1 - Audrey, 2 - Audrey Thoughts, 3 - Kate, 4 - Drew, 5 - Emily, 6 - Jack
-	var whoSpeaking = [2, 2, 2, 2, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 1, 1, 4, 1, 4, 1, 1, 1, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 1, 4, 1, 1, 1, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 1]
+	var whoSpeaking = [2, 2, 2, 2, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 1, 1, 4, 1, 4, 1, 1, 1, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 1, 4, 1, 1, 1, 1, 1, 4, 1, 4, 1, 4, 4, 1, 4, 1, 4, 1, 4, 1, 1]
 
 	// Another reserved function, sets up our canvas
   this.setup = function() {
@@ -604,8 +606,9 @@ function Scene2() {
 		textSize(30 * scale);
 		fill(0);
 		textStyle(BOLD);
+		textFont(graphik.bold);
 		textAlign(CENTER, CENTER);
-		text(dialogue[dialogueIndex + 1], 327 * scale, 582 * vScale, 758 * scale, 69 * vScale);
+		text(dialogue[dialogueIndex + 1], 327 * scale, 552 * vScale, 758 * scale, 100 * vScale);
 
 		//Options
 		fill('#F7BA63');
@@ -613,10 +616,12 @@ function Scene2() {
 		fill('#9AB5E2');
 		rect(756 * scale, 688 * vScale, 599 * scale, 162 * vScale, 50);
 		fill(0)
+		textSize(30 * scale);
 		textAlign(CENTER, CENTER);
 		textStyle(NORMAL);
-		text(dialogue[dialogueIndex + 2], 184 * scale, 734 * vScale, 401 * scale, 70 * vScale);
-		text(dialogue[dialogueIndex + 3], 819 * scale, 725 * vScale, 472 * scale, 88 * vScale);
+		textFont(graphik.regular);
+		text(dialogue[dialogueIndex + 2], 109 * scale, 688 * vScale, 559 * scale, 162 * vScale);
+		text(dialogue[dialogueIndex + 3], 776 * scale, 688 * vScale, 559 * scale, 162 * vScale);
 	}
 
 	this.drawCrashCourse = function() {
@@ -693,7 +698,7 @@ function Scene2() {
 					if (mouseX > 756 * scale && mouseX < 1355 * scale) {
 						// Option 2
 						option = false;
-						dialogueIndex = 40;
+						dialogueIndex = 41;
 					}
 				}
 			} else if (article) {
@@ -702,8 +707,6 @@ function Scene2() {
 				print("After article " + dialogueIndex);
 			} else {
 				dialogueIndex++;
-				imgAudrey = audrey[audreyExpressions[dialogueIndex] - 1];
-				imgDrew = drew[drewExpressions[dialogueIndex] - 1];
 				if (dialogue[dialogueIndex] == 'OPTION') {
 					option = true;
 				}
@@ -712,7 +715,8 @@ function Scene2() {
 				}
 				c = 0;
 			}
-
+			imgAudrey = audrey[audreyExpressions[dialogueIndex] - 1];
+			imgDrew = drew[drewExpressions[dialogueIndex] - 1];
 		}
     if (dialogueIndex >= totalLength - 1 || dialogue[dialogueIndex] == "OPTIONENDING") {
 			this.sceneArgs[3] = 40;
@@ -878,8 +882,9 @@ function Scene3() {
 		textSize(30 * scale);
 		fill(0);
 		textStyle(BOLD);
+		textFont(graphik.bold);
 		textAlign(CENTER, CENTER);
-		text(dialogue[dialogueIndex + 1], 327 * scale, 582 * vScale, 758 * scale, 69 * vScale);
+		text(dialogue[dialogueIndex + 1], 327 * scale, 552 * vScale, 758 * scale, 100 * vScale);
 
 		//Options
 		fill('#F7BA63');
@@ -887,10 +892,12 @@ function Scene3() {
 		fill('#9AB5E2');
 		rect(756 * scale, 688 * vScale, 599 * scale, 162 * vScale, 50);
 		fill(0)
+		textSize(30 * scale);
 		textAlign(CENTER, CENTER);
 		textStyle(NORMAL);
-		text(dialogue[dialogueIndex + 2], 184 * scale, 734 * vScale, 401 * scale, 70 * vScale);
-		text(dialogue[dialogueIndex + 3], 819 * scale, 725 * vScale, 472 * scale, 88 * vScale);
+		textFont(graphik.regular);
+		text(dialogue[dialogueIndex + 2], 109 * scale, 688 * vScale, 559 * scale, 162 * vScale);
+		text(dialogue[dialogueIndex + 3], 776 * scale, 688 * vScale, 559 * scale, 162 * vScale);
 	}
 
 	this.drawEmotion = function() {
@@ -1200,8 +1207,9 @@ function Scene4() {
 		textSize(30 * scale);
 		fill(0);
 		textStyle(BOLD);
+		textFont(graphik.bold);
 		textAlign(CENTER, CENTER);
-		text(dialogue[dialogueIndex + 1], 327 * scale, 582 * vScale, 758 * scale, 69 * vScale);
+		text(dialogue[dialogueIndex + 1], 327 * scale, 552 * vScale, 758 * scale, 100 * vScale);
 
 		//Options
 		fill('#F7BA63');
@@ -1209,10 +1217,12 @@ function Scene4() {
 		fill('#9AB5E2');
 		rect(756 * scale, 688 * vScale, 599 * scale, 162 * vScale, 50);
 		fill(0)
+		textSize(30 * scale);
 		textAlign(CENTER, CENTER);
 		textStyle(NORMAL);
-		text(dialogue[dialogueIndex + 2], 184 * scale, 734 * vScale, 401 * scale, 70 * vScale);
-		text(dialogue[dialogueIndex + 3], 819 * scale, 725 * vScale, 472 * scale, 88 * vScale);
+		textFont(graphik.regular);
+		text(dialogue[dialogueIndex + 2], 109 * scale, 688 * vScale, 559 * scale, 162 * vScale);
+		text(dialogue[dialogueIndex + 3], 776 * scale, 688 * vScale, 559 * scale, 162 * vScale);
 	}
 
 	this.drawFlashback = function() {
