@@ -151,7 +151,7 @@ function preload() {
 		livingRoom : loadImage('assets/Backgrounds/SVG/living room.svg'),
 		start: loadImage('assets/IntroEnd/landing page.svg'),
 		end: loadImage('assets/IntroEnd/happy ending.svg'),
-		congrats: loadImage('assets/game-start-and-end/congrats.svg')
+		congrats: loadImage('assets/game-start-and-end/congrats.svg'),
 		crashCourse: loadImage('assets/Backgrounds/SVG/crash course.svg')
 	};
 
@@ -187,7 +187,7 @@ function setup() {
 
   mgr = new SceneManager();
 
-  //mgr.addScene ( Scene1 );
+  mgr.addScene ( Scene1 );
   mgr.addScene ( Scene2 );
 	mgr.addScene ( Scene3 );
 	mgr.addScene ( Scene4 );
@@ -259,6 +259,11 @@ function Scene1() {
 
 	var parts;
 
+	var alpha1 = 0;
+	var alpha2 = 0;
+	var alpha3 = 0;
+	var alpha4 = 0;
+
 	// loadImage('assets/Kate/SVG/kate frowning bird.svg'), 0
 	// loadImage('assets/Kate/SVG/kate frowning.svg'), 1
 	// loadImage('assets/Kate/SVG/kate happy explaining.svg'), 2
@@ -316,6 +321,9 @@ function Scene1() {
 		if (dialogueIndex > 0 && dialogueIndex < 5) {
 			this.drawPhone();
 		}
+		if (dialogueIndex == 6) {
+			this.drawComments();
+		}
 		// Textbox code, draws once image has faded in.
 		this.drawText();
 		this.drawFriendship();
@@ -356,6 +364,42 @@ function Scene1() {
 					}
 				}
 			}
+		}
+	}
+
+	this.drawComments = function() {
+		textSize(40 * scale);
+		textFont(graphik.regular);
+		textAlign(CENTER, CENTER);
+		fill(255, 255, 255, alpha1 * 1.5);
+		rect(854 * scale, 144 * vScale, 565 * scale, 138 * vScale, 30);
+		fill(0, 0, 0, alpha1 * 2);
+		text("\"pigeons are disgusting...\"", 854 * scale, 144 * vScale, 565 * scale, 138 * vScale);
+		fill(255, 255, 255, alpha2 * 1.5);
+		rect(672 * scale, 321 * vScale, 565 * scale, 211 * vScale, 30);
+		fill(0, 0, 0, alpha2 * 2);
+		textFont(graphik.bold);
+		text("\"Why are you doing this. It doesn't make sense!\"", 672 * scale, 321 * vScale, 565 * scale, 211 * vScale);
+		fill(255, 255, 255, alpha3 * 1.5);
+		rect(593 * scale, -45 * vScale, 565 * scale, 211 * vScale, 30);
+		fill(0, 0, 0, alpha3 * 2);
+		text("\"ur crazy!!!\"", 593 * scale, -45 * vScale, 565 * scale, 211 * vScale);
+		fill(255, 255, 255, alpha4 * 1.5);
+		rect(801 * scale, 517 * vScale, 565 * scale, 165 * vScale, 30);
+		fill(0, 0, 0, alpha4 * 2);
+		textFont(graphik.regular);
+		text("\"the government will watch your every move!!\"", 801 * scale, 517 * vScale, 565 * scale, 165 * vScale);
+		if (alpha1 < 128) {
+			alpha1 += 3;
+		}
+		if (alpha1 > 60 && alpha2 < 128) {
+			alpha2 += 3;
+		}
+		if (alpha2 > 60 && alpha3 < 128) {
+			alpha3 += 3;
+		}
+		if (alpha3 > 60 && alpha4 < 128) {
+			alpha4 += 3;
 		}
 	}
 
