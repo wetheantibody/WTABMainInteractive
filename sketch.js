@@ -22,7 +22,8 @@ function preload() {
 		 loadImage('assets/Audrey/SVG/audrey_surprised_computer.svg'),
 		 loadImage('assets/Audrey/SVG/audrey_upset_explaining.svg'),
 		 loadImage('assets/Audrey/SVG/audrey_upset_phone.svg'),
-		 loadImage('assets/Audrey/SVG/audrey_upset_speaking.svg')
+		 loadImage('assets/Audrey/SVG/audrey_upset_speaking.svg'),
+		 loadImage('assets/Pigeon/SVG/pigeon.svg')
 	];
 	kate = [
 		 loadImage('assets/Kate/SVG/kate frowning bird.svg'),
@@ -57,7 +58,8 @@ function preload() {
 		 loadImage('assets/Drew/SVG/drew smiling.svg'),
 		 loadImage('assets/Drew/SVG/drew surprised.svg'),
 		 loadImage('assets/Drew/SVG/drew upset phone.svg'),
-		 loadImage('assets/Drew/SVG/drew upset speaking.svg')
+		 loadImage('assets/Drew/SVG/drew upset speaking.svg'),
+		 loadImage('assets/Pigeon/SVG/pigeon.svg')
 ];
 	emily = [
 		 loadImage('assets/Emily/SVG/emily angry explaining.svg'),
@@ -106,6 +108,29 @@ function preload() {
 		loadImage('assets/Phone/Emily Post.svg'),
 		loadImage('assets/Phone/Jack Comment.svg'),
 		loadImage('assets/Phone/Phone Post.svg'),
+	];
+	crashcourse = [
+		loadImage('assets/crashcourse/Icons/1 lateral reading.svg'),
+		loadImage('assets/crashcourse/Icons/1 parody.svg'),
+		loadImage('assets/crashcourse/Icons/2 fact checking.svg'),
+		loadImage('assets/crashcourse/Icons/2 false connection.svg'),
+		loadImage('assets/crashcourse/Icons/3 ask experts.svg'),
+		loadImage('assets/crashcourse/Icons/3 manipulated content.svg'),
+		loadImage('assets/crashcourse/Icons/4 fabricated content.svg'),
+		loadImage('assets/crashcourse/Icons/4 verify sources.svg'),
+		loadImage('assets/crashcourse/Icons/5 false context.svg'),
+		loadImage('assets/crashcourse/Icons/5 reverse image search.svg'),
+		loadImage('assets/crashcourse/Icons/6 emotion check.svg'),
+		loadImage('assets/crashcourse/Icons/6 imposter content.svg'),
+		loadImage('assets/crashcourse/Icons/arrow.svg'),
+		loadImage('assets/crashcourse/Icons/x.svg'),
+		loadImage('assets/crashcourse/blank.svg'),
+		loadImage('assets/crashcourse/fabricated content example.png'),
+		loadImage('assets/crashcourse/false connection example.png'),
+		loadImage('assets/crashcourse/false context example.png'),
+		loadImage('assets/crashcourse/imposter content example.png'),
+		loadImage('assets/crashcourse/manipulated content example.png'),
+		loadImage('assets/crashcourse/parody example.png')
 	]
 	actors = {
 		audrey: audrey,
@@ -115,6 +140,7 @@ function preload() {
 		jack: jack,
 		pigeon: pigeon,
 		phone: phone,
+		crashcourse: crashcourse,
 	};
 
 	backgrounds = {
@@ -124,7 +150,9 @@ function preload() {
 		kitchen :loadImage('assets/Backgrounds/SVG/kitchen.svg'),
 		livingRoom : loadImage('assets/Backgrounds/SVG/living room.svg'),
 		start: loadImage('assets/IntroEnd/landing page.svg'),
-		end: loadImage('assets/IntroEnd/happy ending.svg')
+		end: loadImage('assets/IntroEnd/happy ending.svg'),
+		congrats: loadImage('assets/game-start-and-end/congrats.svg')
+		crashCourse: loadImage('assets/Backgrounds/SVG/crash course.svg')
 	};
 
 	// Text
@@ -133,12 +161,14 @@ function preload() {
 	sceneThreeDialogue = loadStrings('assets/scene3.txt');
 	sceneFourDialogue = loadStrings('assets/scene4.txt');
 	sceneFiveDialogue = loadStrings('assets/scene5.txt');
+	crashCourse = loadStrings('assets/crashcourse.txt');
 	script = {
 		sceneOne : sceneOneDialogue,
 		sceneTwo: sceneTwoDialogue,
 		sceneThree: sceneThreeDialogue,
 		sceneFour: sceneFourDialogue,
-		sceneFive: sceneFiveDialogue
+		sceneFive: sceneFiveDialogue,
+		crashCourse: crashCourse
 	};
 
 	// Fonts
@@ -227,6 +257,8 @@ function Scene1() {
 	var scale;
 	var vScale;
 
+	var parts;
+
 	// loadImage('assets/Kate/SVG/kate frowning bird.svg'), 0
 	// loadImage('assets/Kate/SVG/kate frowning.svg'), 1
 	// loadImage('assets/Kate/SVG/kate happy explaining.svg'), 2
@@ -239,17 +271,18 @@ function Scene1() {
 	// loadImage('assets/Kate/SVG/kate upset speaking bird.svg'), 9
 	// loadImage('assets/Kate/SVG/kate upset speaking.svg') 10
 
-	var audreyExpressions = [8, 7, 0, 0, 0, 6, 11, 11, 11, 1, 1, 10, 1, 12, 1, 12, 1, 6, 1, 1, 1, 2, 8, 8]
-	var kateExpressions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 9, 0, 9, 0, 9, 6, 3, 3, 3, 6, 3, 3]
 	// 0 - Narrator, 1 - Audrey, 2 - Audrey Thoughts, 3 - Kate, 4 - Drew, 5 - Emily, 6 - Jack
-	var whoSpeaking = [0, 2, 4, 5, 6, 2, 0, 2, 2, 2, 3, 1, 3, 1, 3, 1, 3, 1, 3, 3, 1, 3, 3]
+	var whoSpeaking =       [0, 2, 4, 5, 6, 2, 0,  2,  2,  2, 3, 1,  3, 1,  3, 1,  3, 1, 3, 3, 3, 1, 3, 3]
+	var audreyExpressions = [8, 7, 0, 0, 0, 6, 11, 11, 11, 1, 1, 10, 1, 12, 1, 12, 1, 6, 1, 1, 1, 2, 8, 8]
+	var kateExpressions =   [0, 0, 0, 0, 0, 0, 0,  0,  0,  0, 3, 0,  9, 0,  9, 0,  9, 6, 3, 3, 3, 6, 3, 3]
+
 
 	// Another reserved function, sets up our canvas
   this.setup = function() {
 		audrey = this.sceneArgs[0].audrey;
 		kate = this.sceneArgs[0].kate;
 		phone = this.sceneArgs[0].phone;
-		imgAudrey = audrey[0];
+		imgAudrey = audrey[8];
 		imgKate = kate[0];
 		imgPhone = phone[6];
 		drewPost = phone[1];
@@ -298,26 +331,26 @@ function Scene1() {
 	}
 
 	this.drawPhone = function() {
-		image(imgPhone, phoneX * scale, 105 * vScale, 490 * scale, 920 * vScale);
+		image(imgPhone, phoneX * scale, 105 * vScale, 470 * scale, 920 * vScale);
 		if (dialogueIndex > 1) {
 			if (phoneX > 165) {
 				phoneX -= 30;
 			}
 			if (phoneX <= 165) {
 				if (dialogueIndex >= 2) {
-					image(drewPost, 754 * scale, 33 * vScale, 532 * scale, 225 * vScale);
+					image(drewPost, 754 * scale, 33 * vScale, 522 * scale, 225 * vScale);
 					if (friendshipIndex > 70) {
 						friendshipIndex -= 2;
 					}
 				}
 				if (dialogueIndex >= 3) {
-					image(emilyPost, 754 * scale, 279 * vScale, 532 * scale, 197 * vScale);
+					image(emilyPost, 754 * scale, 279 * vScale, 522 * scale, 197 * vScale);
 					if (friendshipIndex > 40) {
 						friendshipIndex -= 2;
 					}
 				}
 				if (dialogueIndex >= 4) {
-					image(jackPost, 754 * scale, 496 * vScale, 532 * scale, 202 * vScale);
+					image(jackPost, 754 * scale, 496 * vScale, 522 * scale, 202 * vScale);
 					if (friendshipIndex > 10) {
 						friendshipIndex -= 2;
 					}
@@ -413,6 +446,7 @@ function Scene1() {
 			dialogueIndex++;
 			imgAudrey = audrey[audreyExpressions[dialogueIndex]];
 			imgKate = kate[kateExpressions[dialogueIndex]];
+
 			c = 0;
 		}
     if (dialogueIndex >= totalLength - 1) {
@@ -427,6 +461,7 @@ function Scene1() {
 	  } else if (keyCode === RIGHT_ARROW) {
 	    dialogueIndex++;
 	  }
+
 		imgAudrey = audrey[audreyExpressions[dialogueIndex]];
 		imgKate = kate[kateExpressions[dialogueIndex]];
 	}
@@ -443,12 +478,15 @@ function Scene2() {
 	var audrey;
 	var drew;
 	var phone;
+	var crashcourse;
 
 	var bg;
 
 	var option;
 
 	var article;
+
+	var isCrashCourse;
 
 	var c = 0; // Variable so we can print the dialogue out like a typewriter
 
@@ -459,31 +497,40 @@ function Scene2() {
   var dialogueIndex = 0;
   var dialogue;
 
+	var crashCourseIndex = 0;
+	var crashCourseText;
+
 	var friendshipIndex;
 
 	var scale = 1;
 	var vScale;
 
-	var audreyExpressions = [6, 6, 10, 6, 9, 4, 2, 4, 9, 3, 2, 13, 2, 2, 2, 2, 2, 3, 3, 3, 9, 4, 9, 8, 8, 8, 8, 8, 9, 4, 9, 3, 5, 3, 9, 4, 9, 4, 5, 4, 4, 3, 9, 4, 9, 4, 9, 3, 9, 4, 9, 9, 3, 9, 8, 8, 8, 8, 8, 9, 3, 9, 4, 9, 3, 9, 4, 9, 4, 5, 4]
-	var drewExpressions = [17, 17, 17, 17, 17, 17, 20, 2, 20, 15, 20, 15, 19, 19, 19, 19, 19, 15, 15, 12, 15, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 17, 3, 17, 3, 17, 4, 17, 17, 7, 6, 7, 6, 7, 8, 7, 6, 5, 6, 8, 7, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 17, 3, 17, 3, 4, 17, 17]
+	var audreyExpressions = [6, 6, 10, 6, 9, 4, 2, 4, 9, 3, 2, 13, 2, 2, 2, 2, 2, 2, 3, 3, 9, 4, 9, 8, 8, 8, 8, 8, 9, 4, 9, 3, 3, 5, 3, 9, 4, 9, 4, 5, 4, 4, 3, 9, 4, 9, 4, 9, 3, 9, 4, 9, 9, 3, 9, 8, 8, 8, 8, 8, 9, 3, 9, 4, 9, 9, 3, 3, 9, 4, 9, 4, 5, 4]
+	var drewExpressions = [17, 17, 17, 17, 17, 17, 20, 2, 20, 15, 20, 15, 19, 19, 19, 19, 19, 19, 15, 15, 12, 15, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 17, 17, 3, 17, 3, 17, 4, 17, 17, 7, 6, 7, 6, 7, 8, 7, 6, 5, 6, 8, 7, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 1, 17, 17, 3, 17, 3, 17, 4, 17]
 	// 0 - Narrator, 1 - Audrey, 2 - Audrey Thoughts, 3 - Kate, 4 - Drew, 5 - Emily, 6 - Jack
-	var whoSpeaking = [2, 2, 2, 2, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 1, 1, 4, 1, 4, 1, 1, 1, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 1, 4, 1, 1, 1, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 1]
+	var whoSpeaking = [2, 2, 2, 2, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 1, 1, 4, 1, 4, 1, 1, 1, 1, 1, 4, 1, 4, 1, 4, 1, 1, 4, 1, 4, 1, 4, 1, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 1, 4, 1, 1, 1, 1, 1, 4, 1, 4, 1, 4, 4, 1, 1, 4, 1, 4, 1, 4, 1]
 
 	// Another reserved function, sets up our canvas
   this.setup = function() {
 		option = false;
 		article = false;
+		isCrashCourse = false;
 		audrey = this.sceneArgs[0].audrey;
 		drew = this.sceneArgs[0].drew;
 		phone = this.sceneArgs[0].phone;
-		imgAudrey = audrey[6];
+		crashcourse = this.sceneArgs[0].crashcourse;
+		crashCourseText = this.sceneArgs[2].crashCourse;
+		crashCourseIndex = 0;
+		imgAudrey = audrey[5];
 		imgDrew = drew[17];
 		bg = this.sceneArgs[1].audreyRoom;
 		graphik = this.sceneArgs[4];
 	  dialogue = this.sceneArgs[2].sceneTwo;
 		friendshipIndex = this.sceneArgs[3];
 		scale = windowWidth / 1440;
+		//scale = 1;
 		vScale = ((windowWidth / 16) * 9) / 900;
+		//vScale = 1;
     background(bg);
   }
 
@@ -496,12 +543,10 @@ function Scene2() {
 	// which is why we can update variables and create animation
   this.draw = function() {
 		background(bg);
-		textSize(32);
-		text("Curr index: " + dialogueIndex, 10, 10);
-		if (dialogueIndex != 13) {
-			this.drawAudrey();
-		} else {
+		if (dialogueIndex == 13) {
 			image(phone[0], 165 * scale, 105 * vScale, 500 * scale, 920 * vScale);
+		} else if (dialogueIndex != 1){
+			this.drawAudrey();
 		}
 		if (dialogueIndex > 3) {
 			bg = this.sceneArgs[1].kitchen;
@@ -512,11 +557,13 @@ function Scene2() {
 			this.drawOption();
 		} else if (article) {
 			this.drawArticle();
+		} else if (isCrashCourse) {
+			this.drawCrashCourse();
 		} else {
 			this.drawText();
 			this.drawFriendship();
 		}
-		if (friendshipIndex < 40 && (dialogueIndex >= dialogue.length - 2 || dialogueIndex == 37 || dialogueIndex == 38)) {
+		if (friendshipIndex < 40 && (dialogueIndex >= dialogue.length - 2 || dialogueIndex == 38 || dialogueIndex == 39)) {
 			friendshipIndex += 2;
 		}
   }
@@ -530,7 +577,199 @@ function Scene2() {
 	}
 
 	this.drawPhone = function() {
-		image(imgPhone, phoneX * scale, 105 * vScale, 475 * scale, 920 * vScale);
+		image(imgPhone, phoneX * scale, 105 * vScale, 420 * scale, 920 * vScale);
+	}
+
+	this.drawCrashCourse = function() {
+		// Draw 6 types of misinformation overview
+		textSize(12 * scale);
+		fill(0);
+		textFont(graphik.regular);
+		textAlign(LEFT, CENTER);
+		text("Definitions are from The News Literacy Project's Checkology", 380 * scale, 763 * vScale, 389 * scale, 30 * vScale)
+		image(crashcourse[13], 1119 * scale, 260 * vScale, 52 * scale, 52 * vScale);
+		image(crashcourse[12], 1119 * scale, 730 * vScale, 52 * scale, 52 * vScale);
+		if (crashCourseText[crashCourseIndex] == 'OVERVIEW') {
+			textFont(graphik.bold)
+			textSize(24 * scale);
+			textAlign(LEFT, TOP);
+			fill(0);
+			text("MYTHS ABOUT PIGEONS", 275 * scale, 261 * vScale, 646 * scale, 100 * vScale);
+			textFont(graphik.regular)
+			textSize(20 * scale);
+			text("6 Types of Misinformation", 275 * scale, 294 * vScale, 646 * scale, 100 * vScale)
+			textFont(graphik.bold)
+			textSize(22 * scale);
+			textAlign(LEFT, CENTER);
+			image(crashcourse[1], 324 * scale, 375 * vScale, 118 * scale, 118 * vScale);
+			text('Parody & Satire', 442 * scale, 417 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[3], 324 * scale, 494 * vScale, 118 * scale, 118 * vScale);
+			text('False Connection', 442 * scale, 535 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[5], 324 * scale, 623 * vScale, 118 * scale, 118 * vScale);
+			text('Manipulated Content', 442 * scale, 653 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[6], 762 * scale, 375 * vScale, 118 * scale, 118 * vScale);
+			text('Fabricated Content', 880 * scale, 417 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[8], 762 * scale, 494 * vScale, 118 * scale, 118 * vScale);
+			text('False Context', 880 * scale, 535 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[11], 762 * scale, 623 * vScale, 118 * scale, 118 * vScale);
+			text('Imposter Content', 880 * scale, 653 * vScale, 240 * scale, 34 * vScale);
+			textSize(13 * scale);
+			textFont(graphik.regular);
+			textAlign(LEFT, CENTER);
+			text("Media Literacy Tools", 970 * scale, 738 * vScale, 200 * scale, 34 * vScale);
+			fill(255);
+			text("Click on pigeon icons to learn about different types of misinformation", 530 * scale, 842 * vScale, 443 * scale, 28 * vScale)
+		} else if (crashCourseIndex > 0 && crashCourseIndex < 25) {
+			textFont(graphik.regular);
+			textAlign(LEFT, TOP);
+			textSize(11 * scale);
+			if (crashCourseIndex == 1) {
+				image(crashcourse[1], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
+				image(crashcourse[20], 840 * scale, 399 * vScale, 261 * scale, 237 * vScale);
+				text("John Doe", 887 * scale, 420 * vScale, 100 * scale, 20 * vScale);
+				text("Spy pigeons in Pakistan!", 860 * scale, 450 * vScale, 200 * scale, 60 * vScale);
+			} else if (crashCourseIndex == 5) {
+				image(crashcourse[3], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
+				image(crashcourse[16], 840 * scale, 399 * vScale, 261 * scale, 237 * vScale);
+				text("In Cities and Farms, Disease-Carrying Animals like Pigeons Thrive", 860 * scale, 415 * vScale, 200 * scale, 60 * vScale);
+			} else if (crashCourseIndex == 9) {
+				image(crashcourse[5], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
+				image(crashcourse[19], 840 * scale, 399 * vScale, 261 * scale, 237 * vScale);
+				text("Indian Media Blame Pakistan with Using a Pigeon as a Spy", 860 * scale, 415 * vScale, 200 * scale, 60 * vScale);
+			} else if (crashCourseIndex == 13) {
+				image(crashcourse[6], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
+				image(crashcourse[15], 840 * scale, 399 * vScale, 261 * scale, 237 * vScale);
+				text("297 birds died in The Netherlands during an attempt to test 5G connectivity", 860 * scale, 410 * vScale, 200 * scale, 60 * vScale);
+			} else if (crashCourseIndex == 17) {
+				image(crashcourse[8], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
+				image(crashcourse[17], 840 * scale, 399 * vScale, 261 * scale, 237 * vScale);
+				text("Avian flu mortality rate the highest it has ever been this year!", 860 * scale, 415 * vScale, 200 * scale, 60 * vScale);
+			} else if (crashCourseIndex == 21) {
+				image(crashcourse[11], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
+				image(crashcourse[18], 840 * scale, 399 * vScale, 271 * scale, 257 * vScale);
+				textSize(15 * scale);
+				text("Adele", 909 * scale, 410 * vScale, 100 * scale, 20 * vScale);
+				textSize(11 * scale);
+				text("@therealadele", 909 * scale, 427 * vScale, 100 * scale, 20 * vScale);
+				textSize(10 * scale);
+				text("Thinking about what I could write about for my next song...I kind of want to write a song about the one that flew away...", 909 * scale, 450 * vScale, 190 * scale, 60 * vScale);
+			}
+			fill(0);
+			textFont(graphik.bold);
+			textSize(22 * scale);
+			textAlign(LEFT, CENTER);
+			text(crashCourseText[crashCourseIndex], 380 * scale, 304 * vScale, 300 * scale, 34 * vScale);
+			textAlign(LEFT, TOP);
+			textSize(15 * scale);
+			text("Definition", 282 * scale, 399 * vScale, 93 * scale, 78 * vScale);
+			text("Example", 741 * scale, 399 * vScale, 93 * scale, 78 * vScale);
+			text("Debunk", 741 * scale, 663 * vScale, 93 * scale, 78 * vScale);
+			textFont(graphik.regular);
+			text(String(crashCourseText[crashCourseIndex + 1]), 380 * scale, 399 * vScale, 271 * scale, 394 * vScale);
+			text(String(crashCourseText[crashCourseIndex + 3]), 840 * scale, 663 * vScale, 300 * scale, 394  * vScale);
+			textSize(13.5 * scale);
+			textAlign(LEFT, CENTER);
+			if (crashCourseIndex == 21) {
+				text("Media Literacy Tools", 970 * scale, 738 * vScale, 200 * scale, 34 * vScale);
+			} else {
+				text("Next", 1077 * scale, 738 * vScale, 49 * scale, 34 * vScale);
+			}
+		} else if (crashCourseText[crashCourseIndex] == 'OVERVIEW2') {
+			textFont(graphik.bold)
+			textSize(24 * scale);
+			textAlign(LEFT, TOP);
+			fill(0);
+			text("MYTHS ABOUT PIGEONS", 275 * scale, 261 * vScale, 646 * scale, 100 * vScale);
+			textFont(graphik.regular)
+			textSize(20 * scale);
+			text("6 Media Literacy Tools", 275 * scale, 294 * vScale, 646 * scale, 100 * vScale)
+			textFont(graphik.bold)
+			textSize(22 * scale);
+			textAlign(LEFT, CENTER);
+			image(crashcourse[0], 332 * scale, 384 * vScale, 99 * scale, 94 * vScale);
+			text('Lateral Reading', 442 * scale, 417 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[2], 332 * scale, 499 * vScale, 99 * scale, 94 * vScale);
+			text('Fact-Checking', 442 * scale, 535 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[4], 332 * scale, 618 * vScale, 99 * scale, 94 * vScale);
+			text('Ask Experts', 442 * scale, 653 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[7], 767 * scale, 384 * vScale, 99 * scale, 94 * vScale);
+			text('Verify Sources', 880 * scale, 417 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[9], 767 * scale, 499 * vScale, 99 * scale, 94 * vScale);
+			text('Reverse Image Search', 880 * scale, 535 * vScale, 300 * scale, 34 * vScale);
+			image(crashcourse[10], 767 * scale, 618 * vScale, 99 * scale, 94 * vScale);
+			text('Emotion-Checking', 880 * scale, 653 * vScale, 240 * scale, 34 * vScale);
+			textSize(13 * scale);
+			textFont(graphik.regular);
+			textAlign(LEFT, CENTER);
+			text("Misinformation Types", 970 * scale, 738 * vScale, 200 * scale, 34 * vScale);
+			fill(255);
+			text("Click on pigeon icons to learn about different media literacy tools", 550 * scale, 842 * vScale, 443 * scale, 28 * vScale)
+		} else if (crashCourseIndex > 25 && crashCourseIndex < 38) {
+			textFont(graphik.regular);
+			textAlign(LEFT, TOP);
+			textSize(15 * scale);
+			if (crashCourseIndex == 26) {
+				image(crashcourse[0], 271 * scale, 271 * vScale, 99 * scale, 94 * vScale);
+				text("The top result on Google is not always the best.", 805 * scale, 399 * vScale, 271 * scale, 150 * vScale);
+				text("Take a moment to scan the results and skim the snippets beneath the links.", 805 * scale, 455 * vScale, 271 * scale, 150 * vScale);
+				text("Just because a website looks professional or credible doesn't mean that it is.", 805 * scale, 530 * vScale, 271 * scale, 150 * vScale);
+				text("Sometimes you can find out more about a website by leaving the site itself and visiting others.", 805 * scale, 605 * vScale, 271 * scale, 150 * vScale);
+				textSize(13.5 * scale);
+				fill(255);
+				text("Source: Wineburg, Sam and McGrew, Sarah. Lateral Reading: Reading Less and Learning More When Evaluating Digital Information (October 6, 2017)", 245 * scale, 842 * vScale, 951 * scale, 28 * vScale);
+ 			} else if (crashCourseIndex == 28) {
+				image(crashcourse[2], 271 * scale, 271 * vScale, 99 * scale, 94 * vScale);
+				text("Ask yourselves these questions when you read an article:", 380 * scale, 534 * vScale, 271 * scale, 250 * vScale);
+				text("- Who is the author?", 380 * scale, 594 * vScale, 271 * scale, 250 * vScale);
+				text("- How do they know?", 380 * scale, 614 * vScale, 271 * scale, 250 * vScale);
+				text("- Are they biased/sponsored?", 380 * scale, 634 * vScale, 271 * scale, 250 * vScale);
+				text("- Does the news turn up on any", 380 * scale, 654 * vScale, 271 * scale, 250 * vScale);
+				text("  trustworthy sites?", 380 * scale, 674 * vScale, 271 * scale, 250 * vScale);
+				text("- Do they cite their sources?", 380 * scale, 694 * vScale, 271 * scale, 250 * vScale);
+				text("- What do I not know?", 380 * scale, 714 * vScale, 271 * scale, 250 * vScale);
+				text("- Does it make me emotional?", 380 * scale, 734 * vScale, 271 * scale, 250 * vScale);
+				text("You can use these helpful fact-checking organizations:", 805 * scale, 399 * vScale, 271 * scale, 150 * vScale);
+				text("- FactCheck.org", 805 * scale, 455 * vScale, 271 * scale, 150 * vScale);
+				text("- Fact Checker (Washington Post)", 805 * scale, 475 * vScale, 271 * scale, 150 * vScale);
+				text("- Facts First (CNN)", 805 * scale, 495 * vScale, 271 * scale, 150 * vScale);
+				text("- FirstDraftNews.org", 805 * scale, 515 * vScale, 271 * scale, 150 * vScale);
+				text("- Reporter's Lab (Duke University)", 805 * scale, 535 * vScale, 271 * scale, 150 * vScale);
+			} else if (crashCourseIndex == 30) {
+				image(crashcourse[4], 271 * scale, 271 * vScale, 99 * scale, 94 * vScale);
+				text("Sometimes experts can make mistakes too. It is important to understand that information can evolve and experts are learning just as you are. Read more and learn more. One day you will have your own fact-checking system and become an expert in your own way!", 805 * scale, 399 * vScale, 271 * scale, 150 * vScale);
+			} else if (crashCourseIndex == 32) {
+				image(crashcourse[7], 271 * scale, 271 * vScale, 99 * scale, 94 * vScale);
+				text("Look closely at URLs of the websites. Sometimes the fake ones highly resembles the real ones.", 805 * scale, 399 * vScale, 271 * scale, 150 * vScale);
+				text("On social media, a person's identity is more than their profile picture and user name.", 805 * scale, 480 * vScale, 271 * scale, 150 * vScale);
+			} else if (crashCourseIndex == 34) {
+				image(crashcourse[9], 271 * scale, 271 * vScale, 99 * scale, 94 * vScale);
+				text("Seeing a lot of similar images makes the validity of an image questionable because fake news spreads faster and wider than the truth. Only by doing more research, can we find truth.", 805 * scale, 399 * vScale, 271 * scale, 150 * vScale);
+			} else if (crashCourseIndex == 36) {
+				image(crashcourse[10], 271 * scale, 271 * vScale, 99 * scale, 94 * vScale);
+				text("Next time you see a news headline that is particularly emotionally striking - it makes you fearful, or angry, or jubilant, or sad - remember that these are the tools that are used to grab your attention.", 805 * scale, 399 * vScale, 271 * scale, 150 * vScale);
+				textSize(13.5 * scale);
+				fill(255);
+				text("Source: https://www.cbc.ca/news/canada/saskatchewan/analysis-fake-news-appeals-to-emotion-1.5274207", 395 * scale, 842 * vScale, 951 * scale, 28 * vScale);
+			}
+			fill(0);
+			textFont(graphik.bold);
+			textSize(22 * scale);
+			textAlign(LEFT, CENTER);
+			text(crashCourseText[crashCourseIndex], 380 * scale, 304 * vScale, 300 * scale, 34 * vScale);
+			textAlign(LEFT, TOP);
+			textSize(15 * scale);
+			text("Definition", 282 * scale, 399 * vScale, 93 * scale, 78 * vScale);
+			text("Tips", 741 * scale, 399 * vScale, 93 * scale, 78 * vScale);
+			textFont(graphik.regular);
+			text(String(crashCourseText[crashCourseIndex + 1]), 380 * scale, 399 * vScale, 271 * scale, 394 * vScale);
+			textSize(13.5 * scale);
+			textAlign(LEFT, CENTER);
+			if (crashCourseIndex == 36) {
+				text("Misinformation Types", 970 * scale, 738 * vScale, 200 * scale, 34 * vScale);
+			} else {
+				text("Next", 1077 * scale, 738 * vScale, 49 * scale, 34 * vScale);
+			}
+		}
 	}
 
 	this.drawText = function() {
@@ -604,8 +843,9 @@ function Scene2() {
 		textSize(30 * scale);
 		fill(0);
 		textStyle(BOLD);
+		textFont(graphik.bold);
 		textAlign(CENTER, CENTER);
-		text(dialogue[dialogueIndex + 1], 327 * scale, 582 * vScale, 758 * scale, 69 * vScale);
+		text(dialogue[dialogueIndex + 1], 327 * scale, 552 * vScale, 758 * scale, 100 * vScale);
 
 		//Options
 		fill('#F7BA63');
@@ -613,14 +853,12 @@ function Scene2() {
 		fill('#9AB5E2');
 		rect(756 * scale, 688 * vScale, 599 * scale, 162 * vScale, 50);
 		fill(0)
+		textSize(30 * scale);
 		textAlign(CENTER, CENTER);
 		textStyle(NORMAL);
-		text(dialogue[dialogueIndex + 2], 184 * scale, 734 * vScale, 401 * scale, 70 * vScale);
-		text(dialogue[dialogueIndex + 3], 819 * scale, 725 * vScale, 472 * scale, 88 * vScale);
-	}
-
-	this.drawCrashCourse = function() {
-
+		textFont(graphik.regular);
+		text(dialogue[dialogueIndex + 2], 109 * scale, 688 * vScale, 559 * scale, 162 * vScale);
+		text(dialogue[dialogueIndex + 3], 776 * scale, 688 * vScale, 559 * scale, 162 * vScale);
 	}
 
 	this.drawArticle = function() {
@@ -678,8 +916,9 @@ function Scene2() {
 	// Handles the mouse pressed event passed down by our scene manager
 	// in the core code.
   this.mousePressed = function() {
+		print("(" + mouseX + ", " + mouseY + ")");
 		var totalLength = dialogue.length;
-		if (c >= 0 && c < totalLength && !option && !article) {
+		if (c >= 0 && c < totalLength && !option && !article && !isCrashCourse) {
 			// Jump ahead if clicked while text is printing
 			c = dialogue[dialogueIndex].length;
 		} else {
@@ -693,26 +932,106 @@ function Scene2() {
 					if (mouseX > 756 * scale && mouseX < 1355 * scale) {
 						// Option 2
 						option = false;
-						dialogueIndex = 40;
+						dialogueIndex = 42;
 					}
 				}
 			} else if (article) {
 				article = false;
 				dialogueIndex += 4;
 				print("After article " + dialogueIndex);
-			} else {
+			} else if (isCrashCourse) {
+				if (crashCourseText[crashCourseIndex] == 'OVERVIEW') {
+					if (mouseX > 324 * scale && mouseX < 700 * scale) {
+						if (mouseY > 375 * vScale && mouseY < 491 * vScale) {
+							crashCourseIndex = 1;
+						} else if (mouseY > 492 * vScale && mouseY < 608 * vScale) {
+							crashCourseIndex = 5;
+						} else if (mouseY > 609 * vScale && mouseY < 725 * vScale) {
+							crashCourseIndex = 9;
+						}
+					} else if (mouseX > 762 * scale && mouseX < 1090 * scale) {
+						if (mouseY > 375 * vScale && mouseY < 491 * vScale) {
+							crashCourseIndex = 13;
+						} else if (mouseY > 492 * vScale && mouseY < 608 * vScale) {
+							crashCourseIndex = 17;
+						} else if (mouseY > 609 * vScale && mouseY < 725 * vScale) {
+							crashCourseIndex = 21;
+						}
+					}
+					// Close Button
+					if (mouseX > 1119 * scale && mouseX < 1171 * scale && mouseY > 260 * vScale && mouseY < 312 * vScale) {
+						isCrashCourse = false;
+						bg = this.sceneArgs[1].audreyRoom;
+						dialogueIndex++;
+					}
+					if (mouseX > 1033 * scale && mouseX < 1168 * scale && mouseY > 730 * vScale && mouseY < 780 * vScale) {
+						crashCourseIndex = 25;
+					}
+				} else if (crashCourseIndex > 0 && crashCourseIndex < 25) {
+					// Close button
+					if (mouseX > 1119 * scale && mouseX < 1171 * scale && mouseY > 260 * vScale && mouseY < 312 * vScale) {
+						crashCourseIndex = 0;
+					}
+					if (mouseX > 1075 * scale && mouseX < 1215 * scale && mouseY > 730 * vScale && mouseY < 780 * vScale) {
+						crashCourseIndex += 4;
+					}
+				} else if (crashCourseText[crashCourseIndex] == 'OVERVIEW2') {
+					if (mouseX > 324 * scale && mouseX < 700 * scale) {
+						if (mouseY > 375 * vScale && mouseY < 491 * vScale) {
+							crashCourseIndex = 26;
+						} else if (mouseY > 492 * vScale && mouseY < 608 * vScale) {
+							crashCourseIndex = 28;
+						} else if (mouseY > 609 * vScale && mouseY < 725 * vScale) {
+							crashCourseIndex = 30;
+						}
+					} else if (mouseX > 762 * scale && mouseX < 1090 * scale) {
+						if (mouseY > 375 * vScale && mouseY < 491 * vScale) {
+							crashCourseIndex = 32;
+						} else if (mouseY > 492 * vScale && mouseY < 608 * vScale) {
+							crashCourseIndex = 34;
+						} else if (mouseY > 609 * vScale && mouseY < 725 * vScale) {
+							crashCourseIndex = 36;
+						}
+					}
+					// Close Button
+					if (mouseX > 1119 * scale && mouseX < 1171 * scale && mouseY > 260 * vScale && mouseY < 312 * vScale) {
+						isCrashCourse = false;
+						bg = this.sceneArgs[1].audreyRoom;
+						dialogueIndex++;
+					}
+					if (mouseX > 1033 * scale && mouseX < 1168 * scale && mouseY > 730 * vScale && mouseY < 780 * vScale) {
+						crashCourseIndex = 0;
+					}
+				} else if (crashCourseIndex > 25 && crashCourseIndex < 38) {
+					// Close button
+					if (mouseX > 1119 * scale && mouseX < 1171 * scale && mouseY > 260 * vScale && mouseY < 312 * vScale) {
+						crashCourseIndex = 25;
+					}
+					if (mouseX > 1075 * scale && mouseX < 1215 * scale && mouseY > 730 * vScale && mouseY < 780 * vScale) {
+
+						if (crashCourseIndex == 36) {
+							crashCourseIndex = 0;
+						} else {
+							crashCourseIndex += 2;
+						}
+					}
+				}
+			}	else {
 				dialogueIndex++;
-				imgAudrey = audrey[audreyExpressions[dialogueIndex] - 1];
-				imgDrew = drew[drewExpressions[dialogueIndex] - 1];
 				if (dialogue[dialogueIndex] == 'OPTION') {
 					option = true;
 				}
 				if (dialogue[dialogueIndex] == 'ARTICLE') {
 					article = true;
 				}
+				if (dialogue[dialogueIndex] == 'CRASHCOURSE') {
+					isCrashCourse = true;
+					bg = this.sceneArgs[1].crashCourse;
+				}
 				c = 0;
 			}
-
+			imgAudrey = audrey[audreyExpressions[dialogueIndex] - 1];
+			imgDrew = drew[drewExpressions[dialogueIndex] - 1];
 		}
     if (dialogueIndex >= totalLength - 1 || dialogue[dialogueIndex] == "OPTIONENDING") {
 			this.sceneArgs[3] = 40;
@@ -731,10 +1050,10 @@ function Scene3() {
 	var audrey;
 	var emily;
 
-	var audreyExpressions = [3, 8, 3, 1, 10, 1, 12, 1, 1, 1, 1, 1, 10, 1, 12, 1, 12, 1, 1, 1, 10, 1, 2, 8, 2, 7, 7, 7, 7, 8, 2, 8, 3, 8, 3, 8, 3, 3, 3]
-	var emilyExpressions = [13, 4, 6, 16, 11, 14, 11, 16, 16, 16, 16, 16, 2, 0, 2, 1, 2, 1, 1, 1, 11, 5, 6, 5, 6, 6, 6, 6, 6, 5, 6, 5, 13, 3, 13, 4, 13, 13, 13]
+	var audreyExpressions = [3, 8, 3, 1, 10, 1, 12, 1, 1, 1, 1, 1, 10, 1, 12, 1, 12, 1, 1, 1, 10, 1, 2, 8, 2, 7, 7, 7, 7, 8, 2, 8, 3, 3, 8, 3, 8, 3, 3, 3]
+	var emilyExpressions = [13, 4, 6, 16, 11, 14, 11, 16, 16, 16, 16, 16, 2, 0, 2, 1, 2, 1, 1, 1, 11, 5, 6, 5, 6, 6, 6, 6, 6, 5, 6, 5, 13, 13, 3, 13, 4, 13, 13, 13]
 	// 0 - Narrator, 1 - Audrey, 2 - Audrey Thoughts, 3 - Kate, 4 - Drew, 5 - Emily, 6 - Jack
-	var whoSpeaking = [1, 5, 1, 5, 1, 5, 1, 5, 5, 5, 5, 5, 1, 5, 1, 5, 1, 5, 5, 5, 1, 5, 1, 5, 1, 1, 1, 1, 1, 5, 1, 5, 1, 5, 1, 5, 1, 1]
+	var whoSpeaking = [1, 5, 1, 5, 1, 5, 1, 5, 5, 5, 5, 5, 1, 5, 1, 5, 1, 5, 5, 5, 1, 5, 1, 5, 1, 1, 1, 1, 1, 5, 1, 5, 1, 1, 5, 1, 5, 1, 1]
 
 	var bg;
 
@@ -783,7 +1102,6 @@ function Scene3() {
 		background(bg);
 		this.drawAudrey();
 		this.drawEmily();
-
 		if (option) {
 			this.drawOption();
 		} else if (article) {
@@ -878,8 +1196,9 @@ function Scene3() {
 		textSize(30 * scale);
 		fill(0);
 		textStyle(BOLD);
+		textFont(graphik.bold);
 		textAlign(CENTER, CENTER);
-		text(dialogue[dialogueIndex + 1], 327 * scale, 582 * vScale, 758 * scale, 69 * vScale);
+		text(dialogue[dialogueIndex + 1], 327 * scale, 552 * vScale, 758 * scale, 100 * vScale);
 
 		//Options
 		fill('#F7BA63');
@@ -887,10 +1206,12 @@ function Scene3() {
 		fill('#9AB5E2');
 		rect(756 * scale, 688 * vScale, 599 * scale, 162 * vScale, 50);
 		fill(0)
+		textSize(30 * scale);
 		textAlign(CENTER, CENTER);
 		textStyle(NORMAL);
-		text(dialogue[dialogueIndex + 2], 184 * scale, 734 * vScale, 401 * scale, 70 * vScale);
-		text(dialogue[dialogueIndex + 3], 819 * scale, 725 * vScale, 472 * scale, 88 * vScale);
+		textFont(graphik.regular);
+		text(dialogue[dialogueIndex + 2], 109 * scale, 688 * vScale, 559 * scale, 162 * vScale);
+		text(dialogue[dialogueIndex + 3], 776 * scale, 688 * vScale, 559 * scale, 162 * vScale);
 	}
 
 	this.drawEmotion = function() {
@@ -990,7 +1311,7 @@ function Scene3() {
 				}
 			} else if (article) {
 				article = false;
-				dialogueIndex += 4;
+				dialogueIndex += 3;
 			} else if (emotion) {
 				if (mouseX > 574 * scale && mouseX < 828 * scale && mouseY > 749 * vScale && mouseY < 848 * vScale) {
 					emotion = false;
@@ -998,8 +1319,6 @@ function Scene3() {
 				}
 			} else {
 				dialogueIndex++;
-				imgAudrey = audrey[audreyExpressions[dialogueIndex]];
-				imgEmily = emily[emilyExpressions[dialogueIndex]];
 				if (dialogue[dialogueIndex] == 'OPTION') {
 					option = true;
 				}
@@ -1011,7 +1330,8 @@ function Scene3() {
 				}
 				c = 0;
 			}
-
+			imgAudrey = audrey[audreyExpressions[dialogueIndex]];
+			imgEmily = emily[emilyExpressions[dialogueIndex]];
 		}
     if (dialogueIndex >= totalLength - 1 || dialogue[dialogueIndex] == "OPTIONENDING") {
 			this.sceneArgs[3] = 70;
@@ -1032,12 +1352,27 @@ function Scene4() {
 	var emily;
 	var drew;
 
-	var audreyExpressions = [3, 8, 2, 1, 2, 8, 1, 6, 1, 12, 12, 1, 1, 1, 1, 1, 1, 1, 10, 1, 10, 1, 12, 1, 12, 1, 10, 2, 8, 2, 8, 4, 4]
-	var jackExpressions =  [3, 7, 8, 7, 8, 7, 3, 3, 7, 3, 8, 7, 3, 3, 3, 8, 7, 9, 10, 9, 10, 4, 5, 4, 5, 0, 5, 1, 2, 12, 6, 12, 12]
-	var emilyExpressions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 8, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	var drewExpressions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 9, 13, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+		// loadImage('assets/Audrey/SVG/audrey_frowning_phone.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_frowning.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_happy_explaining.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_happy_speaking.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_laughing.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_searching_computer.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_shrugging.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_smiling_phone.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_smiling.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_surprised_computer.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_upset_explaining.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_upset_phone.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_upset_speaking.svg'),
+		// loadImage('assets/Pigeon/SVG/pigeon.svg')
+
+	var audreyExpressions = [3, 8, 2, 1, 2, 8, 1, 6, 1, 12, 12, 1, 1, 1, 1, 1, 1, 1, 10, 1, 10, 10, 1, 12, 1, 12, 12, 1, 10, 2, 2, 8, 2, 8, 4, 4]
+	var jackExpressions =  [3, 7, 8, 7, 8, 7, 3, 3, 7, 3, 8, 7, 3, 3, 3, 8, 7, 9, 10, 9, 10, 10, 4, 5, 4, 5, 5, 0, 5, 1, 1, 2, 12, 6, 12, 12]
+	var emilyExpressions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 8, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	var drewExpressions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 9, 13, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	// 0 - Narrator, 1 - Audrey, 2 - Audrey Thoughts, 3 - Kate, 4 - Drew, 5 - Emily, 6 - Jack
-	var whoSpeaking = [1, 6, 1, 6, 1, 6, 1, 1, 6, 1, 1, 6, 6, 4, 5, 4, 6, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 1, 6, 1, 6, 1]
+	var whoSpeaking = [1, 6, 1, 6, 1, 6, 1, 1, 6, 1, 1, 6, 6, 4, 5, 4, 6, 6, 1, 6, 1, 1, 6, 1, 6, 1, 1, 6, 1, 1, 1, 6, 1, 6, 1]
 
 	var bg;
 
@@ -1088,6 +1423,10 @@ function Scene4() {
 	// which is why we can update variables and create animation
   this.draw = function() {
 		background(bg);
+		textSize(32);
+		text("Curr index: " + dialogueIndex, 20, 10);
+		text("Curr Audrey: " + audreyExpressions[dialogueIndex], 20, 30);
+		text("Curr Jack: " + jackExpressions[dialogueIndex], 20, 50);
 		if (dialogueIndex < 12 || dialogueIndex > 16) {
 					this.drawAudrey();
 					bg = this.sceneArgs[1].jackRoom;
@@ -1200,8 +1539,9 @@ function Scene4() {
 		textSize(30 * scale);
 		fill(0);
 		textStyle(BOLD);
+		textFont(graphik.bold);
 		textAlign(CENTER, CENTER);
-		text(dialogue[dialogueIndex + 1], 327 * scale, 582 * vScale, 758 * scale, 69 * vScale);
+		text(dialogue[dialogueIndex + 1], 327 * scale, 552 * vScale, 758 * scale, 100 * vScale);
 
 		//Options
 		fill('#F7BA63');
@@ -1209,10 +1549,12 @@ function Scene4() {
 		fill('#9AB5E2');
 		rect(756 * scale, 688 * vScale, 599 * scale, 162 * vScale, 50);
 		fill(0)
+		textSize(30 * scale);
 		textAlign(CENTER, CENTER);
 		textStyle(NORMAL);
-		text(dialogue[dialogueIndex + 2], 184 * scale, 734 * vScale, 401 * scale, 70 * vScale);
-		text(dialogue[dialogueIndex + 3], 819 * scale, 725 * vScale, 472 * scale, 88 * vScale);
+		textFont(graphik.regular);
+		text(dialogue[dialogueIndex + 2], 109 * scale, 688 * vScale, 559 * scale, 162 * vScale);
+		text(dialogue[dialogueIndex + 3], 776 * scale, 688 * vScale, 559 * scale, 162 * vScale);
 	}
 
 	this.drawFlashback = function() {
@@ -1410,11 +1752,17 @@ function Scene5() {
 		}
 		if (dialogueIndex == 2) {
 			bg = this.sceneArgs[1].birdShelter;
-			image(audrey[4], -51 * scale, 43 * vScale, 644 * scale, 857 * vScale);
+			image(audrey[8], -51 * scale, 43 * vScale, 644 * scale, 857 * vScale);
 			image(jack[11], 240 * scale, 43 * vScale, 646 * scale, 860 * vScale);
 			image(kate[6], 782 * scale, 24 * vScale, 658 * scale, 876 * vScale);
 		}
 		if (dialogueIndex == 3) {
+			bg = this.sceneArgs[1].birdShelter;
+			image(audrey[4], -51 * scale, 43 * vScale, 644 * scale, 857 * vScale);
+			image(jack[11], 240 * scale, 43 * vScale, 646 * scale, 860 * vScale);
+			image(kate[6], 782 * scale, 24 * vScale, 658 * scale, 876 * vScale);
+		}
+		if (dialogueIndex == 4) {
 			bg = this.sceneArgs[1].end;
 		}
 		if (dialogueIndex < 4) {
