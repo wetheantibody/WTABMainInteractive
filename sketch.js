@@ -151,6 +151,7 @@ function preload() {
 		livingRoom : loadImage('assets/Backgrounds/SVG/living room.svg'),
 		start: loadImage('assets/IntroEnd/landing page.svg'),
 		end: loadImage('assets/IntroEnd/happy ending.svg'),
+		congrats: loadImage('assets/game-start-and-end/congrats.svg')
 		crashCourse: loadImage('assets/Backgrounds/SVG/crash course.svg')
 	};
 
@@ -186,7 +187,7 @@ function setup() {
 
   mgr = new SceneManager();
 
-  mgr.addScene ( Scene1 );
+  //mgr.addScene ( Scene1 );
   mgr.addScene ( Scene2 );
 	mgr.addScene ( Scene3 );
 	mgr.addScene ( Scene4 );
@@ -281,7 +282,7 @@ function Scene1() {
 		audrey = this.sceneArgs[0].audrey;
 		kate = this.sceneArgs[0].kate;
 		phone = this.sceneArgs[0].phone;
-		imgAudrey = audrey[0];
+		imgAudrey = audrey[8];
 		imgKate = kate[0];
 		imgPhone = phone[6];
 		drewPost = phone[1];
@@ -330,26 +331,26 @@ function Scene1() {
 	}
 
 	this.drawPhone = function() {
-		image(imgPhone, phoneX * scale, 105 * vScale, 490 * scale, 920 * vScale);
+		image(imgPhone, phoneX * scale, 105 * vScale, 470 * scale, 920 * vScale);
 		if (dialogueIndex > 1) {
 			if (phoneX > 165) {
 				phoneX -= 30;
 			}
 			if (phoneX <= 165) {
 				if (dialogueIndex >= 2) {
-					image(drewPost, 754 * scale, 33 * vScale, 532 * scale, 225 * vScale);
+					image(drewPost, 754 * scale, 33 * vScale, 522 * scale, 225 * vScale);
 					if (friendshipIndex > 70) {
 						friendshipIndex -= 2;
 					}
 				}
 				if (dialogueIndex >= 3) {
-					image(emilyPost, 754 * scale, 279 * vScale, 532 * scale, 197 * vScale);
+					image(emilyPost, 754 * scale, 279 * vScale, 522 * scale, 197 * vScale);
 					if (friendshipIndex > 40) {
 						friendshipIndex -= 2;
 					}
 				}
 				if (dialogueIndex >= 4) {
-					image(jackPost, 754 * scale, 496 * vScale, 532 * scale, 202 * vScale);
+					image(jackPost, 754 * scale, 496 * vScale, 522 * scale, 202 * vScale);
 					if (friendshipIndex > 10) {
 						friendshipIndex -= 2;
 					}
@@ -504,10 +505,10 @@ function Scene2() {
 	var scale = 1;
 	var vScale;
 
-	var audreyExpressions = [6, 6, 10, 6, 9, 4, 2, 4, 9, 3, 2, 13, 2, 2, 2, 2, 2, 2, 3, 3, 9, 4, 9, 8, 8, 8, 8, 8, 9, 4, 9, 3, 5, 3, 9, 4, 9, 4, 5, 4, 4, 3, 9, 4, 9, 4, 9, 3, 9, 4, 9, 9, 3, 9, 8, 8, 8, 8, 8, 9, 3, 9, 4, 9, 9, 3, 9, 4, 9, 4, 5, 4]
-	var drewExpressions = [17, 17, 17, 17, 17, 17, 20, 2, 20, 15, 20, 15, 19, 19, 19, 19, 19, 19, 15, 15, 12, 15, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 17, 3, 17, 3, 17, 4, 17, 17, 7, 6, 7, 6, 7, 8, 7, 6, 5, 6, 8, 7, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 1, 17, 3, 17, 3, 4, 17, 17]
+	var audreyExpressions = [6, 6, 10, 6, 9, 4, 2, 4, 9, 3, 2, 13, 2, 2, 2, 2, 2, 2, 3, 3, 9, 4, 9, 8, 8, 8, 8, 8, 9, 4, 9, 3, 3, 5, 3, 9, 4, 9, 4, 5, 4, 4, 3, 9, 4, 9, 4, 9, 3, 9, 4, 9, 9, 3, 9, 8, 8, 8, 8, 8, 9, 3, 9, 4, 9, 9, 3, 3, 9, 4, 9, 4, 5, 4]
+	var drewExpressions = [17, 17, 17, 17, 17, 17, 20, 2, 20, 15, 20, 15, 19, 19, 19, 19, 19, 19, 15, 15, 12, 15, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 17, 17, 3, 17, 3, 17, 4, 17, 17, 7, 6, 7, 6, 7, 8, 7, 6, 5, 6, 8, 7, 12, 15, 15, 15, 15, 15, 18, 9, 18, 9, 1, 1, 17, 17, 3, 17, 3, 17, 4, 17]
 	// 0 - Narrator, 1 - Audrey, 2 - Audrey Thoughts, 3 - Kate, 4 - Drew, 5 - Emily, 6 - Jack
-	var whoSpeaking = [2, 2, 2, 2, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 1, 1, 4, 1, 4, 1, 1, 1, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 1, 4, 1, 1, 1, 1, 1, 4, 1, 4, 1, 4, 4, 1, 4, 1, 4, 1, 4, 1, 1]
+	var whoSpeaking = [2, 2, 2, 2, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 4, 4, 4, 4, 1, 1, 4, 1, 4, 1, 1, 1, 1, 1, 4, 1, 4, 1, 4, 1, 1, 4, 1, 4, 1, 4, 1, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 4, 1, 4, 1, 1, 1, 1, 1, 4, 1, 4, 1, 4, 4, 1, 1, 4, 1, 4, 1, 4, 1]
 
 	// Another reserved function, sets up our canvas
   this.setup = function() {
@@ -542,8 +543,6 @@ function Scene2() {
 	// which is why we can update variables and create animation
   this.draw = function() {
 		background(bg);
-		textSize(32);
-		//text("Curr index: " + dialogueIndex, 10, 10);
 		if (dialogueIndex == 13) {
 			image(phone[0], 165 * scale, 105 * vScale, 500 * scale, 920 * vScale);
 		} else if (dialogueIndex != 1){
@@ -564,7 +563,7 @@ function Scene2() {
 			this.drawText();
 			this.drawFriendship();
 		}
-		if (friendshipIndex < 40 && (dialogueIndex >= dialogue.length - 2 || dialogueIndex == 37 || dialogueIndex == 38)) {
+		if (friendshipIndex < 40 && (dialogueIndex >= dialogue.length - 2 || dialogueIndex == 38 || dialogueIndex == 39)) {
 			friendshipIndex += 2;
 		}
   }
@@ -578,7 +577,7 @@ function Scene2() {
 	}
 
 	this.drawPhone = function() {
-		image(imgPhone, phoneX * scale, 105 * vScale, 475 * scale, 920 * vScale);
+		image(imgPhone, phoneX * scale, 105 * vScale, 420 * scale, 920 * vScale);
 	}
 
 	this.drawCrashCourse = function() {
@@ -933,7 +932,7 @@ function Scene2() {
 					if (mouseX > 756 * scale && mouseX < 1355 * scale) {
 						// Option 2
 						option = false;
-						dialogueIndex = 41;
+						dialogueIndex = 42;
 					}
 				}
 			} else if (article) {
@@ -1051,10 +1050,10 @@ function Scene3() {
 	var audrey;
 	var emily;
 
-	var audreyExpressions = [3, 8, 3, 1, 10, 1, 12, 1, 1, 1, 1, 1, 10, 1, 12, 1, 12, 1, 1, 1, 10, 1, 2, 8, 2, 7, 7, 7, 7, 8, 2, 8, 3, 8, 3, 8, 3, 3, 3]
-	var emilyExpressions = [13, 4, 6, 16, 11, 14, 11, 16, 16, 16, 16, 16, 2, 0, 2, 1, 2, 1, 1, 1, 11, 5, 6, 5, 6, 6, 6, 6, 6, 5, 6, 5, 13, 3, 13, 4, 13, 13, 13]
+	var audreyExpressions = [3, 8, 3, 1, 10, 1, 12, 1, 1, 1, 1, 1, 10, 1, 12, 1, 12, 1, 1, 1, 10, 1, 2, 8, 2, 7, 7, 7, 7, 8, 2, 8, 3, 3, 8, 3, 8, 3, 3, 3]
+	var emilyExpressions = [13, 4, 6, 16, 11, 14, 11, 16, 16, 16, 16, 16, 2, 0, 2, 1, 2, 1, 1, 1, 11, 5, 6, 5, 6, 6, 6, 6, 6, 5, 6, 5, 13, 13, 3, 13, 4, 13, 13, 13]
 	// 0 - Narrator, 1 - Audrey, 2 - Audrey Thoughts, 3 - Kate, 4 - Drew, 5 - Emily, 6 - Jack
-	var whoSpeaking = [1, 5, 1, 5, 1, 5, 1, 5, 5, 5, 5, 5, 1, 5, 1, 5, 1, 5, 5, 5, 1, 5, 1, 5, 1, 1, 1, 1, 1, 5, 1, 5, 1, 5, 1, 5, 1, 1]
+	var whoSpeaking = [1, 5, 1, 5, 1, 5, 1, 5, 5, 5, 5, 5, 1, 5, 1, 5, 1, 5, 5, 5, 1, 5, 1, 5, 1, 1, 1, 1, 1, 5, 1, 5, 1, 1, 5, 1, 5, 1, 1]
 
 	var bg;
 
@@ -1103,7 +1102,6 @@ function Scene3() {
 		background(bg);
 		this.drawAudrey();
 		this.drawEmily();
-
 		if (option) {
 			this.drawOption();
 		} else if (article) {
@@ -1313,7 +1311,7 @@ function Scene3() {
 				}
 			} else if (article) {
 				article = false;
-				dialogueIndex += 4;
+				dialogueIndex += 3;
 			} else if (emotion) {
 				if (mouseX > 574 * scale && mouseX < 828 * scale && mouseY > 749 * vScale && mouseY < 848 * vScale) {
 					emotion = false;
@@ -1321,8 +1319,6 @@ function Scene3() {
 				}
 			} else {
 				dialogueIndex++;
-				imgAudrey = audrey[audreyExpressions[dialogueIndex]];
-				imgEmily = emily[emilyExpressions[dialogueIndex]];
 				if (dialogue[dialogueIndex] == 'OPTION') {
 					option = true;
 				}
@@ -1334,7 +1330,8 @@ function Scene3() {
 				}
 				c = 0;
 			}
-
+			imgAudrey = audrey[audreyExpressions[dialogueIndex]];
+			imgEmily = emily[emilyExpressions[dialogueIndex]];
 		}
     if (dialogueIndex >= totalLength - 1 || dialogue[dialogueIndex] == "OPTIONENDING") {
 			this.sceneArgs[3] = 70;
@@ -1355,12 +1352,27 @@ function Scene4() {
 	var emily;
 	var drew;
 
-	var audreyExpressions = [3, 8, 2, 1, 2, 8, 1, 6, 1, 12, 12, 1, 1, 1, 1, 1, 1, 1, 10, 1, 10, 1, 12, 1, 12, 1, 10, 2, 8, 2, 8, 4, 4]
-	var jackExpressions =  [3, 7, 8, 7, 8, 7, 3, 3, 7, 3, 8, 7, 3, 3, 3, 8, 7, 9, 10, 9, 10, 4, 5, 4, 5, 0, 5, 1, 2, 12, 6, 12, 12]
-	var emilyExpressions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 8, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	var drewExpressions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 9, 13, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+		// loadImage('assets/Audrey/SVG/audrey_frowning_phone.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_frowning.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_happy_explaining.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_happy_speaking.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_laughing.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_searching_computer.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_shrugging.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_smiling_phone.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_smiling.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_surprised_computer.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_upset_explaining.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_upset_phone.svg'),
+		// loadImage('assets/Audrey/SVG/audrey_upset_speaking.svg'),
+		// loadImage('assets/Pigeon/SVG/pigeon.svg')
+
+	var audreyExpressions = [3, 8, 2, 1, 2, 8, 1, 6, 1, 12, 12, 1, 1, 1, 1, 1, 1, 1, 10, 1, 10, 10, 1, 12, 1, 12, 12, 1, 10, 2, 2, 8, 2, 8, 4, 4]
+	var jackExpressions =  [3, 7, 8, 7, 8, 7, 3, 3, 7, 3, 8, 7, 3, 3, 3, 8, 7, 9, 10, 9, 10, 10, 4, 5, 4, 5, 5, 0, 5, 1, 1, 2, 12, 6, 12, 12]
+	var emilyExpressions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 8, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	var drewExpressions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 9, 13, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	// 0 - Narrator, 1 - Audrey, 2 - Audrey Thoughts, 3 - Kate, 4 - Drew, 5 - Emily, 6 - Jack
-	var whoSpeaking = [1, 6, 1, 6, 1, 6, 1, 1, 6, 1, 1, 6, 6, 4, 5, 4, 6, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 1, 6, 1, 6, 1]
+	var whoSpeaking = [1, 6, 1, 6, 1, 6, 1, 1, 6, 1, 1, 6, 6, 4, 5, 4, 6, 6, 1, 6, 1, 1, 6, 1, 6, 1, 1, 6, 1, 1, 1, 6, 1, 6, 1]
 
 	var bg;
 
@@ -1411,6 +1423,10 @@ function Scene4() {
 	// which is why we can update variables and create animation
   this.draw = function() {
 		background(bg);
+		textSize(32);
+		text("Curr index: " + dialogueIndex, 20, 10);
+		text("Curr Audrey: " + audreyExpressions[dialogueIndex], 20, 30);
+		text("Curr Jack: " + jackExpressions[dialogueIndex], 20, 50);
 		if (dialogueIndex < 12 || dialogueIndex > 16) {
 					this.drawAudrey();
 					bg = this.sceneArgs[1].jackRoom;
@@ -1736,11 +1752,17 @@ function Scene5() {
 		}
 		if (dialogueIndex == 2) {
 			bg = this.sceneArgs[1].birdShelter;
-			image(audrey[4], -51 * scale, 43 * vScale, 644 * scale, 857 * vScale);
+			image(audrey[8], -51 * scale, 43 * vScale, 644 * scale, 857 * vScale);
 			image(jack[11], 240 * scale, 43 * vScale, 646 * scale, 860 * vScale);
 			image(kate[6], 782 * scale, 24 * vScale, 658 * scale, 876 * vScale);
 		}
 		if (dialogueIndex == 3) {
+			bg = this.sceneArgs[1].birdShelter;
+			image(audrey[4], -51 * scale, 43 * vScale, 644 * scale, 857 * vScale);
+			image(jack[11], 240 * scale, 43 * vScale, 646 * scale, 860 * vScale);
+			image(kate[6], 782 * scale, 24 * vScale, 658 * scale, 876 * vScale);
+		}
+		if (dialogueIndex == 4) {
 			bg = this.sceneArgs[1].end;
 		}
 		if (dialogueIndex < 4) {
