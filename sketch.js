@@ -108,6 +108,29 @@ function preload() {
 		loadImage('assets/Phone/Emily Post.svg'),
 		loadImage('assets/Phone/Jack Comment.svg'),
 		loadImage('assets/Phone/Phone Post.svg'),
+	];
+	crashcourse = [
+		loadImage('assets/crashcourse/Icons/1 lateral reading.svg'),
+		loadImage('assets/crashcourse/Icons/1 parody.svg'),
+		loadImage('assets/crashcourse/Icons/2 fact checking.svg'),
+		loadImage('assets/crashcourse/Icons/2 false connection.svg'),
+		loadImage('assets/crashcourse/Icons/3 ask experts.svg'),
+		loadImage('assets/crashcourse/Icons/3 manipulated content.svg'),
+		loadImage('assets/crashcourse/Icons/4 fabricated content.svg'),
+		loadImage('assets/crashcourse/Icons/4 verify sources.svg'),
+		loadImage('assets/crashcourse/Icons/5 false context.svg'),
+		loadImage('assets/crashcourse/Icons/5 reverse image search.svg'),
+		loadImage('assets/crashcourse/Icons/6 emotion check.svg'),
+		loadImage('assets/crashcourse/Icons/6 imposter content.svg'),
+		loadImage('assets/crashcourse/Icons/arrow.svg'),
+		loadImage('assets/crashcourse/Icons/x.svg'),
+		loadImage('assets/crashcourse/blank.svg'),
+		loadImage('assets/crashcourse/fabricated content example.png'),
+		loadImage('assets/crashcourse/false connection example.png'),
+		loadImage('assets/crashcourse/false context example.png'),
+		loadImage('assets/crashcourse/imposter content example.png'),
+		loadImage('assets/crashcourse/manipulated content example.png'),
+		loadImage('assets/crashcourse/parody example.png')
 	]
 	actors = {
 		audrey: audrey,
@@ -117,6 +140,7 @@ function preload() {
 		jack: jack,
 		pigeon: pigeon,
 		phone: phone,
+		crashcourse: crashcourse,
 	};
 
 	backgrounds = {
@@ -126,7 +150,8 @@ function preload() {
 		kitchen :loadImage('assets/Backgrounds/SVG/kitchen.svg'),
 		livingRoom : loadImage('assets/Backgrounds/SVG/living room.svg'),
 		start: loadImage('assets/IntroEnd/landing page.svg'),
-		end: loadImage('assets/IntroEnd/happy ending.svg')
+		end: loadImage('assets/IntroEnd/happy ending.svg'),
+		crashCourse: loadImage('assets/Backgrounds/SVG/crash course.svg')
 	};
 
 	// Text
@@ -135,12 +160,14 @@ function preload() {
 	sceneThreeDialogue = loadStrings('assets/scene3.txt');
 	sceneFourDialogue = loadStrings('assets/scene4.txt');
 	sceneFiveDialogue = loadStrings('assets/scene5.txt');
+	crashCourse = loadStrings('assets/crashCourse.txt');
 	script = {
 		sceneOne : sceneOneDialogue,
 		sceneTwo: sceneTwoDialogue,
 		sceneThree: sceneThreeDialogue,
 		sceneFour: sceneFourDialogue,
-		sceneFive: sceneFiveDialogue
+		sceneFive: sceneFiveDialogue,
+		crashCourse: crashCourse
 	};
 
 	// Fonts
@@ -153,13 +180,13 @@ function preload() {
 
 function setup() {
 	// We can create the interactive so that it starts with the current window width and height
-	createCanvas(windowWidth, (windowWidth / 16) * 9);
-	//createCanvas(1440, 900)
+	//createCanvas(windowWidth, (windowWidth / 16) * 9);
+	createCanvas(1440, 900)
 	frameRate(60);
 
   mgr = new SceneManager();
 
-  //mgr.addScene ( Scene1 );
+  mgr.addScene ( Scene1 );
   mgr.addScene ( Scene2 );
 	mgr.addScene ( Scene3 );
 	mgr.addScene ( Scene4 );
@@ -445,12 +472,15 @@ function Scene2() {
 	var audrey;
 	var drew;
 	var phone;
+	var crashcourse;
 
 	var bg;
 
 	var option;
 
 	var article;
+
+	var isCrashCourse;
 
 	var c = 0; // Variable so we can print the dialogue out like a typewriter
 
@@ -460,6 +490,9 @@ function Scene2() {
 
   var dialogueIndex = 0;
   var dialogue;
+
+	var crashCourseIndex = 0;
+	var crashCourseText;
 
 	var friendshipIndex;
 
@@ -475,17 +508,23 @@ function Scene2() {
   this.setup = function() {
 		option = false;
 		article = false;
+		isCrashCourse = false;
 		audrey = this.sceneArgs[0].audrey;
 		drew = this.sceneArgs[0].drew;
 		phone = this.sceneArgs[0].phone;
-		imgAudrey = audrey[6];
+		crashcourse = this.sceneArgs[0].crashcourse;
+		crashCourseText = this.sceneArgs[2].crashCourse;
+		crashCourseIndex = 0;
+		imgAudrey = audrey[5];
 		imgDrew = drew[17];
 		bg = this.sceneArgs[1].audreyRoom;
 		graphik = this.sceneArgs[4];
 	  dialogue = this.sceneArgs[2].sceneTwo;
 		friendshipIndex = this.sceneArgs[3];
-		scale = windowWidth / 1440;
-		vScale = ((windowWidth / 16) * 9) / 900;
+		//scale = windowWidth / 1440;
+		scale = 1;
+		//vScale = ((windowWidth / 16) * 9) / 900;
+		vScale = 1;
     background(bg);
   }
 
@@ -499,11 +538,11 @@ function Scene2() {
   this.draw = function() {
 		background(bg);
 		textSize(32);
-		text("Curr index: " + dialogueIndex, 10, 10);
-		if (dialogueIndex != 13) {
-			this.drawAudrey();
-		} else {
+		//text("Curr index: " + dialogueIndex, 10, 10);
+		if (dialogueIndex == 13) {
 			image(phone[0], 165 * scale, 105 * vScale, 500 * scale, 920 * vScale);
+		} else if (dialogueIndex != 1){
+			this.drawAudrey();
 		}
 		if (dialogueIndex > 3) {
 			bg = this.sceneArgs[1].kitchen;
@@ -514,6 +553,8 @@ function Scene2() {
 			this.drawOption();
 		} else if (article) {
 			this.drawArticle();
+		} else if (isCrashCourse) {
+			this.drawCrashCourse();
 		} else {
 			this.drawText();
 			this.drawFriendship();
@@ -533,6 +574,198 @@ function Scene2() {
 
 	this.drawPhone = function() {
 		image(imgPhone, phoneX * scale, 105 * vScale, 475 * scale, 920 * vScale);
+	}
+
+	this.drawCrashCourse = function() {
+		// Draw 6 types of misinformation overview
+		textSize(12 * scale);
+		fill(0);
+		textFont(graphik.regular);
+		textAlign(LEFT, CENTER);
+		text("Definitions are from The News Literacy Project's Checkology", 380 * scale, 763 * vScale, 389 * scale, 30 * vScale)
+		image(crashcourse[13], 1119 * scale, 260 * vScale, 52 * scale, 52 * vScale);
+		image(crashcourse[12], 1119 * scale, 730 * vScale, 52 * scale, 52 * vScale);
+		if (crashCourseText[crashCourseIndex] == 'OVERVIEW') {
+			textFont(graphik.bold)
+			textSize(24 * scale);
+			textAlign(LEFT, TOP);
+			fill(0);
+			text("MYTHS ABOUT PIGEONS", 275 * scale, 261 * vScale, 646 * scale, 100 * vScale);
+			textFont(graphik.regular)
+			textSize(20 * scale);
+			text("6 Types of Misinformation", 275 * scale, 294 * vScale, 646 * scale, 100 * vScale)
+			textFont(graphik.bold)
+			textSize(22 * scale);
+			textAlign(LEFT, CENTER);
+			image(crashcourse[1], 324 * scale, 375 * vScale, 118 * scale, 118 * vScale);
+			text('Parody & Satire', 442 * scale, 417 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[3], 324 * scale, 494 * vScale, 118 * scale, 118 * vScale);
+			text('False Connection', 442 * scale, 535 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[5], 324 * scale, 623 * vScale, 118 * scale, 118 * vScale);
+			text('Manipulated Content', 442 * scale, 653 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[6], 762 * scale, 375 * vScale, 118 * scale, 118 * vScale);
+			text('Fabricated Content', 880 * scale, 417 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[8], 762 * scale, 494 * vScale, 118 * scale, 118 * vScale);
+			text('False Context', 880 * scale, 535 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[11], 762 * scale, 623 * vScale, 118 * scale, 118 * vScale);
+			text('Imposter Content', 880 * scale, 653 * vScale, 240 * scale, 34 * vScale);
+			textSize(13 * scale);
+			textFont(graphik.regular);
+			textAlign(LEFT, CENTER);
+			text("Media Literacy Tools", 970 * scale, 738 * vScale, 200 * scale, 34 * vScale);
+			fill(255);
+			text("Click on pigeon icons to learn about different types of misinformation", 530 * scale, 842 * vScale, 443 * scale, 28 * vScale)
+		} else if (crashCourseIndex > 0 && crashCourseIndex < 25) {
+			textFont(graphik.regular);
+			textAlign(LEFT, TOP);
+			textSize(11 * scale);
+			if (crashCourseIndex == 1) {
+				image(crashcourse[1], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
+				image(crashcourse[20], 840 * scale, 399 * vScale, 261 * scale, 237 * vScale);
+				text("John Doe", 887 * scale, 420 * scale, 100 * scale, 20 * scale);
+				text("Spy pigeons in Pakistan!", 860 * scale, 450 * scale, 200 * scale, 60 * scale);
+			} else if (crashCourseIndex == 5) {
+				image(crashcourse[3], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
+				image(crashcourse[16], 840 * scale, 399 * vScale, 261 * scale, 237 * vScale);
+				text("In Cities and Farms, Disease-Carrying Animals like Pigeons Thrive", 860 * scale, 415 * scale, 200 * scale, 60 * scale);
+			} else if (crashCourseIndex == 9) {
+				image(crashcourse[5], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
+				image(crashcourse[19], 840 * scale, 399 * vScale, 261 * scale, 237 * vScale);
+				text("Indian Media Blame Pakistan with Using a Pigeon as a Spy", 860 * scale, 415 * scale, 200 * scale, 60 * scale);
+			} else if (crashCourseIndex == 13) {
+				image(crashcourse[6], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
+				image(crashcourse[15], 840 * scale, 399 * vScale, 261 * scale, 237 * vScale);
+				text("297 birds died in The Netherlands during an attempt to test 5G connectivity", 860 * scale, 410 * scale, 200 * scale, 60 * scale);
+			} else if (crashCourseIndex == 17) {
+				image(crashcourse[8], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
+				image(crashcourse[17], 840 * scale, 399 * vScale, 261 * scale, 237 * vScale);
+				text("Avian flu mortality rate the highest it has ever been this year!", 860 * scale, 415 * scale, 200 * scale, 60 * scale);
+			} else if (crashCourseIndex == 21) {
+				image(crashcourse[11], 262 * scale, 262 * vScale, 118 * scale, 118 * vScale);
+				image(crashcourse[18], 840 * scale, 399 * vScale, 271 * scale, 257 * vScale);
+				textSize(15 * scale);
+				text("Adele", 909 * scale, 410 * scale, 100 * scale, 20 * scale);
+				textSize(11 * scale);
+				text("@therealadele", 909 * scale, 427 * scale, 100 * scale, 20 * scale);
+				textSize(10 * scale);
+				text("Thinking about what I could write about for my next song...I kind of want to write a song about the one that flew away...", 909 * scale, 450 * scale, 190 * scale, 60 * scale);
+			}
+			fill(0);
+			textFont(graphik.bold);
+			textSize(22 * scale);
+			textAlign(LEFT, CENTER);
+			text(crashCourseText[crashCourseIndex], 380 * scale, 304 * vScale, 300 * scale, 34 * vScale);
+			textAlign(LEFT, TOP);
+			textSize(15 * scale);
+			text("Definition", 282 * scale, 399 * vScale, 93 * scale, 78 * vScale);
+			text("Example", 741 * scale, 399 * vScale, 93 * scale, 78 * vScale);
+			text("Debunk", 741 * scale, 663 * vScale, 93 * scale, 78 * vScale);
+			textFont(graphik.regular);
+			text(String(crashCourseText[crashCourseIndex + 1]), 380 * scale, 399 * vScale, 271 * scale, 394 * vScale);
+			text(String(crashCourseText[crashCourseIndex + 3]), 840 * scale, 663 * vScale, 300 * scale, 394  * vScale);
+			textSize(13.5 * scale);
+			textAlign(LEFT, CENTER);
+			if (crashCourseIndex == 21) {
+				text("Media Literacy Tools", 970 * scale, 738 * vScale, 200 * scale, 34 * vScale);
+			} else {
+				text("Next", 1077 * scale, 738 * vScale, 49 * scale, 34 * vScale);
+			}
+		} else if (crashCourseText[crashCourseIndex] == 'OVERVIEW2') {
+			textFont(graphik.bold)
+			textSize(24 * scale);
+			textAlign(LEFT, TOP);
+			fill(0);
+			text("MYTHS ABOUT PIGEONS", 275 * scale, 261 * vScale, 646 * scale, 100 * vScale);
+			textFont(graphik.regular)
+			textSize(20 * scale);
+			text("6 Media Literacy Tools", 275 * scale, 294 * vScale, 646 * scale, 100 * vScale)
+			textFont(graphik.bold)
+			textSize(22 * scale);
+			textAlign(LEFT, CENTER);
+			image(crashcourse[0], 332 * scale, 384 * vScale, 99 * scale, 94 * vScale);
+			text('Lateral Reading', 442 * scale, 417 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[2], 332 * scale, 499 * vScale, 99 * scale, 94 * vScale);
+			text('Fact-Checking', 442 * scale, 535 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[4], 332 * scale, 618 * vScale, 99 * scale, 94 * vScale);
+			text('Ask Experts', 442 * scale, 653 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[7], 767 * scale, 384 * vScale, 99 * scale, 94 * vScale);
+			text('Verify Sources', 880 * scale, 417 * vScale, 240 * scale, 34 * vScale);
+			image(crashcourse[9], 767 * scale, 499 * vScale, 99 * scale, 94 * vScale);
+			text('Reverse Image Search', 880 * scale, 535 * vScale, 300 * scale, 34 * vScale);
+			image(crashcourse[10], 767 * scale, 618 * vScale, 99 * scale, 94 * vScale);
+			text('Emotion-Checking', 880 * scale, 653 * vScale, 240 * scale, 34 * vScale);
+			textSize(13 * scale);
+			textFont(graphik.regular);
+			textAlign(LEFT, CENTER);
+			text("Misinformation Types", 970 * scale, 738 * vScale, 200 * scale, 34 * vScale);
+			fill(255);
+			text("Click on pigeon icons to learn about different media literacy tools", 550 * scale, 842 * vScale, 443 * scale, 28 * vScale)
+		} else if (crashCourseIndex > 25 && crashCourseIndex < 38) {
+			textFont(graphik.regular);
+			textAlign(LEFT, TOP);
+			textSize(15 * scale);
+			if (crashCourseIndex == 26) {
+				image(crashcourse[0], 271 * scale, 271 * vScale, 99 * scale, 94 * vScale);
+				text("The top result on Google is not always the best.", 805 * scale, 399 * vScale, 271 * scale, 150 * vScale);
+				text("Take a moment to scan the results and skim the snippets beneath the links.", 805 * scale, 455 * vScale, 271 * scale, 150 * vScale);
+				text("Just because a website looks professional or credible doesn't mean that it is.", 805 * scale, 530 * vScale, 271 * scale, 150 * vScale);
+				text("Sometimes you can find out more about a website by leaving the site itself and visiting others.", 805 * scale, 605 * vScale, 271 * scale, 150 * vScale);
+				textSize(13.5 * scale);
+				fill(255);
+				text("Source: Wineburg, Sam and McGrew, Sarah. Lateral Reading: Reading Less and Learning More When Evaluating Digital Information (October 6, 2017)", 245 * scale, 842 * vScale, 951 * scale, 28 * vScale);
+ 			} else if (crashCourseIndex == 28) {
+				image(crashcourse[2], 271 * scale, 271 * vScale, 99 * scale, 94 * vScale);
+				text("Ask yourselves these questions when you read an article:", 380 * scale, 534 * vScale, 271 * scale, 250 * vScale);
+				text("- Who is the author?", 380 * scale, 594 * vScale, 271 * scale, 250 * vScale);
+				text("- How do they know?", 380 * scale, 614 * vScale, 271 * scale, 250 * vScale);
+				text("- Are they biased/sponsored?", 380 * scale, 634 * vScale, 271 * scale, 250 * vScale);
+				text("- Does the news turn up on any", 380 * scale, 654 * vScale, 271 * scale, 250 * vScale);
+				text("  trustworthy sites?", 380 * scale, 674 * vScale, 271 * scale, 250 * vScale);
+				text("- Do they cite their sources?", 380 * scale, 694 * vScale, 271 * scale, 250 * vScale);
+				text("- What do I not know?", 380 * scale, 714 * vScale, 271 * scale, 250 * vScale);
+				text("- Does it make me emotional?", 380 * scale, 734 * vScale, 271 * scale, 250 * vScale);
+				text("You can use these helpful fact-checking organizations:", 805 * scale, 399 * vScale, 271 * scale, 150 * vScale);
+				text("- FactCheck.org", 805 * scale, 455 * vScale, 271 * scale, 150 * vScale);
+				text("- Fact Checker (Washington Post)", 805 * scale, 475 * vScale, 271 * scale, 150 * vScale);
+				text("- Facts First (CNN)", 805 * scale, 495 * vScale, 271 * scale, 150 * vScale);
+				text("- FirstDraftNews.org", 805 * scale, 515 * vScale, 271 * scale, 150 * vScale);
+				text("- Reporter's Lab (Duke University)", 805 * scale, 535 * vScale, 271 * scale, 150 * vScale);
+			} else if (crashCourseIndex == 30) {
+				image(crashcourse[4], 271 * scale, 271 * vScale, 99 * scale, 94 * vScale);
+				text("Sometimes experts can make mistakes too. It is important to understand that information can evolve and experts are learning just as you are. Read more and learn more. One day you will have your own fact-checking system and become an expert in your own way!", 805 * scale, 399 * vScale, 271 * scale, 150 * vScale);
+			} else if (crashCourseIndex == 32) {
+				image(crashcourse[7], 271 * scale, 271 * vScale, 99 * scale, 94 * vScale);
+				text("Look closely at URLs of the websites. Sometimes the fake ones highly resembles the real ones.", 805 * scale, 399 * vScale, 271 * scale, 150 * vScale);
+				text("On social media, a person's identity is more than their profile picture and user name.", 805 * scale, 480 * vScale, 271 * scale, 150 * vScale);
+			} else if (crashCourseIndex == 34) {
+				image(crashcourse[9], 271 * scale, 271 * vScale, 99 * scale, 94 * vScale);
+				text("Seeing a lot of similar images makes the validity of an image questionable because fake news spreads faster and wider than the truth. Only by doing more research, can we find truth.", 805 * scale, 399 * vScale, 271 * scale, 150 * vScale);
+			} else if (crashCourseIndex == 36) {
+				image(crashcourse[10], 271 * scale, 271 * vScale, 99 * scale, 94 * vScale);
+				text("Next time you see a news headline that is particularly emotionally striking - it makes you fearful, or angry, or jubilant, or sad - remember that these are the tools that are used to grab your attention.", 805 * scale, 399 * vScale, 271 * scale, 150 * vScale);
+				textSize(13.5 * scale);
+				fill(255);
+				text("Source: https://www.cbc.ca/news/canada/saskatchewan/analysis-fake-news-appeals-to-emotion-1.5274207", 395 * scale, 842 * vScale, 951 * scale, 28 * vScale);
+			}
+			fill(0);
+			textFont(graphik.bold);
+			textSize(22 * scale);
+			textAlign(LEFT, CENTER);
+			text(crashCourseText[crashCourseIndex], 380 * scale, 304 * vScale, 300 * scale, 34 * vScale);
+			textAlign(LEFT, TOP);
+			textSize(15 * scale);
+			text("Definition", 282 * scale, 399 * vScale, 93 * scale, 78 * vScale);
+			text("Tips", 741 * scale, 399 * vScale, 93 * scale, 78 * vScale);
+			textFont(graphik.regular);
+			text(String(crashCourseText[crashCourseIndex + 1]), 380 * scale, 399 * vScale, 271 * scale, 394 * vScale);
+			textSize(13.5 * scale);
+			textAlign(LEFT, CENTER);
+			if (crashCourseIndex == 36) {
+				text("Misinformation Types", 970 * scale, 738 * vScale, 200 * scale, 34 * vScale);
+			} else {
+				text("Next", 1077 * scale, 738 * vScale, 49 * scale, 34 * vScale);
+			}
+		}
 	}
 
 	this.drawText = function() {
@@ -624,10 +857,6 @@ function Scene2() {
 		text(dialogue[dialogueIndex + 3], 776 * scale, 688 * vScale, 559 * scale, 162 * vScale);
 	}
 
-	this.drawCrashCourse = function() {
-
-	}
-
 	this.drawArticle = function() {
 		fill(255);
 		rect(203 * scale, 95 * vScale, 1082 * scale, 606 * vScale, 30);
@@ -683,8 +912,9 @@ function Scene2() {
 	// Handles the mouse pressed event passed down by our scene manager
 	// in the core code.
   this.mousePressed = function() {
+		print("(" + mouseX + ", " + mouseY + ")");
 		var totalLength = dialogue.length;
-		if (c >= 0 && c < totalLength && !option && !article) {
+		if (c >= 0 && c < totalLength && !option && !article && !isCrashCourse) {
 			// Jump ahead if clicked while text is printing
 			c = dialogue[dialogueIndex].length;
 		} else {
@@ -705,13 +935,94 @@ function Scene2() {
 				article = false;
 				dialogueIndex += 4;
 				print("After article " + dialogueIndex);
-			} else {
+			} else if (isCrashCourse) {
+				if (crashCourseText[crashCourseIndex] == 'OVERVIEW') {
+					if (mouseX > 324 * scale && mouseX < 700 * scale) {
+						if (mouseY > 375 * vScale && mouseY < 491 * vScale) {
+							crashCourseIndex = 1;
+						} else if (mouseY > 492 * vScale && mouseY < 608 * vScale) {
+							crashCourseIndex = 5;
+						} else if (mouseY > 609 * vScale && mouseY < 725 * vScale) {
+							crashCourseIndex = 9;
+						}
+					} else if (mouseX > 762 * scale && mouseX < 1090 * scale) {
+						if (mouseY > 375 * vScale && mouseY < 491 * vScale) {
+							crashCourseIndex = 13;
+						} else if (mouseY > 492 * vScale && mouseY < 608 * vScale) {
+							crashCourseIndex = 17;
+						} else if (mouseY > 609 * vScale && mouseY < 725 * vScale) {
+							crashCourseIndex = 21;
+						}
+					}
+					// Close Button
+					if (mouseX > 1119 * scale && mouseX < 1171 * scale && mouseY > 260 * vScale && mouseY < 312 * vScale) {
+						isCrashCourse = false;
+						bg = this.sceneArgs[1].audreyRoom;
+						dialogueIndex++;
+					}
+					if (mouseX > 1033 * scale && mouseX < 1168 * scale && mouseY > 730 * vScale && mouseY < 780 * vScale) {
+						crashCourseIndex = 25;
+					}
+				} else if (crashCourseIndex > 0 && crashCourseIndex < 25) {
+					// Close button
+					if (mouseX > 1119 * scale && mouseX < 1171 * scale && mouseY > 260 * vScale && mouseY < 312 * vScale) {
+						crashCourseIndex = 0;
+					}
+					if (mouseX > 1075 * scale && mouseX < 1215 * scale && mouseY > 730 * vScale && mouseY < 780 * vScale) {
+						crashCourseIndex += 4;
+					}
+				} else if (crashCourseText[crashCourseIndex] == 'OVERVIEW2') {
+					if (mouseX > 324 * scale && mouseX < 700 * scale) {
+						if (mouseY > 375 * vScale && mouseY < 491 * vScale) {
+							crashCourseIndex = 26;
+						} else if (mouseY > 492 * vScale && mouseY < 608 * vScale) {
+							crashCourseIndex = 28;
+						} else if (mouseY > 609 * vScale && mouseY < 725 * vScale) {
+							crashCourseIndex = 30;
+						}
+					} else if (mouseX > 762 * scale && mouseX < 1090 * scale) {
+						if (mouseY > 375 * vScale && mouseY < 491 * vScale) {
+							crashCourseIndex = 32;
+						} else if (mouseY > 492 * vScale && mouseY < 608 * vScale) {
+							crashCourseIndex = 34;
+						} else if (mouseY > 609 * vScale && mouseY < 725 * vScale) {
+							crashCourseIndex = 36;
+						}
+					}
+					// Close Button
+					if (mouseX > 1119 * scale && mouseX < 1171 * scale && mouseY > 260 * vScale && mouseY < 312 * vScale) {
+						isCrashCourse = false;
+						bg = this.sceneArgs[1].audreyRoom;
+						dialogueIndex++;
+					}
+					if (mouseX > 1033 * scale && mouseX < 1168 * scale && mouseY > 730 * vScale && mouseY < 780 * vScale) {
+						crashCourseIndex = 0;
+					}
+				} else if (crashCourseIndex > 25 && crashCourseIndex < 38) {
+					// Close button
+					if (mouseX > 1119 * scale && mouseX < 1171 * scale && mouseY > 260 * vScale && mouseY < 312 * vScale) {
+						crashCourseIndex = 25;
+					}
+					if (mouseX > 1075 * scale && mouseX < 1215 * scale && mouseY > 730 * vScale && mouseY < 780 * vScale) {
+
+						if (crashCourseIndex == 36) {
+							crashCourseIndex = 0;
+						} else {
+							crashCourseIndex += 2;
+						}
+					}
+				}
+			}	else {
 				dialogueIndex++;
 				if (dialogue[dialogueIndex] == 'OPTION') {
 					option = true;
 				}
 				if (dialogue[dialogueIndex] == 'ARTICLE') {
 					article = true;
+				}
+				if (dialogue[dialogueIndex] == 'CRASHCOURSE') {
+					isCrashCourse = true;
+					bg = this.sceneArgs[1].crashCourse;
 				}
 				c = 0;
 			}
@@ -724,11 +1035,11 @@ function Scene2() {
     }
   }
 
-	this.windowResized = function() {
-		scale = windowWidth / 1440;
-		vScale = ((windowWidth / 16) * 9) / 900;
-		resizeCanvas(windowWidth, (windowWidth/16) * 9);
-	}
+	// this.windowResized = function() {
+	// 	scale = windowWidth / 1440;
+	// 	vScale = ((windowWidth / 16) * 9) / 900;
+	// 	resizeCanvas(windowWidth, (windowWidth/16) * 9);
+	// }
 }
 // ================== SCENE 3 ==================
 function Scene3() {
