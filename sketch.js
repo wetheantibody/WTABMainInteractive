@@ -160,7 +160,7 @@ function preload() {
 	sceneThreeDialogue = loadStrings('assets/scene3.txt');
 	sceneFourDialogue = loadStrings('assets/scene4.txt');
 	sceneFiveDialogue = loadStrings('assets/scene5.txt');
-	crashCourse = loadStrings('assets/crashCourse.txt');
+	crashCourse = loadStrings('assets/crashcourse.txt');
 	script = {
 		sceneOne : sceneOneDialogue,
 		sceneTwo: sceneTwoDialogue,
