@@ -98,7 +98,9 @@ function preload() {
 	pigeon = [
 		 loadImage('assets/Pigeon/SVG/pigeon cage.svg'),
 		 loadImage('assets/Pigeon/SVG/pigeon flapping.svg'),
-		 loadImage('assets/Pigeon/SVG/pigeon.svg')
+		 loadImage('assets/Pigeon/SVG/pigeon.svg'),
+		 loadImage('assets/audubon logo.svg'),
+		 loadImage('assets/scientific american 1.svg')
  ];
  	phone = [
 		loadImage('assets/Phone/BIRDBOOK DREW.svg'),
@@ -151,8 +153,9 @@ function preload() {
 		livingRoom : loadImage('assets/Backgrounds/SVG/living room.svg'),
 		start: loadImage('assets/IntroEnd/landing page.svg'),
 		end: loadImage('assets/IntroEnd/happy ending.svg'),
-		congrats: loadImage('assets/game-start-and-end/congrats.svg'),
-		crashCourse: loadImage('assets/Backgrounds/SVG/crash course.svg')
+		livingRoomIntroEnd: loadImage('assets/IntroEnd/livingRoomIntroEnd.svg'),
+		crashCourse: loadImage('assets/Backgrounds/SVG/crash course.svg'),
+		group: loadImage('assets/IntroEnd/group.svg')
 	};
 
 	// Text
@@ -177,6 +180,34 @@ function preload() {
 		italic: loadFont('fonts/GraphikRegularItalic.otf'),
 		bold: loadFont('fonts/GraphikBold.otf')
 	}
+
+	//Sounds
+	soundFormats('mp3', 'wav');
+	sounds = {
+		birdBackground: loadSound('sound/bird background sound.wav'),
+		flashback: loadSound('sound/flashback.mp3'),
+		typingLong: loadSound('sound/keyboard typing (long).mp3'),
+		typingShort: loadSound('sound/keyboard typing (short).mp3'),
+		typing: loadSound('sound/keyboard Typing.mp3'),
+		lowBattery: loadSound('sound/low battery.mp3'),
+		mouseClick: loadSound('sound/Mouse Click.mp3'),
+		notification1: loadSound('sound/notification 1.mp3'),
+		notification2: loadSound('sound/notification 2.mp3'),
+		notification3: loadSound('sound/notification 3.mp3'),
+		notification4: loadSound('sound/notification 4.mp3'),
+		phoneTyping: loadSound('sound/phone typing.mp3'),
+		pigeonFlying: loadSound('sound/pigeon flying.wav'),
+		pigeonSFX10: loadSound('sound/pigeon sfx (10 min).mp3'),
+		pigeonSFX2: loadSound('sound/pigeon sfx 2.mp3'),
+		powerUp1: loadSound('sound/power up 1.mp3'),
+		powerUp2: loadSound('sound/power up 1.mp3'),
+		powerUp3: loadSound('sound/power up 1.mp3'),
+		powerUp4: loadSound('sound/power up 1.mp3'),
+		pitterNotification: loadSound('sound/twitter notification.mp3'),
+		uploadSFX: loadSound('sound/upload sfx.mp3'),
+		tenderness: loadSound('sound/music options/bensound-tenderness.mp3'),
+		happyUke: loadSound('sound/music options/Happy Ukelele.mp3')
+	};
 }
 
 function setup() {
@@ -191,13 +222,14 @@ function setup() {
 
   mgr = new SceneManager();
 
-  mgr.addScene ( Scene1 );
+	//mgr.addScene ( Scene0 );
+  //mgr.addScene ( Scene1 );
   mgr.addScene ( Scene2 );
 	mgr.addScene ( Scene3 );
 	mgr.addScene ( Scene4 );
 	mgr.addScene ( Scene5 );
 
-  mgr.showNextScene([actors, backgrounds, script, 100, graphik]);
+  mgr.showNextScene([actors, backgrounds, script, 100, graphik, sounds]);
 
 }
 
@@ -228,13 +260,159 @@ function windowResized() {
 
 // =============================================================
 // =                         BEGIN SCENES                      =
+// =                     Scene 0: Introduction                 =
 // =                 Scene 1: Audrey at the Shelter            =
 // =                  Scene 2: Audrey in her room              =
 // =               Scene 3: Audrey in the living room          =
 // =                 Scene 4: Audrey in Jack's room            =
 // =                   Scene 5: Conclusion scene               =
 // =============================================================
+function Scene0() {
 
+	var bg;
+
+	var graphik;
+
+	var scale = 1;
+	var vScale;
+
+	var quitMsg;
+
+	// Another reserved function, sets up our canvas
+  this.setup = function() {
+		bg = this.sceneArgs[1].livingRoomIntroEnd;
+		graphik = this.sceneArgs[4];
+		if (windowHeight < (windowWidth/16) * 9) {
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
+    background(bg);
+		quitMsg = false;
+  }
+
+	// enter() happens after setup() but before draw()
+	this.enter = function() {
+		bg = this.sceneArgs[1].livingRoomIntroEnd;
+		graphik = this.sceneArgs[4];
+		if (windowHeight < (windowWidth/16) * 9) {
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
+    background(bg);
+		quitMsg = false;
+	}
+
+	// audreyRoom : loadImage('assets/Backgrounds/SVG/audrey_s room.svg'),
+	// birdShelter :loadImage('assets/Backgrounds/SVG/bird shelter 2.svg'),
+	// jackRoom : loadImage('assets/Backgrounds/SVG/jack_s room.svg'),
+	// kitchen :loadImage('assets/Backgrounds/SVG/kitchen.svg'),
+	// livingRoom : loadImage('assets/Backgrounds/SVG/living room.svg'),
+	// start: loadImage('assets/IntroEnd/landing page.svg'),
+	// end: loadImage('assets/IntroEnd/happy ending.svg'),
+	// livingRoomIntroEnd: loadImage('assets/IntroEnd/livingRoomIntroEnd.svg'),
+	// crashCourse: loadImage('assets/Backgrounds/SVG/crash course.svg'),
+	// group: loadImage('assets/IntroEnd/group.svg');
+
+	// This is the main drawing function - it will run constantly in a loop,
+	// which is why we can update variables and create animation
+  this.draw = function() {
+		background(bg);
+		fill(255, 255, 255, 100);
+		rect(0, 0, width, height);
+		textFont(graphik.bold);
+		fill(0);
+		textSize(40 * scale);
+		textAlign(LEFT, CENTER);
+		text("Introduction", 107 * scale, 92 * vScale, 361 * scale, 116 * vScale);
+		text("Instructions", 897 * scale, 92 * vScale, 361 * scale, 116 * vScale);
+		rect(1132 * scale, 715 * vScale, 234 * scale, 74 * vScale, 65 * scale);
+		fill(255);
+		textAlign(CENTER, CENTER);
+		text("Got it!", 1132 * scale, 715 * vScale, 234 * scale, 74 * vScale)
+		textSize(32 * scale);
+		textFont(graphik.regular);
+		fill(0);
+		textAlign(LEFT, TOP);
+		text("\"The Antibody to the Pandemic of Fake News\" is a story about how the dramatic process and consequence of misinformation result in undermining of the friendship between four young adults. By listening to their stories and guiding them, you can help create the antibody to the pandemic of fake news and mend their friendship!", 107 * scale, 299 * vScale, 656 * scale, 434 * vScale);
+		text("ESC: exit game\nLeft click/right arrow: next\nLeft arrow: back", 897 * scale, 299 * vScale, 412 * scale, 189 * vScale);
+		if (quitMsg) {
+			if (mouseX > 357 * scale && mouseX < 703 * scale) {
+				cursor('pointer');
+			} else if (mouseX > 737 * scale && mouseX < 1083 * scale) {
+				cursor('pointer');
+			} else {
+				cursor('auto');
+			}
+			fill(0, 0, 0, 150);
+			rect(0, 0, width, height);
+			fill('#90B6E3');
+			rect(324 * scale, 206 * vScale, 792 * scale, 488 * vScale, 30 * scale);
+			fill('#AA4F55');
+			rect(737 * scale, 553 * vScale, 346 * scale, 113 * vScale, 30 * scale);
+			fill('#F8BA63');
+			rect(357 * scale, 553 * vScale, 346 * scale, 113 * vScale, 30 * scale);
+			fill(255);
+			textFont(graphik.bold);
+			textSize(60 * scale);
+			textAlign(CENTER, CENTER)
+			text("Confirmation", 496 * scale, 268 * vScale, 448 * scale, 72 * vScale);
+			text("Yes", 437 * scale, 574 * vScale, 186 * scale, 72 * vScale);
+			text("Cancel", 817 * scale, 574 * vScale, 186 * scale, 72 * vScale);
+			textFont(graphik.regular);
+			textSize(40 * scale);
+			text("Are you sure you want to exit the game? \nYour game progress will not be saved.", 367 * scale, 405 * vScale, 726 * scale, 144 * vScale);
+		}
+  }
+
+	// Handles the mouse pressed event passed down by our scene manager
+	// in the core code.
+  this.mousePressed = function() {
+		if (quitMsg) {
+			if (mouseY > 553 * vScale && mouseY < 666 * vScale) {
+				if (mouseX > 357 * scale && mouseX < 703 * scale) {
+					window.location.href = "http://www.wetheantibody.com";
+				} else if (mouseX > 737 * scale && mouseX < 1083 * scale) {
+					quitMsg = false;
+					cursor('auto');
+				}
+			}
+		} else {
+			1132 * scale, 715 * vScale, 234 * scale, 74 * vScale
+			if (mouseX > 1132 * scale && mouseX < 1136 && mouseY > 715 * vScale && mouseY < 789 * vScale) {
+				mgr.showNextScene(this.sceneArgs);
+			}
+		}
+  }
+
+	this.keyPressed = function() {
+	  if (keyCode === LEFT_ARROW) {
+			// Do nothing
+	  } else if (keyCode === RIGHT_ARROW) {
+			mgr.showNextScene(this.sceneArgs);
+	  } else if (keyCode === ESCAPE) {
+			quitMsg = true;
+		}
+	}
+
+	this.windowResized = function() {
+		if (windowHeight < (windowWidth/16) * 9) {
+			resizeCanvas((windowHeight/9) * 16, windowHeight);
+			scale = ((height / 9) * 16) / 1440;
+			vScale = height / 900;
+		} else {
+			resizeCanvas(windowWidth, (windowWidth/16) * 9);
+			scale = width / 1440;
+			vScale = ((width / 16) * 9) / 900;
+		}
+	}
+}
+// ================== SCENE 1 ==================
 function Scene1() {
   var audrey;
 	var kate;
@@ -262,6 +440,10 @@ function Scene1() {
 	var vScale;
 
 	var parts;
+
+	var imgAlpha1 = 0;
+	var imgAlpha2 = 0;
+	var imgAlpha3 = 0;
 
 	var alpha1 = 0;
 	var alpha2 = 0;
@@ -345,7 +527,6 @@ function Scene1() {
 		}
 		translate(0, 0);
 		background(bg);
-		text("Curr Index: " + dialogueIndex, 50 * scale, 20 * scale);
 		if (dialogueIndex < 2 || dialogueIndex > 4) {
 			this.drawAudrey();
 		}
@@ -390,6 +571,40 @@ function Scene1() {
 		}
 	}
 
+	this.playSounds = function() {
+		// birdBackground: loadSound('sound/bird background sound.wav'),
+		// flashback: loadSound('sound/flashback.mp3'),
+		// typingLong: loadSound('sound/keyboard typing (long).mp3'),
+		// typingShort: loadSound('sound/keyboard typing (short).mp3'),
+		// typing: loadSound('sound/keyboard Typing.mp3'),
+		// lowBattery: loadSound('sound/low battery.mp3'),
+		// mouseClick: loadSound('sound/Mouse Click.mp3'),
+		// notification1: loadSound('sound/notification 1.mp3'),
+		// notification2: loadSound('sound/notification 2.mp3'),
+		// notification3: loadSound('sound/notification 3.mp3'),
+		// notification4: loadSound('sound/notification 4.mp3'),
+		// phoneTyping: loadSound('sound/phone typing.mp3'),
+		// pigeonFlying: loadSound('sound/pigeon flying.wav'),
+		// pigeonSFX10: loadSound('sound/pigeon sfx (10 min).mp3'),
+		// pigeonSFX2: loadSound('sound/pigeon sfx 2.mp3'),
+		// powerUp1: loadSound('sound/power up 1.mp3'),
+		// powerUp2: loadSound('sound/power up 1.mp3'),
+		// powerUp3: loadSound('sound/power up 1.mp3'),
+		// powerUp4: loadSound('sound/power up 1.mp3'),
+		// pitterNotification: loadSound('sound/twitter notification.mp3'),
+		// uploadSFX: loadSound('sound/upload sfx.mp3'),
+		// tenderness: loadSound('sound/music options/bensound-tenderness.mp3'),
+		// happyUke: loadSound('sound/music options/Happy Ukelele.mp3')
+		if (dialogueIndex == 0) {
+			this.sceneArgs[5].birdBackground.play();
+		} else if (dialogueIndex == 1) {
+			this.sceneArgs[5].phoneTyping.play();
+		} else if (dialogueIndex == 2) {
+			this.sceneArgs[5].uploadSFX.play();
+			this.sceneArgs[5].notification2.play();
+		}
+	}
+
 	this.drawAudrey = function() {
 		// tint for opacity
   	image(imgAudrey, 60 * scale, 40 * vScale, 646 * scale, 861 * vScale);
@@ -411,17 +626,26 @@ function Scene1() {
 					if (friendshipIndex > 70) {
 						friendshipIndex -= 2;
 					}
+					if (imgAlpha1 < 256) {
+						imgAlpha1 += 3
+					}
 				}
 				if (dialogueIndex >= 3) {
 					image(emilyPost, 754 * scale, 279 * vScale, 522 * scale, 197 * vScale);
 					if (friendshipIndex > 40) {
 						friendshipIndex -= 2;
 					}
+					if (imgAlpha2 < 256) {
+						imgAlpha2 += 3
+					}
 				}
 				if (dialogueIndex >= 4) {
 					image(jackPost, 754 * scale, 496 * vScale, 522 * scale, 202 * vScale);
 					if (friendshipIndex > 10) {
 						friendshipIndex -= 2;
+					}
+					if (imgAlpha3 < 256) {
+						imgAlpha3 += 3
 					}
 				}
 			}
@@ -567,11 +791,21 @@ function Scene1() {
 
 	this.keyPressed = function() {
 	  if (keyCode === LEFT_ARROW) {
+			if (dialogueIndex == 0) {
+				this.mgr.showScene(Scene0);
+			}
 			if (dialogueIndex != 0) {
 				dialogueIndex--;
 			}
 			if (dialogueIndex == 1) {
 				phoneX = 776;
+				this.friendshipIndex = 100;
+			}
+			if (dialogueIndex == 2) {
+				this.friendshipIndex = 70;
+			}
+			if (dialogueIndex == 3) {
+				this.friendshipIndex = 30;
 			}
 	  } else if (keyCode === RIGHT_ARROW) {
 	    dialogueIndex++;
@@ -704,7 +938,6 @@ function Scene2() {
 			this.sceneManager.showNextScene(this.sceneArgs);
 		}
 		background(bg);
-		text("Curr index: " + dialogueIndex, 50 * scale, 20 * scale);
 		if (dialogueIndex == 13) {
 			image(phone[0], 165 * scale, 105 * vScale, 500 * scale, 920 * vScale);
 		} else if (dialogueIndex != 1){
@@ -719,6 +952,11 @@ function Scene2() {
 			this.drawOption();
 		} else if (article) {
 			this.drawArticle();
+			if (mouseX > 316 * scale && mouseX < 800 * scale && mouseY > 750 * vScale && mouseY < 900 * vScale) {
+				cursor('pointer');
+			} else {
+				cursor('auto');
+			}
 		} else if (isCrashCourse) {
 			this.drawCrashCourse();
 		} else {
@@ -1053,13 +1291,14 @@ function Scene2() {
 	this.drawArticle = function() {
 		fill(255);
 		rect(203 * scale, 95 * vScale, 1082 * scale, 606 * vScale, 30);
+		image(this.sceneArgs[0].pigeon[3], 226 * scale, 109 * vScale, 267 * scale, 81 * vScale);
 		textSize(25 * scale);
 		textStyle(NORMAL);
 		textFont(graphik.italic);
 		textAlign(LEFT, TOP);
 		fill(0);
-		text(dialogue[dialogueIndex + 1], 275 * scale, 213 * vScale, 910 * scale, 125 * vScale);
-		text(dialogue[dialogueIndex + 2], 275 * scale, 400 *vScale, 910 * scale, 325 * vScale);
+		text(dialogue[dialogueIndex + 1], 275 * scale, 233 * vScale, 910 * scale, 125 * vScale);
+		text(dialogue[dialogueIndex + 2], 275 * scale, 380 *vScale, 910 * scale, 325 * vScale);
 
 		noStroke();
 		// Background
@@ -1134,9 +1373,12 @@ function Scene2() {
 						}
 					}
 				} else if (article) {
-					article = false;
-					dialogueIndex += 4;
-					print("After article " + dialogueIndex);
+					if (mouseX > 316 * scale && mouseX < 800 * scale && mouseY > 750 * vScale && mouseY < 900 * vScale) {
+						window.open("https://www.audubon.org/news/are-birds-actually-government-issued-drones-so-says-new-conspiracy-theory-making");
+					} else {
+						article = false;
+						dialogueIndex += 4;
+					}
 				} else if (isCrashCourse) {
 					if (crashCourseText[crashCourseIndex] == 'OVERVIEW') {
 						if (mouseX > 324 * scale && mouseX < 700 * scale) {
@@ -1387,6 +1629,11 @@ function Scene3() {
 			this.drawOption();
 		} else if (article) {
 			this.drawArticle();
+			if (mouseX > 316 * scale && mouseX < 800 * scale && mouseY > 750 * vScale && mouseY < 900 * vScale) {
+				cursor('pointer');
+			} else {
+				cursor('auto');
+			}
 		} else if (emotion) {
 			this.drawEmotion();
 		} else {
@@ -1548,12 +1795,13 @@ function Scene3() {
 	this.drawArticle = function() {
 		fill(255);
 		rect(203 * scale, 95 * vScale, 1082 * scale, 606 * vScale, 30);
+		image(this.sceneArgs[0].pigeon[4], 275 * scale, 140 * vScale, 219 * scale, 60 * vScale);
 		textSize(25 * scale);
 		textStyle(NORMAL);
 		textFont(graphik.italic);
 		textAlign(LEFT, TOP);
 		fill(0);
-		text(dialogue[dialogueIndex + 1], 275 * scale, 213 * vScale, 910 * scale, 625 * vScale);
+		text(dialogue[dialogueIndex + 1], 275 * scale, 243 * vScale, 910 * scale, 625 * vScale);
 
 		noStroke();
 		// Background
@@ -1628,8 +1876,12 @@ function Scene3() {
 						}
 					}
 				} else if (article) {
-					article = false;
-					dialogueIndex += 3;
+					if (mouseX > 316 * scale && mouseX < 800 * scale && mouseY > 750 * vScale && mouseY < 900 * vScale) {
+						window.open("https://www.scientificamerican.com/article/are-urban-vermin-the-most-disease-ridden-animals/");
+					} else {
+						article = false;
+						dialogueIndex += 3;
+					}
 				} else if (emotion) {
 					if (mouseX > 574 * scale && mouseX < 828 * scale && mouseY > 749 * vScale && mouseY < 848 * vScale) {
 						emotion = false;
@@ -2228,6 +2480,17 @@ function Scene5() {
 		quitMsg = false;
 	}
 
+	// audreyRoom : loadImage('assets/Backgrounds/SVG/audrey_s room.svg'),
+	// birdShelter :loadImage('assets/Backgrounds/SVG/bird shelter 2.svg'),
+	// jackRoom : loadImage('assets/Backgrounds/SVG/jack_s room.svg'),
+	// kitchen :loadImage('assets/Backgrounds/SVG/kitchen.svg'),
+	// livingRoom : loadImage('assets/Backgrounds/SVG/living room.svg'),
+	// start: loadImage('assets/IntroEnd/landing page.svg'),
+	// end: loadImage('assets/IntroEnd/happy ending.svg'),
+	// livingRoomIntroEnd: loadImage('assets/IntroEnd/livingRoomIntroEnd.svg'),
+	// crashCourse: loadImage('assets/Backgrounds/SVG/crash course.svg'),
+	// group: loadImage('assets/IntroEnd/group.svg');
+
 	// This is the main drawing function - it will run constantly in a loop,
 	// which is why we can update variables and create animation
   this.draw = function() {
@@ -2255,18 +2518,23 @@ function Scene5() {
 		if (dialogueIndex == 4) {
 			bg = this.sceneArgs[1].end;
 		}
-		if (dialogueIndex < 4) {
+		if (dialogueIndex < 5) {
 			this.drawText();
 			this.drawFriendship();
 		} else {
-			 fill(255, 255, 255, 150);
-			 rect(0, 0, 1440 * scale, 900 * vScale);
-			 fill(0);
-			 textStyle(BOLD);
-			 textFont(graphik.bold);
-			 textSize(60);
-			 textAlign(CENTER, CENTER);
-			 text('The End!', 499 * scale, 360 * vScale, 442 * scale, 212 * vScale)
+			bg = this.sceneArgs[1].livingRoomIntroEnd;
+			fill(255, 255, 255, 70);
+			rect(0, 0, width, height);
+			image(this.sceneArgs[1].group, 44 * scale, 170 * vScale, 792 * scale, 730 * vScale);
+			textSize(45 * scale);
+			textFont(graphik.bold);
+			fill(0);
+			textAlign(LEFT, CENTER);
+			text("Thank you for helping us gain the antibody to the pandemic of fake news! We hope you enjoyed the journey too!", 932 * scale, 202 * vScale, 428 * scale, 460 * vScale);
+			rect(932 * scale, 715 * vScale, 234 * scale, 74 * vScale, 65 * scale);
+			fill(255);
+			textAlign(CENTER, CENTER);
+			text("Finish", 932 * scale, 715 * vScale, 234 * scale, 74 * vScale)
 		}
 		if (quitMsg) {
 			if (mouseX > 357 * scale && mouseX < 703 * scale) {
@@ -2348,13 +2616,18 @@ function Scene5() {
 					cursor('auto');
 				}
 			}
+		} else if (dialogueIndex == 5) {
+			932 * scale, 715 * vScale, 234 * scale, 74 * vScale
+			if (mouseX > 932 * scale && mouseX < 1166 * scale && mouseY > 715 * vScale && mouseY < 789 * vScale) {
+				window.location.href = "http://www.wetheantibody.com";
+			}
 		} else {
 			var sentenceLength = dialogue[dialogueIndex].length;
 			if (c >= 0 && c < sentenceLength) {
 				// Jump ahead if clicked while text is printing
 				c = dialogue[dialogueIndex].length;
 			} else {
-				if (dialogueIndex < dialogue.length) {
+				if (dialogueIndex < dialogue.length - 1) {
 					dialogueIndex++;
 				}
 				c = 0;
@@ -2370,7 +2643,7 @@ function Scene5() {
 			}
 	    dialogueIndex--;
 	  } else if (keyCode === RIGHT_ARROW) {
-			if (dialogueIndex < dialogue.length) {
+			if (dialogueIndex < dialogue.length - 1) {
 				dialogueIndex++;
 			}
 	  } else if (keyCode === ESCAPE) {
