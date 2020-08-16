@@ -188,7 +188,7 @@ function preload() {
 		flashback: loadSound('sound/flashback.mp3'),
 		typingLong: loadSound('sound/keyboard typing (long).mp3'),
 		typingShort: loadSound('sound/keyboard typing (short).mp3'),
-		typing: loadSound('sound/keyboard Typing.mp3'),
+		typing: loadSound('sound/Keyboard Typing.mp3'),
 		lowBattery: loadSound('sound/low battery.mp3'),
 		mouseClick: loadSound('sound/Mouse Click.mp3'),
 		notification1: loadSound('sound/notification 1.mp3'),
