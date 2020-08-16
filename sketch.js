@@ -222,8 +222,8 @@ function setup() {
 
   mgr = new SceneManager();
 
-	//mgr.addScene ( Scene0 );
-  //mgr.addScene ( Scene1 );
+	mgr.addScene ( Scene0 );
+  mgr.addScene ( Scene1 );
   mgr.addScene ( Scene2 );
 	mgr.addScene ( Scene3 );
 	mgr.addScene ( Scene4 );
