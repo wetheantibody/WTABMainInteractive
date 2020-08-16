@@ -383,7 +383,7 @@ function Scene0() {
 				}
 			}
 		} else {
-			if (mouseX > 1132 * scale && mouseX < 1366 && mouseY > 715 * vScale && mouseY < 789 * vScale) {
+			if (mouseX > 1132 * scale && mouseX < 1366 * scale && mouseY > 715 * vScale && mouseY < 789 * vScale) {
 				mgr.showNextScene(this.sceneArgs);
 			}
 		}
