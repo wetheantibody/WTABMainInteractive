@@ -163,11 +163,6 @@ input[class^="btn-"]:hover {
   font-size: 2rem;
 }
 
-.what-is-this-game-paragraph:hover .underline {
-  margin-bottom: 1.75rem;
-  background: #ffbc00;
-}
-
 .what-is-this-game-paragraph p {
   margin-bottom: 1rem;
 }
@@ -199,11 +194,6 @@ input[class^="btn-"]:hover {
 
 .who-we-are-title p {
   font-size: 1.5rem;
-}
-
-.who-we-are:hover .underline {
-  background: #ffbc00;
-  margin-bottom: 1.75rem;
 }
 
 .underline {
